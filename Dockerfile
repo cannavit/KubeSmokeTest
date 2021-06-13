@@ -1,4 +1,4 @@
-FROM arm64v8/node:14.4.0-alpine
+FROM node:14.4.0-alpine
 
 WORKDIR /usr/src/app
 COPY . /usr/src/app/
@@ -7,4 +7,4 @@ RUN apk update
 RUN apk add curl
 RUN npm link
 
-CMD ["/ bin / sh", "/root/run.sh"]
+CMD ["/bin/sh", "/root/run.sh"]

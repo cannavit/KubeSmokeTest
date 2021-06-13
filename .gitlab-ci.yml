@@ -4,11 +4,26 @@ services:
   - docker:dind
 
 stages:
+  - package
   - smoketest
 
 # cache:
 #   paths:
 #     - .smoketest/repository
+
+build:
+  stage: package
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  script:
+    - if [ "$CI_COMMIT_TAG" == "" ]; then VERSION_PROJECT=$CI_PIPELINE_ID; else VERSION_PROJECT=$CI_COMMIT_TAG; fi    
+    - export VERSION_PROJECT=$VERSION_PROJECT
+    - mkdir -p /kaniko/.docker
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile --destination $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG  --build-arg VERSION_PROJECT=$VERSION_PROJECT
+  only:
+    - master
 
 checkLogin:
   image: 

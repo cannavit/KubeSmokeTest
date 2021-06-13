@@ -4,7 +4,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: smktest-master
+    image: smktesting/smoke-master:latest
     container_name: smktest-master
 
   smktest-pull:
@@ -18,7 +18,7 @@ services:
         '--context=kubernetes',
         '--namespace=NAMESPACE',
         '--mode-auto=true',
-        '--assert-curl=curl www.google.com',
+        '--assert-curl=curl www.google.co2m',
       ]
 
 networks:
