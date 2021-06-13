@@ -241,3 +241,5 @@ export async function cli(args) {
 // docker run -it smktest-master sh -c 'create-smktest --project-name=test --environment=develop --context=kubernetes --namespace=NAMESPACE --mode-auto=true --assert-curl="curl www.google.com"'
 
 //docker push smktesting/smoke-master:tagname
+
+// docker run -it --rm --entrypoint sh smktesting/smoke-master

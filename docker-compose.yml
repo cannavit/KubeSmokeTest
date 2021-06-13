@@ -7,5 +7,19 @@ services:
     image: smktest-master
     container_name: smktest-master
 
+  smktest-pull:
+    image: smktesting/smoke-master:latest
+    container_name: smktest-pull
+    command:
+      [
+        'create-smktest',
+        '--project-name=test',
+        '--environment=develop',
+        '--context=kubernetes',
+        '--namespace=NAMESPACE',
+        '--mode-auto=true',
+        '--assert-curl=curl www.google.com',
+      ]
+
 networks:
   host:
