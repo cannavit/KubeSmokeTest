@@ -1,0 +1,19 @@
+image: docker:latest
+
+services:
+  - docker:dind
+
+stages:
+  - smoketest
+
+
+checklogin:
+  stage: smoketest
+  image:
+    name: smktesting/smoke-master:latest
+    entrypoint: [""]
+  cache: {}
+  script:
+    - ls
+  only:
+    - master
