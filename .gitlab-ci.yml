@@ -6,14 +6,14 @@ services:
 stages:
   - smoketest
 
+cache:
+  paths:
+    - .m2/repository
 
-checklogin:
+checkLogin:
   stage: smoketest
-  image:
-    name: smktesting/smoke-master:latest
-    entrypoint: [""]
-  cache: {}
   script:
-    - ls
+    - 'create-smktest --project-name=test --environment=develop --context=kubernetes --namespace=NAMESPACE --mode-auto=true --assert-curl="curl www.google.com"'
+  image: maven:3.6.0-jdk-11-slim
   only:
     - master
