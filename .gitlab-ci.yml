@@ -3,9 +3,10 @@ image: docker:latest
 services:
   - docker:dind
 
+
 stages:
   - package
-  - deploy
+
 
 variables:
   KUBECONFIG: /etc/deploy/config
