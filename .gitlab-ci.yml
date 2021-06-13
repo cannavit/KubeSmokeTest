@@ -6,16 +6,18 @@ services:
 stages:
   - smoketest
 
-cache:
-  paths:
-    - .m2/repository
+# cache:
+#   paths:
+#     - .smoketest/repository
 
 checkLogin:
-  image: smktesting/smoke-master:latest
+  image: 
+    name: smktesting/smoke-master:latest
+    entrypoint: [""]
+  cache: {}
   stage: smoketest
   script: 
     - echo "TEST"
-
   # [
   #       'create-smktest',
   #       '--project-name=test',
@@ -25,7 +27,6 @@ checkLogin:
   #       '--mode-auto=true',
   #       '--assert-curl=curl www.google.com',
   #     ]
-
   only:
     - master
 

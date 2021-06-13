@@ -7,4 +7,4 @@ RUN apk update
 RUN apk add curl
 RUN npm link
 
-
+CMD ls
