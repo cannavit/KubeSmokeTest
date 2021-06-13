@@ -9,7 +9,7 @@ stages:
 
 variables:
   KUBECONFIG: /etc/deploy/config
-  PROJECT_NAME: trust-api
+  PROJECT_NAME: smoke-master
 
 docker-build:
   stage: package
