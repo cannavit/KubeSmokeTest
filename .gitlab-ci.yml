@@ -12,7 +12,8 @@ cache:
 
 checkLogin:
   stage: smoketest
-  script:  pwd
+  # script:  pwd
+  step_script: pwd
   # [
   #       'create-smktest',
   #       '--project-name=test',
