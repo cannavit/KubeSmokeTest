@@ -6,5 +6,3 @@ RUN npm install
 RUN apk update
 RUN apk add curl
 RUN npm link
-
-CMD ["/bin/sh", "/root/run.sh"]

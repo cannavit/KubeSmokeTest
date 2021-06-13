@@ -5,16 +5,15 @@ services:
 
 stages:
   - package
-  - smoketest
+  # - smoketest
 
 variables:
-  KUBECONFIG: /etc/deploy/config
-  PROJECT_NAME: trust-api
+  PROJECT_NAME: smoke-master
 
 docker-build:
   stage: package
   image:
-    name: gcr.io/kaniko-project/executor:debug-v0.19.0
+    name: gcr.io/kaniko-project/executor:latest
     entrypoint: [""]
   script:
     - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
