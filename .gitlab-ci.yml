@@ -11,9 +11,11 @@ cache:
     - .m2/repository
 
 checkLogin:
+  image: smktesting/smoke-master:latest
   stage: smoketest
-  # script:  pwd
-  step_script: pwd
+  script: 
+    - echo "TEST"
+
   # [
   #       'create-smktest',
   #       '--project-name=test',
@@ -23,7 +25,7 @@ checkLogin:
   #       '--mode-auto=true',
   #       '--assert-curl=curl www.google.com',
   #     ]
-  image: smktesting/smoke-master:latest
+
   only:
     - master
 
