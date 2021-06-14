@@ -18,15 +18,18 @@ export async function curlSingleTest(options) {
     roots: [__dirname],
     // projects: ['./'],
     silent: true,
+    // json: true,
   };
 
-  jest
+  let testResult = jest
     .runCLI(optionsJest, optionsJest.projects)
     .then((success) => {
       // console.log(success);
     })
     .catch((failure) => {
+      console.log('@1Marker-No:_-758083495');
       console.error(failure);
+      throw new Error('NOT PASS THE TEST ASSERT CURL');
     });
 
   //! <<<
