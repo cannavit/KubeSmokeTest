@@ -5,7 +5,7 @@ services:
 
 
 stages:
-  # - package
+  - package
   - smoketest
 
 
