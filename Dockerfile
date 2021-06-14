@@ -1,6 +1,5 @@
 FROM node:14.4.0-alpine
 
-
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 COPY . /usr/src/app
