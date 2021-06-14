@@ -31,17 +31,15 @@ checkLogin:
     entrypoint: [""]
   cache: {}
   stage: smoketest
-  script: 
-    - echo "TEST"
-  # [
-  #       'create-smktest',
-  #       '--project-name=test',
-  #       '--environment=develop',
-  #       '--context=kubernetes',
-  #       '--namespace=NAMESPACE',
-  #       '--mode-auto=true',
-  #       '--assert-curl=curl www.google.com',
-  #     ]
+  script: [
+        'create-smktest',
+        '--project-name=test',
+        '--environment=develop',
+        '--context=kubernetes',
+        '--namespace=NAMESPACE',
+        '--mode-auto=true',
+        '--assert-curl=curl www.google.com',
+      ]
   only:
     - master
 
