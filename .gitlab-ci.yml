@@ -26,15 +26,15 @@ docker-build:
     - master
 
 
-# checkLogin:
-#   image: 
-#     name: smktesting/smoke-master:latest
-#     entrypoint: [""]
-#   cache: {}
-#   stage: smoketest
-#   script:
-#     - 'create-smktest --project-name=test --environment=develop --context=kubernetes --namespace=NAMESPACE --mode-auto=true --assert-curl="curl www.google.com"'
-#     - 'create-smktest --project-name=test --environment=develop --context=kubernetes --namespace=NAMESPACE --mode-auto=true --assert-curl="curl www.google.com232332"'
-#   only:
-#     - master
+checkLogin:
+  image: 
+    name: registry.gitlab.com/phdactivities/smoke-master:master
+    entrypoint: [""]
+  cache: {}
+  stage: smoketest
+  script:
+    - 'create-smktest --project-name=test --environment=develop --context=kubernetes --namespace=NAMESPACE --mode-auto=true --assert-curl="curl www.google.com"'
+    - 'create-smktest --project-name=test --environment=develop --context=kubernetes --namespace=NAMESPACE --mode-auto=true --assert-curl="curl www.google.com232332"'
+  only:
+    - master
 
