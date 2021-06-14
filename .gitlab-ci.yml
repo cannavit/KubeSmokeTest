@@ -34,6 +34,7 @@ checkLogin:
   stage: smoketest
   script:
     - 'create-smktest --project-name=test --environment=develop --context=kubernetes --namespace=NAMESPACE --mode-auto=true --assert-curl="curl www.google.com"'
+    - 'create-smktest --project-name=test --environment=develop --context=kubernetes --namespace=NAMESPACE --mode-auto=true --assert-curl="curl www.google.com232332"'
   only:
     - master
 
