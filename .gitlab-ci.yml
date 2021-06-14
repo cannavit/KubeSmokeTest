@@ -5,7 +5,8 @@ services:
 
 
 stages:
-  - package
+  # - package
+  - smoketest
 
 
 variables:
