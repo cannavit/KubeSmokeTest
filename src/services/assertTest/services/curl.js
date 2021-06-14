@@ -1,54 +1,35 @@
 const { evalCurl } = require('../../smktestTools/src/curlCheck');
 const assert = require('assert');
+const shell = require('shelljs');
+const jest = require('jest');
 
 export async function curlSingleTest(options) {
-  options = await evalCurl(options);
+  // options = await evalCurl(options);
 
-  let stdout = options.assertResponse.curl.stdout;
-
-  let passTest = false;
-
-  if (stdout) {
-    passTest = true;
+  //! ADD enviroment variable if not exit.
+  if (!process.env.SMKTEST_ASSERT_CURL) {
+    process.env['SMKTEST_ASSERT_CURL'] = options.assertCurl;
   }
 
-  //! Check if curl
-  assert(passTest === true, 'Error with assertCurl: ' + options.assertCurl);
+  //! Run Jest Test. >>>
 
-  //! Check if exist code 500 or 400 family.
-  let dataJson;
-  try {
-    dataJson = JSON.parse(stdout);
-  } catch (error) {}
-  passTest = true;
-  let variableName, codeValue;
+  const optionsJest = {
+    projects: [__dirname],
+    roots: [__dirname],
+    // projects: ['./'],
+    silent: true,
+  };
 
-  for (const key in dataJson) {
-    if (String(key).toLowerCase().includes('code')) {
-      variableName = String(key);
-      codeValue = dataJson[key];
+  jest
+    .runCLI(optionsJest, optionsJest.projects)
+    .then((success) => {
+      // console.log(success);
+    })
+    .catch((failure) => {
+      console.error(failure);
+    });
 
-      if (String(codeValue).substring(0, 1) !== '2') {
-        passTest = false;
-      }
-    }
+  //! <<<
 
-    if (String(key).toLowerCase().includes('status')) {
-      variableName = String(key);
-      codeValue = dataJson[key];
-
-      if (String(codeValue).substring(0, 1) !== '2') {
-        passTest = false;
-      }
-    }
-  }
-
-  assert(
-    passTest === true,
-    'Error in Response of the CURL  ' + variableName + '=' + codeValue
-  );
-
-  options.assertResponse.curl.passTest = passTest;
-  options.assertResponse.curl.response;
   return options;
 }
