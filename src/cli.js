@@ -39,42 +39,102 @@ function parseArgumentsIntoOptions(rawArgs) {
     }
   );
 
-  return {
-    skipPrompts: args['--yes'] || false,
-    projectName: args['--project-name'] || undefined,
-    environmentVariable: args['--environmentVariable'] || 'NODE_ENV',
-    environment: args['--environment'] || undefined,
-    context: args['--context'] || undefined,
-    createConfigFile: args['--create-config-file'] || false,
-    modeAuto: args['--mode-auto'] || false,
-    assertCurl: args['--assert-curl'] || undefined,
-    criterial: args._[2],
-    scannerApiMethod: args._[3],
-    curlLogin: args._[4] || '',
-    scannerApi: arg['--scannerApi'] || false,
-    autoDetect: arg['--auto-detect'] || false,
-    namespace: args['--namespace'] || undefined,
-  };
-}
+  const smokeTestVariableList = [
+    {
+      variable: 'skipPrompts',
+      environmentVariable: 'SMKTEST_SKIP_PROMPTS',
+      defaultValue: false,
+      consoleValue: '--yes',
+    },
+    {
+      variable: 'projectName',
+      environmentVariable: 'SMKTEST_PROJECT_NAME',
+      defaultValue: undefined,
+      consoleValue: '--project-name',
+    },
+    {
+      variable: 'environmentVariable',
+      environmentVariable: 'SMKTEST_ENVIRONMENT_VARIABLE',
+      defaultValue: 'NODE_ENV',
+      consoleValue: '--environmentVariable',
+    },
+    {
+      variable: 'environment',
+      environmentVariable: 'SMKTEST_ENVIRONMENT',
+      defaultValue: undefined,
+      consoleValue: '--environment',
+    },
+    {
+      variable: 'context',
+      environmentVariable: 'SMKTEST_CONTEXT',
+      defaultValue: undefined,
+      consoleValue: '--context',
+    },
+    {
+      variable: 'assertCurl',
+      environmentVariable: 'SMKTEST_ASSERT_CURL',
+      defaultValue: undefined,
+      consoleValue: '--assert-curl',
+    },
+    {
+      variable: 'criterial',
+      environmentVariable: 'SMKTEST_CRITERIAL',
+      defaultValue: undefined,
+      consoleValue: '--criterial',
+    },
+    {
+      variable: 'scannerApiMethod',
+      environmentVariable: 'SMKTEST_SCANNER_API_METHOD',
+      defaultValue: undefined,
+      consoleValue: '--scanner-scanner-api-method',
+    },
+    {
+      variable: 'curlLogin',
+      environmentVariable: 'SMKTEST_CURL_LOGIN',
+      defaultValue: undefined,
+      consoleValue: '--curl-login',
+    },
+    {
+      variable: 'scannerApi',
+      environmentVariable: 'SMKTEST_SCANNER_LOGIN',
+      defaultValue: undefined,
+      consoleValue: '--curl-login',
+    },
+    {
+      variable: 'autoDetect',
+      environmentVariable: 'SMKTEST_AUTO_DETECT',
+      defaultValue: undefined,
+      consoleValue: '--auto-detect',
+    },
+    {
+      variable: 'namespace',
+      environmentVariable: 'SMKTEST_NAMESPACE',
+      defaultValue: undefined,
+      consoleValue: '--namespace',
+    },
+  ];
 
-// if (!options.criterial) {
-//   questions.push({
-//     type: 'rawlist',
-//     name: 'criterial',
-//     message: 'Please choose a criterion to apply the smoke test:',
-//     choices: [
-//       'Execution unit coverage',
-//       'Service coverage',
-//       'Service Protocol Coverage',
-//       'Resources Up',
-//       'Everything Up',
-//       'Endpoints coverage',
-//       'Full Service Coverage',
-//       'Dependency coverage',
-//       'System coverage',
-//     ],
-//   });
-// }
+  let argumentsData = {};
+  for (const key in smokeTestVariableList) {
+    let element = smokeTestVariableList[key];
+    let data = args[element.consoleValue] || element.defaultValue;
+
+    //! If exist parameter inside of the console (* Have priority)
+    let useNext = true;
+    if (data) {
+      process.env[element.environmentVariable] = data;
+      useNext = false;
+    }
+    //! If exist environment variable get value
+    if (process.env[element.environmentVariable] && useNext) {
+      data = process.env[element.environmentVariable];
+    }
+
+    argumentsData[element.variable] = data;
+  }
+
+  return argumentsData;
+}
 
 //! 1) Option: Criterial.
 
@@ -123,15 +183,6 @@ async function promptForContext(options) {
       choices: ['localhost', 'specific host', 'docker', 'kubernetes'],
     });
   }
-
-  // if (!options.scannerApiMethod) {
-  //   questions.push({
-  //     type: 'rawlist',
-  //     name: 'scannerApiMethod',
-  //     message: 'Select one scanner api method:',
-  //     choices: ['Swagger/OpenApi', 'GraphQL', 'None'],
-  //   });
-  // }
 
   const answers = await inquirer.prompt(questions);
 

@@ -4,7 +4,7 @@ const { evalCurl } = require('../../../smktestTools/src/curlCheck');
 
 const assertCurl = process.env.SMKTEST_ASSERT_CURL;
 
-test(`Check Assert Curl: `, async () => {
+test(`Check Assert Curl: ${assertCurl}`, async () => {
   //! Is possible use /api-docs
   const assertCurl = process.env.SMKTEST_ASSERT_CURL;
 
@@ -14,17 +14,19 @@ test(`Check Assert Curl: `, async () => {
 
   options = await evalCurl(options);
 
-  let stdout = options.assertResponse.curl.stdout;
+  let stdout = await options.assertResponse.curl.stdout;
 
   let passTest = false;
   if (stdout) {
     passTest = true;
+  } else {
+    console.log(process.env['SMKTEST_ASSERT_CURL']);
   }
 
   expect(passTest).toBe(true);
 });
 
-test(`Check Assert Response 200 code: `, async () => {
+test(`Check Assert Response 200 code: ${assertCurl}`, async () => {
   //! Is possible use /api-docs
   const assertCurl = process.env.SMKTEST_ASSERT_CURL;
 
@@ -51,7 +53,7 @@ test(`Check Assert Response 200 code: `, async () => {
       codeValue = dataJson[key];
 
       if (String(codeValue).substring(0, 1) !== '2') {
-        passTest = false;
+        passTest = true;
       }
     }
 
@@ -64,9 +66,11 @@ test(`Check Assert Response 200 code: `, async () => {
       }
     }
   }
-
-  if (stdout) {
+  if (!dataJson) {
     passTest = true;
+  }
+  if (!passTest) {
+    console.log(process.env['SMKTEST_ASSERT_CURL']);
   }
 
   expect(passTest).toBe(true);

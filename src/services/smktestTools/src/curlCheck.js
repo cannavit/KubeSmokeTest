@@ -58,6 +58,7 @@ module.exports.evalCurl = async function (options) {
   //
 
   let response;
+
   try {
     response = await shell.exec(options.assertCurl, {
       silent: true,
