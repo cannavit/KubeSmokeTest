@@ -25,6 +25,7 @@ variables:
 #   only:
 #     - master
 
+
 checkLogin:
   image: 
     name: smktesting/smoke-master:latest
