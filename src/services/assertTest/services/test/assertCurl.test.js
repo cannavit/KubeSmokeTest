@@ -70,6 +70,7 @@ test(`Check Assert Response 200 code: ${assertCurl}`, async () => {
     passTest = true;
   }
   if (!passTest) {
+    console.log(dataJson);
     console.log(process.env['SMKTEST_ASSERT_CURL']);
   }
 
