@@ -13,28 +13,28 @@ variables:
   KUBECONFIG: /etc/deploy/config
   PROJECT_NAME: smoke-master
 
-# docker-build:
-#   stage: package
-#   image:
-#     name: gcr.io/kaniko-project/executor:debug-v0.19.0
-#     entrypoint: [""]
-#   script:
-#     - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
-#     - /kaniko/executor --context . --dockerfile Dockerfile --destination $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG --cache
-#   cache: {}
-#   only:
-#     - master
-
-
-checkLogin:
-  image: 
-    name: smktesting/smoke-master:latest
+docker-build:
+  stage: package
+  image:
+    name: gcr.io/kaniko-project/executor:debug-v0.19.0
     entrypoint: [""]
-  cache: {}
-  stage: smoketest
   script:
-    - 'create-smktest --project-name=test --environment=develop --context=kubernetes --namespace=NAMESPACE --mode-auto=true --assert-curl="curl www.google.com"'
-    - 'create-smktest --project-name=test --environment=develop --context=kubernetes --namespace=NAMESPACE --mode-auto=true --assert-curl="curl www.google.com232332"'
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+    - /kaniko/executor --context . --dockerfile Dockerfile --destination $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG --cache
+  cache: {}
   only:
     - master
+
+
+# checkLogin:
+#   image: 
+#     name: smktesting/smoke-master:latest
+#     entrypoint: [""]
+#   cache: {}
+#   stage: smoketest
+#   script:
+#     - 'create-smktest --project-name=test --environment=develop --context=kubernetes --namespace=NAMESPACE --mode-auto=true --assert-curl="curl www.google.com"'
+#     - 'create-smktest --project-name=test --environment=develop --context=kubernetes --namespace=NAMESPACE --mode-auto=true --assert-curl="curl www.google.com232332"'
+#   only:
+#     - master
 
