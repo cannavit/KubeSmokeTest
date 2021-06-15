@@ -89,11 +89,11 @@ export async function smktestCheckIfAllPodsAreActive(options) {
   let passTest = true;
   let podFail = '';
   let statusPodFail = '';
+  let podResult;
   for (const key in options.testConfig.kubernetes.latestPods) {
     let pod = options.testConfig.kubernetes.latestPods[key];
 
     if (pod.statusReady !== true) {
-      console.log('@1Marker-No:_-268784565');
       podResult = pod;
       podFail = pod.pod;
       statusPodFail = pod.status;

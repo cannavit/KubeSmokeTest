@@ -5,6 +5,7 @@ const { getLogs } = require('./logs');
 module.exports.getPods = async function (options) {
   //
   const k8sApi = await getKS();
+
   let nameSpace = options.testConfig.kubernetes.namespace;
   let listNamespace = await k8sApi.listNamespacedPod(nameSpace);
 
@@ -12,6 +13,7 @@ module.exports.getPods = async function (options) {
 
   listNamespace.body.items.map((data) => {
     dataPods.push({
+      creationTime: data.metadata.creationTimestamp,
       nameSpace: data.metadata.namespace,
       pod: data.metadata.name, //TODO
       clusterName: data.metadata.clusterName,

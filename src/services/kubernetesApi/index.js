@@ -5,7 +5,7 @@ const { getPods } = require('./src/pods');
 async function collectConfigKube(options) {
   // This is the data for execute the function
   // DATA EXAMPLE: .......
-  //   options = {
+  //   options = { s
   //     testConfig: {
   //       kubernetes: {
   //         namespace: 'edutelling-develop',

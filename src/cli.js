@@ -2,10 +2,10 @@ import arg from 'arg';
 import inquirer from 'inquirer';
 import { createProject, runMultiTasks } from './main';
 import figlet from 'figlet';
-
+import { runJestTest } from './runJestTest';
 import { generateCasesSwagger } from './services/smktestSwagger';
 // https://www.twilio.com/blog/how-to-build-a-cli-with-node-js
-
+import { smktestCheckIfAllPodsAreActive } from './services/kubernetesApi/smokeTest/smktestPods';
 // Kubernetes:
 import { cliKubernetes } from './services/kubernetesApi/cli.js';
 //Single Test.
@@ -29,6 +29,7 @@ function parseArgumentsIntoOptions(rawArgs) {
       '--assert-curl': String,
       '--project-name': String,
       '--mode-auto': Boolean,
+      '--check-if-all-pods-are-active': Boolean,
       '-c': '--criterial',
       '-c': '--context',
       '-s': '--scannerApi',
@@ -45,76 +46,96 @@ function parseArgumentsIntoOptions(rawArgs) {
       environmentVariable: 'SMKTEST_SKIP_PROMPTS',
       defaultValue: false,
       consoleValue: '--yes',
+      jestTestPath: '',
     },
     {
       variable: 'projectName',
       environmentVariable: 'SMKTEST_PROJECT_NAME',
       defaultValue: undefined,
       consoleValue: '--project-name',
+      jestTestPath: '',
     },
     {
       variable: 'environmentVariable',
       environmentVariable: 'SMKTEST_ENVIRONMENT_VARIABLE',
       defaultValue: 'NODE_ENV',
       consoleValue: '--environmentVariable',
+      jestTestPath: '',
     },
     {
       variable: 'environment',
       environmentVariable: 'SMKTEST_ENVIRONMENT',
       defaultValue: undefined,
       consoleValue: '--environment',
+      jestTestPath: '',
     },
     {
       variable: 'context',
       environmentVariable: 'SMKTEST_CONTEXT',
       defaultValue: undefined,
       consoleValue: '--context',
+      jestTestPath: '',
     },
     {
       variable: 'assertCurl',
       environmentVariable: 'SMKTEST_ASSERT_CURL',
       defaultValue: undefined,
       consoleValue: '--assert-curl',
+      jestTestPath: './src/services/assertTest/services/test',
     },
     {
       variable: 'criterial',
       environmentVariable: 'SMKTEST_CRITERIAL',
       defaultValue: undefined,
       consoleValue: '--criterial',
+      jestTestPath: '',
     },
     {
       variable: 'scannerApiMethod',
       environmentVariable: 'SMKTEST_SCANNER_API_METHOD',
       defaultValue: undefined,
       consoleValue: '--scanner-scanner-api-method',
+      jestTestPath: '',
     },
     {
       variable: 'curlLogin',
       environmentVariable: 'SMKTEST_CURL_LOGIN',
       defaultValue: undefined,
       consoleValue: '--curl-login',
+      jestTestPath: '',
     },
     {
       variable: 'scannerApi',
       environmentVariable: 'SMKTEST_SCANNER_LOGIN',
       defaultValue: undefined,
       consoleValue: '--curl-login',
+      jestTestPath: '',
     },
     {
       variable: 'autoDetect',
       environmentVariable: 'SMKTEST_AUTO_DETECT',
       defaultValue: undefined,
       consoleValue: '--auto-detect',
+      jestTestPath: '',
     },
     {
       variable: 'namespace',
       environmentVariable: 'SMKTEST_NAMESPACE',
       defaultValue: undefined,
       consoleValue: '--namespace',
+      jestTestPath: '',
+    },
+    {
+      variable: 'checkIfAllPodsAreActive',
+      environmentVariable: 'SMKTEST_CHECK_IF_ALL_PODS_ARE_ACTIVE',
+      defaultValue: false,
+      consoleValue: '--check-if-all-pods-are-active',
+      jestTestPath: './src/services/kubernetesApi/smokeTest/test',
     },
   ];
 
   let argumentsData = {};
+  let listOfJestPath = [];
   for (const key in smokeTestVariableList) {
     let element = smokeTestVariableList[key];
     let data = args[element.consoleValue] || element.defaultValue;
@@ -124,11 +145,20 @@ function parseArgumentsIntoOptions(rawArgs) {
     if (data) {
       process.env[element.environmentVariable] = data;
       useNext = false;
+
+      if (element.jestTestPath !== '') {
+        listOfJestPath.push(element.jestTestPath);
+      }
     }
     //! If exist environment variable get value
     if (process.env[element.environmentVariable] && useNext) {
       data = process.env[element.environmentVariable];
+      if (element.jestTestPath !== '') {
+        listOfJestPath.push(element.jestTestPath);
+      }
     }
+
+    argumentsData['listOfJestPath'] = listOfJestPath;
 
     argumentsData[element.variable] = data;
   }
@@ -254,24 +284,35 @@ export async function cli(args) {
     })
   );
 
-  let options = parseArgumentsIntoOptions(args);
+  let options = await parseArgumentsIntoOptions(args);
 
   options.projectDir = __dirname; // SmokeTest route
   options.smktestFolder = 'smktest'; // SmokeTet base directory
-
   options = await promptForContext(options);
 
   //! Run Context test.
   if (options.context === 'kubernetes') {
-    // await cliKubernetes(options);
+    //! Init kubernetes options
+    options.testConfig = {
+      kubernetes: {
+        namespace: options.namespace,
+      },
+    };
+
+    if (options.checkIfAllPodsAreActive) {
+      options = await smktestCheckIfAllPodsAreActive(options);
+    }
   }
 
   //! Run Direct Accerts >>>>
-
   if (options.assertCurl) {
     await curlSingleTest(options);
   }
-  //! <<<<
+
+  //! Run Jest Tests.
+  if (options.listOfJestPath) {
+    runJestTest(options);
+  }
 
   // options = await promptDocker(options);
   // options = await promptForScannerAPI(options);
@@ -294,3 +335,7 @@ export async function cli(args) {
 //docker push smktesting/smoke-master:tagname
 
 // docker run -it --rm --entrypoint sh smktesting/smoke-master
+
+// create-smktest --project-name=test --environment=develop --context=kubernetes --namespace=NAMESPACE --mode-auto=true --check-if-all-pods-are-active=true
+
+// create-smktest --project-name=test --environment=develop --context=kubernetes --namespace=edutelling-develop --mode-auto=true --check-if-all-pods-are-active=true --assert-curl="curl www.google.com"
