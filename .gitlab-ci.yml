@@ -63,7 +63,7 @@ kubectlConnect:
   stage: kubernetes
   script:
     # Create cluster remote configuration file. 
-    - echo $KUBERNETES_TOKEN | base64 -d > $KUBECONFIG
+    - echo $KUBERNETES_TOKEN | base64 -d > /etc/deploy/config
     - kubectl get pods --namespace=edutelling-develop
   only:
     - master
