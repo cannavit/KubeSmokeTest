@@ -69,7 +69,7 @@ kubectlConnect:
     - master
 
 # Example how connect one remote cluster.
-kubectlConnect:
+checkPodsActive:
   image: 
     name: registry.gitlab.com/phdactivities/smoke-master:master
   stage: kubernetes
