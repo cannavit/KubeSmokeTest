@@ -106,7 +106,7 @@ ingressPods:
 
 
 # Example how connect one remote cluster
-contextNode:
+conditionsCluster:
   image: 
     name: registry.gitlab.com/phdactivities/smoke-master:master
   stage: kubernetes
@@ -119,6 +119,6 @@ contextNode:
   script:
     # Create cluster remote configuration file. 
     - echo $KUBERNETES_TOKEN | base64 -d > /etc/deploy/config
-    - create-smktest --check-context=true
+    - create-smktest --check-conditions=true
   only:
     - master

@@ -96,15 +96,15 @@ This command checks that those that do not exist alert in the cluster. These ale
 
 #### Command smoke-master:
 
-    --check-context
+    --check-conditions
 
 #### Example:
 
-    create-smktest --check-context=true
+    create-smktest --check-conditions=true
 
 #### Gitlab Pipeline example:
 
-    contextNode:
+    conditionsCluster:
     image:
         name: registry.gitlab.com/phdactivities/smoke-master:master
     stage: kubernetes
@@ -117,6 +117,6 @@ This command checks that those that do not exist alert in the cluster. These ale
     script:
         # Create cluster remote configuration file.
         - echo $KUBERNETES_TOKEN | base64 -d > /etc/deploy/config
-        - create-smktest --check-context=true
+        - create-smktest --check-conditions=true
     only:
         - master
