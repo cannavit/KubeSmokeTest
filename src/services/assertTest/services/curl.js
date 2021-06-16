@@ -16,7 +16,7 @@ export async function curlSingleTest(options) {
   let testResult = await jest.runCLI(optionsJest, optionsJest.projects);
 
   if (testResult.results.numFailedTestSuites > 0) {
-    throw new Error('NOT PASS THE TEST ASSERT CURL');
+    throw new Error('🛑 👎 NOT PASS THE TEST ASSERT CURL');
   }
   //! <<<
 
