@@ -36,6 +36,9 @@ test(`Check Kubernetes Ingress`, async () => {
           console.log(
             chalk.red.bold(`ERROR: curl ${element}, errorWold: ${errorWold}`)
           );
+          console.log(
+            chalk.yellow.bold('NOTE: Please check your ingress in the cluster')
+          );
         }
       }
     }

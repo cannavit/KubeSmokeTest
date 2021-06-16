@@ -9,6 +9,7 @@ import { smktestCheckIfAllPodsAreActive } from './services/kubernetesApi/smokeTe
 // Kubernetes:
 import { cliKubernetes } from './services/kubernetesApi/cli.js';
 import { kubernetesIngress } from './services/kubernetesApi/src/ingress';
+import { checkConditions } from './services/kubernetesApi/src/conditions';
 //Single Test.
 import { curlSingleTest } from './services/assertTest/services/curl';
 
@@ -31,6 +32,7 @@ function parseArgumentsIntoOptions(rawArgs) {
       '--project-name': String,
       '--mode-auto': Boolean,
       '--check-ingress': Boolean,
+      '--check-conditions': Boolean,
       '--check-if-all-pods-are-active': Boolean,
       '-c': '--criterial',
       '-c': '--context',
@@ -140,6 +142,13 @@ function parseArgumentsIntoOptions(rawArgs) {
       defaultValue: undefined,
       consoleValue: '--check-ingress',
       jestTestPath: './src/services/kubernetesApi/test/ingress',
+    },
+    {
+      variable: 'checkConditions',
+      environmentVariable: 'SMKTEST_CHECK_CONDITIONS',
+      defaultValue: false,
+      consoleValue: '--check-conditions',
+      jestTestPath: './src/services/kubernetesApi/test/checkConditions',
     },
   ];
 
@@ -316,6 +325,10 @@ export async function cli(args) {
       if (options.checkIngress) {
         await kubernetesIngress(options);
       }
+      //* Check the node cluster conditions
+      if (checkConditions) {
+        await checkConditions(options);
+      }
     }
   }
 
@@ -356,3 +369,5 @@ export async function cli(args) {
 // create-smktest --project-name=test --environment=develop --context=kubernetes --namespace=edutelling-develop --mode-auto=true --check-if-all-pods-are-active=true
 
 // create-smktest --project-name=test --environment=develop --context=kubernetes --namespace=edutelling-develop --mode-auto=true --check-ingress=true
+
+// create-smktest --project-name=test --environment=develop --context=kubernetes --namespace=edutelling-develop --mode-auto=true --check-conditions=true
