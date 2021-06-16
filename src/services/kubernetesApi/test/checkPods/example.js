@@ -4,7 +4,7 @@ const {
   getPods,
   getLogs,
   getServices,
-} = require('../index');
+} = require('../../index');
 //? Check if is possible
 
 async function test(options) {

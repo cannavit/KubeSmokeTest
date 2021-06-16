@@ -57,7 +57,7 @@ checkLogin:
     - master
 
 # Example how connect one remote cluster.
-kubectlConnect:
+remoteAccess:
   image: 
     name: registry.gitlab.com/phdactivities/smoke-master:master
   stage: kubernetes
@@ -68,8 +68,8 @@ kubectlConnect:
   only:
     - master
 
-# Example how connect one remote cluster.
-checkPodsActive:
+# Example how connect one remote cluster
+podsActive:
   image: 
     name: registry.gitlab.com/phdactivities/smoke-master:master
   stage: kubernetes
@@ -83,5 +83,23 @@ checkPodsActive:
     # Create cluster remote configuration file. 
     - echo $KUBERNETES_TOKEN | base64 -d > /etc/deploy/config
     - create-smktest --check-if-all-pods-are-active=true
+  only:
+    - master
+
+# Example how connect one remote cluster
+ingressPods:
+  image: 
+    name: registry.gitlab.com/phdactivities/smoke-master:master
+  stage: kubernetes
+  variables:
+    SMKTEST_PROJECT_NAME: 'SmokeMaster'
+    SMKTEST_ENVIRONMENT: 'master'  
+    SMKTEST_CONTEXT: 'kubernetes'
+    SMKTEST_NAMESPACE: 'edutelling-develop'
+    SMKTEST_MODE_AUTO: 'true'
+  script:
+    # Create cluster remote configuration file. 
+    - echo $KUBERNETES_TOKEN | base64 -d > /etc/deploy/config
+    - create-smktest --check-ingress=true
   only:
     - master

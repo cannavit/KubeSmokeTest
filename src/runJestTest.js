@@ -1,4 +1,5 @@
 const jest = require('jest');
+const chalk = require('chalk');
 
 module.exports.runJestTest = async function (options) {
   //! Run Jest Test. >>>
@@ -11,7 +12,7 @@ module.exports.runJestTest = async function (options) {
   let testResult = await jest.runCLI(optionsJest, optionsJest.projects);
 
   if (testResult.results.numFailedTestSuites > 0) {
-    throw new Error('SMOKE TEST ERROR');
+    throw new Error(chalk.red.bold(`SMOKE TEST ERROR`));
   }
 
   return options;

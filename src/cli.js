@@ -8,6 +8,7 @@ import { generateCasesSwagger } from './services/smktestSwagger';
 import { smktestCheckIfAllPodsAreActive } from './services/kubernetesApi/smokeTest/smktestPods';
 // Kubernetes:
 import { cliKubernetes } from './services/kubernetesApi/cli.js';
+import { kubernetesIngress } from './services/kubernetesApi/src/ingress';
 //Single Test.
 import { curlSingleTest } from './services/assertTest/services/curl';
 
@@ -29,6 +30,7 @@ function parseArgumentsIntoOptions(rawArgs) {
       '--assert-curl': String,
       '--project-name': String,
       '--mode-auto': Boolean,
+      '--check-ingress': Boolean,
       '--check-if-all-pods-are-active': Boolean,
       '-c': '--criterial',
       '-c': '--context',
@@ -130,7 +132,14 @@ function parseArgumentsIntoOptions(rawArgs) {
       environmentVariable: 'SMKTEST_CHECK_IF_ALL_PODS_ARE_ACTIVE',
       defaultValue: false,
       consoleValue: '--check-if-all-pods-are-active',
-      jestTestPath: './src/services/kubernetesApi/smokeTest/test',
+      jestTestPath: './src/services/kubernetesApi/test/checkPods',
+    },
+    {
+      variable: 'checkIngress',
+      environmentVariable: 'SMKTEST_CHECK_INGRESS',
+      defaultValue: undefined,
+      consoleValue: '--check-ingress',
+      jestTestPath: './src/services/kubernetesApi/test/ingress',
     },
   ];
 
@@ -292,15 +301,21 @@ export async function cli(args) {
 
   //! Run Context test.
   if (options.context === 'kubernetes') {
-    //! Init kubernetes options
-    options.testConfig = {
-      kubernetes: {
-        namespace: options.namespace,
-      },
-    };
-
-    if (options.checkIfAllPodsAreActive) {
-      options = await smktestCheckIfAllPodsAreActive(options);
+    if (options.namespace) {
+      //* Init kubernetes options
+      options.testConfig = {
+        kubernetes: {
+          namespace: options.namespace,
+        },
+      };
+      //* Check if All Pods Are Active
+      if (options.checkIfAllPodsAreActive) {
+        options = await smktestCheckIfAllPodsAreActive(options);
+      }
+      //* Check the ingress of the cluster
+      if (options.checkIngress) {
+        await kubernetesIngress(options);
+      }
     }
   }
 
@@ -339,3 +354,5 @@ export async function cli(args) {
 // create-smktest --project-name=test --environment=develop --context=kubernetes --namespace=NAMESPACE --mode-auto=true --check-if-all-pods-are-active=true
 
 // create-smktest --project-name=test --environment=develop --context=kubernetes --namespace=edutelling-develop --mode-auto=true --check-if-all-pods-are-active=true
+
+// create-smktest --project-name=test --environment=develop --context=kubernetes --namespace=edutelling-develop --mode-auto=true --check-ingress=true
