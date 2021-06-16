@@ -30,15 +30,17 @@ test(`Check Node Conditions inside of the kubernetes cluster`, async () => {
   }
 
   if (!passTest) {
-    console.log(chalk.red.bold('ERROR KUBERNETES CLUSTER CONDITIONS'));
+    console.log(chalk.red.bold('👎 ERROR KUBERNETES CLUSTER CONDITIONS'));
     console.log(
-      chalk.red.bold('Communicate that your kubernetes cluster administrator')
+      chalk.red.bold(
+        ' 🛑 Communicate that your kubernetes cluster administrator'
+      )
     );
     console.log(chalk.red.bold('Your cluster is unstable.'));
     console.log(chalk.red.bold(responseTest));
   } else {
-    console.log(chalk.green.bold('SUCCESS, CLUSTER CONDITIONS OK.'));
-    console.log(chalk.green.bold('TEST WITH --check-conditions'));
+    console.log(chalk.green.bold('🚀 SUCCESS, CLUSTER CONDITIONS OK. 🥳'));
+    console.log(chalk.green.bold('👍 TEST WITH --check-conditions'));
     console.log(chalk.green.bold(responseTest));
   }
 

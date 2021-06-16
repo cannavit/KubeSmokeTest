@@ -104,7 +104,6 @@ ingressPods:
   only:
     - master
 
-
 # Example how connect one remote cluster
 conditionsCluster:
   image: 

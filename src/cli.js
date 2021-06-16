@@ -38,6 +38,7 @@ function parseArgumentsIntoOptions(rawArgs) {
       '--check-conditions': Boolean,
       '--check-if-all-pods-are-active': Boolean,
       '--check-pods-logs': Boolean,
+      '--check-swagger-publics-apis': String, // Pending
       '-c': '--criterial',
       '-c': '--context',
       '-s': '--scannerApi',
