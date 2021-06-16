@@ -17,6 +17,7 @@ Service to run automated Smoke testing in cluster kubernetes from Pipelines. It 
 | --check-endpoints              | SMKTEST_CHECK_INGRESS                | false   | Verify that the income is available and without errors |
 | --check-if-all-pods-are-active | SMKTEST_CHECK_IF_ALL_PODS_ARE_ACTIVE | false   | Check if all pods are active                           |
 | --check-conditions             | SMKTEST_CHECK_CONDITIONS             | false   | Check cluster condition                                |
+| --check-pods-logs              | SMKTEST_CHECK_PODS_LOGS              | false   | Check if exist logs error inside of Pods               |
 
 ## Check Ingress.
 
@@ -118,5 +119,34 @@ This command checks that those that do not exist alert in the cluster. These ale
         # Create cluster remote configuration file.
         - echo $KUBERNETES_TOKEN | base64 -d > /etc/deploy/config
         - create-smktest --check-conditions=true
+    only:
+        - master
+
+## Check Logs Inside of the Pods.
+
+#### Command Kubectl:
+
+    kubectl logs ${name} --namespace=${namespace} --since=2m
+
+#### Example:
+
+    create-smktest --project-name=test --environment=develop --context=kubernetes --namespace=smokeMaster --mode-auto=true --check-pods-logs=true
+
+#### Gitlab Pipeline example:
+
+    logsPods:
+    image:
+        name: registry.gitlab.com/phdactivities/smoke-master:master
+    stage: kubernetes
+    variables:
+        SMKTEST_PROJECT_NAME: 'SmokeMaster'
+        SMKTEST_ENVIRONMENT: 'master'
+        SMKTEST_CONTEXT: 'kubernetes'
+        SMKTEST_NAMESPACE: 'edutelling-develop'
+        SMKTEST_MODE_AUTO: 'true'
+    script:
+        # Create cluster remote configuration file.
+        - echo $KUBERNETES_TOKEN | base64 -d > /etc/deploy/config
+        - create-smktest --check-pods-logs=true
     only:
         - master

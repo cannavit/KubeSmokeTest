@@ -6,6 +6,7 @@ WORKDIR /tmp
 # Install uitls
 RUN apk update
 RUN apk add curl
+RUN apk add util-linux
 
 # Install kubeclt
 RUN  /usr/bin/curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl \

@@ -10,6 +10,9 @@ import { smktestCheckIfAllPodsAreActive } from './services/kubernetesApi/smokeTe
 import { cliKubernetes } from './services/kubernetesApi/cli.js';
 import { kubernetesIngress } from './services/kubernetesApi/src/ingress';
 import { checkConditions } from './services/kubernetesApi/src/conditions';
+import { getLogs } from './services/kubernetesApi/src/logs';
+import { getPods } from './services/kubernetesApi/src/pods';
+
 //Single Test.
 import { curlSingleTest } from './services/assertTest/services/curl';
 
@@ -34,6 +37,7 @@ function parseArgumentsIntoOptions(rawArgs) {
       '--check-ingress': Boolean,
       '--check-conditions': Boolean,
       '--check-if-all-pods-are-active': Boolean,
+      '--check-pods-logs': Boolean,
       '-c': '--criterial',
       '-c': '--context',
       '-s': '--scannerApi',
@@ -149,6 +153,13 @@ function parseArgumentsIntoOptions(rawArgs) {
       defaultValue: false,
       consoleValue: '--check-conditions',
       jestTestPath: './src/services/kubernetesApi/test/checkConditions',
+    },
+    {
+      variable: 'checkPodsLogs',
+      environmentVariable: 'SMKTEST_CHECK_PODS_LOGS',
+      defaultValue: false,
+      consoleValue: '--check-pods-logs',
+      jestTestPath: './src/services/kubernetesApi/test/logsCheck',
     },
   ];
 
@@ -329,6 +340,11 @@ export async function cli(args) {
       if (checkConditions) {
         await checkConditions(options);
       }
+      //* Check if exist logs inside of the pods logs
+      if (options.checkPodsLogs) {
+        options = await getPods(options);
+        options = await getLogs(options);
+      }
     }
   }
 
@@ -341,11 +357,6 @@ export async function cli(args) {
   if (options.listOfJestPath) {
     runJestTest(options);
   }
-
-  // options = await promptDocker(options);
-  // options = await promptForScannerAPI(options);
-
-  // runMultiTasks(options);
 }
 
 // create-smktest --project-name=test --environment=develop --context=kubernetes --namespace=NAMESPACE --mode-auto=true --assert-curl="curl www.google.com"
@@ -371,3 +382,5 @@ export async function cli(args) {
 // create-smktest --project-name=test --environment=develop --context=kubernetes --namespace=edutelling-develop --mode-auto=true --check-ingress=true
 
 // create-smktest --project-name=test --environment=develop --context=kubernetes --namespace=edutelling-develop --mode-auto=true --check-conditions=true
+
+// create-smktest --project-name=test --environment=develop --context=kubernetes --namespace=edutelling-develop --mode-auto=true --check-pods-logs=true
