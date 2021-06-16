@@ -122,3 +122,22 @@ conditionsCluster:
     - create-smktest --check-conditions=true
   only:
     - master
+
+logsPods:
+  image: 
+    name: registry.gitlab.com/phdactivities/smoke-master:master
+  stage: kubernetes
+  variables:
+    SMKTEST_PROJECT_NAME: 'SmokeMaster'
+    SMKTEST_ENVIRONMENT: 'master'  
+    SMKTEST_CONTEXT: 'kubernetes'
+    SMKTEST_NAMESPACE: 'edutelling-develop'
+    SMKTEST_MODE_AUTO: 'true'
+  script:
+    # Create cluster remote configuration file. 
+    - echo $KUBERNETES_TOKEN | base64 -d > /etc/deploy/config
+    - create-smktest --check-pods-logs=true
+  only:
+    - master
+
+   
