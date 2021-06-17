@@ -19,6 +19,7 @@ Service to run automated Smoke testing in cluster kubernetes from Pipelines. It 
 | --check-conditions             | SMKTEST_CHECK_CONDITIONS             | Kubernetes | Check cluster condition (MemoryPressure, PIDPressure)  |
 | --check-pods-logs              | SMKTEST_CHECK_PODS_LOGS              | Kubernetes | Check if exist logs error inside of Pods               |
 | --assert-curl                  | SMKTEST_ASSERT_CURL                  | all        | Check respose using Curl petitions                     |
+| --check-ingress                | SMKTEST_CHECK_INGRESS                | Kubernetes | Check ingress and load balancer                        |
 
 ## Check Ingress.
 
