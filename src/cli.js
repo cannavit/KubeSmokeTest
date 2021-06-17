@@ -81,7 +81,7 @@ function parseArgumentsIntoOptions(rawArgs) {
     {
       variable: 'context',
       environmentVariable: 'SMKTEST_CONTEXT',
-      defaultValue: undefined,
+      defaultValue: 'localhost',
       consoleValue: '--context',
       jestTestPath: '',
     },
@@ -240,7 +240,13 @@ async function promptForContext(options) {
       type: 'rawlist',
       name: 'context',
       message: 'Please choose a smoke test context:',
-      choices: ['localhost', 'specific host', 'docker', 'kubernetes'],
+      choices: [
+        'localhost',
+        'specific host',
+        'docker',
+        'kubernetes',
+        'remote-server',
+      ],
     });
   }
 
@@ -358,6 +364,8 @@ export async function cli(args) {
   if (options.listOfJestPath) {
     runJestTest(options);
   }
+
+  return;
 }
 
 // create-smktest --project-name=test --environment=develop --context=kubernetes --namespace=NAMESPACE --mode-auto=true --assert-curl="curl www.google.com"
