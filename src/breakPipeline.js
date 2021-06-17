@@ -1,6 +1,5 @@
 const fs = require('fs');
 const assert = require('assert');
-const shell = require('shelljs');
 
 // const makeError = require('make-error');
 // const CustomError = makeError('CustomError');
@@ -18,7 +17,7 @@ async function checkPassTest() {
     console.log();
 
     console.log();
-
+    const shell = require('shelljs');
     await shell.exec('echo 0', {
       silent: false,
     });
@@ -32,6 +31,7 @@ async function checkPassTest() {
     console.log(' 🟢 🚭 SUCCESS SMOKE TEST');
     console.log(' ✅ You can continue with the rest of the test suites');
     console.log();
+    const shell = require('shelljs');
     await shell.exec('echo 1', {
       silent: false,
     });
