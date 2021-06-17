@@ -1,6 +1,7 @@
 const jest = require('jest');
 const chalk = require('chalk');
 const assert = require('assert');
+var fs = require('fs');
 
 module.exports.runJestTest = async function (options) {
   //! Run Jest Test. >>>
@@ -17,10 +18,11 @@ module.exports.runJestTest = async function (options) {
     console.log(' FORCE BREAK OF THE PIPELINE >>');
 
     process.env.SMKTEST_PASS_TEST = false;
-    assert.deepEqual(false, true);
+    await fs.writeFileSync('passText.txt', 'false');
+    // assert.deepEqual(false, true);
     throw new Error(chalk.red.bold(` 🛑  SMOKE TEST ERROR 👎`));
   } else {
-    process.env.SMKTEST_PASS_TEST = 'hello';
+    await fs.writeFileSync('passText.txt', 'true');
   }
 
   // break
