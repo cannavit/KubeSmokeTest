@@ -1,8 +1,9 @@
 const fs = require('fs');
 const assert = require('assert');
-const makeError = require('make-error');
-const CustomError = makeError('CustomError');
-const SpecializedError = makeError('SpecializedError', CustomError);
+// const makeError = require('make-error');
+// const CustomError = makeError('CustomError');
+// const SpecializedError = makeError('SpecializedError', CustomError);
+
 async function checkPassTest() {
   var passTest = fs.readFileSync('passText.txt', 'utf8');
 
@@ -15,7 +16,10 @@ async function checkPassTest() {
     console.log();
 
     console.log();
-    throw new SpecializedError(42);
+    // throw new SpecializedError(42);
+
+    const makeError = require('make-errorqweqeqwe');
+
     throw new CustomError('Failed the smoke test');
     // throw new Error('Failed the smoke test');
   } else {
