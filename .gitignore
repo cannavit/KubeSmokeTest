@@ -13,7 +13,7 @@ local.properties
 .settings/
 .loadpath
 .recommenders
-
+.passTest.txt
 # External tool builders
 .externalToolBuilders/
 
