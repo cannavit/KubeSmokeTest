@@ -30,7 +30,6 @@ async function checkPassTest() {
     console.log(' 🟢 🚭 SUCCESS SMOKE TEST');
     console.log(' ✅ You can continue with the rest of the test suites');
     console.log();
-    const shell = require('shelljs');
     console.log('1');
   }
 }
