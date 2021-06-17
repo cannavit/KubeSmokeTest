@@ -6,13 +6,15 @@ async function checkPassTest() {
 
   if (passTest === 'false') {
     console.log();
+
     console.log('💨 💨 💨 🔥 💨 💨 💨 🔥 💨 💨 💨 🔥 💨 💨 💨 🔥');
     console.log(' 🛑  ERROR: Smoke Test');
     console.log('💨 💨 💨 🔥 💨 💨 💨 🔥 💨 💨 💨 🔥 💨 💨 💨 🔥');
     console.log();
+
     console.log();
 
-    assert.deepEqual(false, true);
+    const chalk = require('chalk');
     throw new Error('Failed the smoke test');
   } else {
     console.log();
