@@ -20,10 +20,11 @@ async function checkPassTest() {
 
     const makeError = require('make-errorqweqeqwe');
 
-    throw new CustomError('Failed the smoke test');
+    throw new CustomError('ERROR: Job failed: exit code 1');
     // throw new Error('Failed the smoke test');
   } else {
     console.log();
+    console.log('Job succeeded');
     console.log(' 🟢 🚭 SUCCESS SMOKE TEST');
     console.log(' ✅ You can continue with the rest of the test suites');
     console.log();
