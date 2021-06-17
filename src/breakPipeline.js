@@ -18,9 +18,8 @@ async function checkPassTest() {
 
     console.log();
     const shell = require('shelljs');
-    await shell.exec('echo 0', {
-      silent: false,
-    });
+
+    console.log('0');
     // throw new SpecializedError(42);
 
     // throw new Error('ERROR: Job failed: exit code 1');
@@ -32,9 +31,7 @@ async function checkPassTest() {
     console.log(' ✅ You can continue with the rest of the test suites');
     console.log();
     const shell = require('shelljs');
-    await shell.exec('echo 1', {
-      silent: false,
-    });
+    console.log('1');
   }
 }
 
