@@ -18,8 +18,6 @@ async function checkPassTest() {
     console.log();
     // throw new SpecializedError(42);
 
-    const makeError = require('make-errorqweqeqwe');
-
     throw new CustomError('ERROR: Job failed: exit code 1');
     // throw new Error('Failed the smoke test');
   } else {
