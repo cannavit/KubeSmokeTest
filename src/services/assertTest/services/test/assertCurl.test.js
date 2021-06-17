@@ -21,7 +21,8 @@ test(`Check Assert Curl: ${assertCurl}`, async () => {
     passTest = true;
   } else {
     console.log(process.env['SMKTEST_ASSERT_CURL']);
-    throw new Error(chalk.red.bold(` 🛑 SMOKE TEST ERROR 👎`));
+    console.log(' 🛑  SMOKE TEST ERROR 👎`');
+    // throw new Error(chalk.red.bold(` 🛑 SMOKE TEST ERROR 👎`));
   }
 
   expect(passTest).toBe(true);
