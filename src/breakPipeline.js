@@ -18,7 +18,7 @@ async function checkPassTest() {
     console.log();
     // throw new SpecializedError(42);
 
-    throw new CustomError('ERROR: Job failed: exit code 1');
+    throw new Error('ERROR: Job failed: exit code 1');
     // throw new Error('Failed the smoke test');
   } else {
     console.log();
