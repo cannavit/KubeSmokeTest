@@ -1,6 +1,6 @@
 const jest = require('jest');
 const chalk = require('chalk');
-const assert = require('assert');
+
 var fs = require('fs');
 
 module.exports.runJestTest = async function (options) {
