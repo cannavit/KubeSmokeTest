@@ -18,15 +18,27 @@ module.exports.runJestTest = async function (options) {
     console.log(chalk.red.bold(` 🛑  SMOKE TEST ERROR 👎`));
     console.log(' FORCE BREAK OF THE PIPELINE >>');
 
+    console.log();
+    console.log('💨 💨 💨 🔥 💨 💨 💨 🔥 💨 💨 💨 🔥 💨 💨 💨 🔥');
+    console.log(' 🛑  ERROR: Smoke Test');
+    console.log('💨 💨 💨 🔥 💨 💨 💨 🔥 💨 💨 💨 🔥 💨 💨 💨 🔥');
+    console.log();
+    console.log();
+
     process.env.SMKTEST_PASS_TEST = false;
-    // await fs.writeFileSync('passText.txt', 'false');
-    // assert.deepEqual(false, true);
 
-    process.exit(1); //failed pipeline
-
-    // throw new Error(chalk.red.bold(` 🛑  SMOKE TEST ERROR 👎`));
+    process.exit(1); // failed pipeline gitlab
   } else {
-    process.exit(0); //pass pipeline
+    console.log();
+
+    console.log();
+    console.log('Job succeeded');
+    console.log(' 🟢 🚭 SUCCESS SMOKE TEST');
+    console.log(' ✅ You can continue with the rest of the test suites');
+    console.log();
+    console.log();
+
+    process.exit(0); //pass pipeline gitlab
   }
 
   // break
