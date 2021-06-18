@@ -26,6 +26,7 @@ variables:
     - echo $KUBERNETES_TOKEN | base64 -d > /etc/deploy/config
   variables:
     SMKTEST_CONTEXT: 'kubernetes'
+    SMKTEST_NAMESPACE: 'edutelling-develop'
 
 # Template for use Curl smoke test.
 .smoke-test-curl: &smoke-test-curl

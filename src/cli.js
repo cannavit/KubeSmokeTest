@@ -81,7 +81,7 @@ function parseArgumentsIntoOptions(rawArgs) {
     {
       variable: 'context',
       environmentVariable: 'SMKTEST_CONTEXT',
-      defaultValue: 'localhost',
+      defaultValue: undefined,
       consoleValue: '--context',
       jestTestPath: '',
     },
@@ -180,6 +180,7 @@ function parseArgumentsIntoOptions(rawArgs) {
         listOfJestPath.push(element.jestTestPath);
       }
     }
+
     //! If exist environment variable get value
     if (process.env[element.environmentVariable] && useNext) {
       data = process.env[element.environmentVariable];
