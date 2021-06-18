@@ -22,27 +22,34 @@ test('Check Logs errors', async () => {
 
   logs = options.testConfig.kubernetes.logs;
 
-  //   console.log('>>>>>320744767>>>>>');
-  //   console.log(logs);
-  //   console.log('<<<<<<<<<<<<<<<<<<<');
-
   let passTest = true;
 
   for (const key in logs) {
     let element = logs[key];
 
     if (element.isLogError === true && element.name !== undefined) {
+      console.log('@1Marker-No:_-1729551266');
       passTest = false;
     }
   }
 
   if (!passTest) {
-    console.log(chalk.red.bold('ERROR IN LOGS TEST'));
-    console.log(chalk.red.bold('TEST WITH --check-pods-logs'));
-    console.log(chalk.red.bold(logs.reportText));
+    console.log(
+      `⚠️ 🟠 🔍 Was detected the errorWold associated inside of the log: ${logs.wordError}`
+    );
+    console.log(chalk.red.bold(' 🛑 ERROR IN LOGS TEST'));
+    console.log(chalk.red.bold(' 🔥 TEST WITH --check-pods-logs'));
+    console.log(
+      chalk.red.bold(
+        logs.reportText.substring(
+          logs.reportText.length - 2000,
+          logs.reportText.length
+        )
+      )
+    );
   } else {
-    console.log(chalk.green.bold('SUCCESS, LOGS TEST'));
-    console.log(chalk.green.bold('TEST WITH --check-pods-logs'));
+    console.log(chalk.green.bold('🟢 SUCCESS, LOGS TEST'));
+    console.log(chalk.green.bold('✅ TEST WITH --check-pods-logs'));
     // console.log(chalk.green.bold(logs.reportText));
   }
 

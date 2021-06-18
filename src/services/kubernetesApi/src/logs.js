@@ -31,9 +31,9 @@ module.exports.getLogs = async function (options) {
       undefined, // limitBytes
       true, //pretty,
       undefined, // previous
-      2011, // sinceSeconds  //TODO add dynamic way for get seconds
+      300, // sinceSeconds  //TODO add dynamic way for get seconds
       undefined, //tailLines,
-      true //timestamps
+      true //timestampssss
     );
 
     k8sApi.readNamespacedPodL;
@@ -173,10 +173,6 @@ module.exports.getLogsV2 = async function (options) {
       isLogError: isLogError ? isLogError : false,
       logsShort: logsShort ? logsShort : '',
     });
-
-    // console.log('>>>>>-930480010>>>>>');
-    // console.log(logs);
-    // console.log('<<<<<<<<<<<<<<<<<<<');
   }
   // console.log(body);
 

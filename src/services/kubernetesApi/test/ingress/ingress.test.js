@@ -31,14 +31,14 @@ test(`Check Kubernetes Ingress`, async () => {
       for (const keyWold in listOfErrors) {
         let errorWold = listOfErrors[keyWold];
         if (response.stdout.includes(errorWold)) {
-          //Register the error
+          console.log('ERROR >>>>>>>>>>>>>>>>>>>>>>>>>>>');
+          console.log('🐞 🛑 ERROR: Ingress: ' + element);
+          console.log('🚪 check your ingress in the cluster');
+          console.log(' <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
           passTest = false;
-          console.log(
-            chalk.red.bold(`ERROR: curl ${element}, errorWold: ${errorWold}`)
-          );
-          console.log(
-            chalk.yellow.bold('NOTE: Please check your ingress in the cluster')
-          );
+        }
+        {
+          console.log('✅ SUCCESS INGRESS: ' + element);
         }
       }
     }
