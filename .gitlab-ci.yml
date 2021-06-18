@@ -68,7 +68,7 @@ curlGoogle:
   script:
     - create-smktest --assert-curl="curl www.google.com"
     - create-smktest --assert-curl="curl www.google.com232332"
-    - npm run passTest
+    # - npm run passTest
   only:
     - master
 
