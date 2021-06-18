@@ -63,13 +63,16 @@ docker-build:
 #   only:
 #     - master
 
+
+# https://dojofive.com/blog/how-ci-pipeline-scripts-and-exit-codes-interact/
 curlGoogle:
   <<: *smoke-test-curl
   script:
     - create-smktest --assert-curl="curl www.google.com"
     - create-smktest --assert-curl="curl www.google.com232332"
     # - npm run passTest
-    - echo '${BREAK_PIPELINE}'
+    - echo '--------------- test fail pipeline'
+    - echo ${BREAK_PIPELINE}
     - exit ${BREAK_PIPELINE}
 
   only:
