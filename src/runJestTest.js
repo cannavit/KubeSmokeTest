@@ -22,11 +22,11 @@ module.exports.runJestTest = async function (options) {
     // await fs.writeFileSync('passText.txt', 'false');
     // assert.deepEqual(false, true);
 
-    process.exit(0); //failed pipeline
+    process.exit(1); //failed pipeline
 
     // throw new Error(chalk.red.bold(` 🛑  SMOKE TEST ERROR 👎`));
   } else {
-    process.exit(1); //pass pipeline
+    process.exit(0); //pass pipeline
   }
 
   // break
