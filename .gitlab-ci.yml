@@ -4,10 +4,10 @@ services:
   - docker:dind
 
 stages:
-  - docker-hub
   - package
   - smoke-curl
   - kubernetes
+  - docker-hub
 
 
 variables:
