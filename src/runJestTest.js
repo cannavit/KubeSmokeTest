@@ -21,6 +21,8 @@ module.exports.runJestTest = async function (options) {
     process.env.SMKTEST_PASS_TEST = false;
     // await fs.writeFileSync('passText.txt', 'false');
     // assert.deepEqual(false, true);
+
+    process.env.BREAK_PIPELINE = 0;
     console.log('exit 1');
 
     await shell.exec('exit 1', {
@@ -29,6 +31,7 @@ module.exports.runJestTest = async function (options) {
 
     // throw new Error(chalk.red.bold(` 🛑  SMOKE TEST ERROR 👎`));
   } else {
+    process.env.BREAK_PIPELINE = 1;
     await fs.writeFileSync('passText.txt', 'true');
   }
 
