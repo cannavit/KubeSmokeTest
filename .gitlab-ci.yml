@@ -47,21 +47,21 @@ docker-build:
   only:
     - master
 
-pass:
-  image: registry.gitlab.com/phdactivities/smoke-master:master
-  stage: test
-  script:
-    - exit 0
-  only:
-    - master
+# pass:
+#   image: registry.gitlab.com/phdactivities/smoke-master:master
+#   stage: test
+#   script:
+#     - exit 0
+#   only:
+#     - master
 
-fail:
-  image: registry.gitlab.com/phdactivities/smoke-master:master
-  stage: test
-  script:
-    - exit 1
-  only:
-    - master
+# fail:
+#   image: registry.gitlab.com/phdactivities/smoke-master:master
+#   stage: test
+#   script:
+#     - exit 1
+#   only:
+#     - master
 
 curlGoogle:
   <<: *smoke-test-curl

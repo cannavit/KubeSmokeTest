@@ -1,10 +1,6 @@
 const fs = require('fs');
 const assert = require('assert');
 
-// const makeError = require('make-error');
-// const CustomError = makeError('CustomError');
-// const SpecializedError = makeError('SpecializedError', CustomError);
-
 async function checkPassTest() {
   var passTest = fs.readFileSync('passText.txt', 'utf8');
 

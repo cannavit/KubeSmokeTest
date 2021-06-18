@@ -1,7 +1,8 @@
 const jest = require('jest');
 const chalk = require('chalk');
-
 var fs = require('fs');
+
+const shell = require('shelljs');
 
 module.exports.runJestTest = async function (options) {
   //! Run Jest Test. >>>
@@ -18,9 +19,15 @@ module.exports.runJestTest = async function (options) {
     console.log(' FORCE BREAK OF THE PIPELINE >>');
 
     process.env.SMKTEST_PASS_TEST = false;
-    await fs.writeFileSync('passText.txt', 'false');
+    // await fs.writeFileSync('passText.txt', 'false');
     // assert.deepEqual(false, true);
-    throw new Error(chalk.red.bold(` 🛑  SMOKE TEST ERROR 👎`));
+    console.log('exit 1');
+
+    await shell.exec('exit 1', {
+      silent: false,
+    });
+
+    // throw new Error(chalk.red.bold(` 🛑  SMOKE TEST ERROR 👎`));
   } else {
     await fs.writeFileSync('passText.txt', 'true');
   }
