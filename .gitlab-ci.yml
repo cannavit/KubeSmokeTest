@@ -3,7 +3,6 @@ image: docker:latest
 services:
   - docker:dind
 
-
 stages:
   - test
   - package
@@ -18,7 +17,7 @@ variables:
   SMKTEST_NAMESPACE: 'edutelling-develop'
   SMKTEST_MODE_AUTO: 'true'
 
-# Template for use kubernetes
+# Template for use kubernetes.
 .smoke-test-kubernetes: &smoke-test-kubernetes
   image: registry.gitlab.com/phdactivities/smoke-master:master
   stage: kubernetes
@@ -28,7 +27,7 @@ variables:
   variables:
     SMKTEST_CONTEXT: 'kubernetes'
 
-# Template for use Curl smoke test
+# Template for use Curl smoke test.
 .smoke-test-curl: &smoke-test-curl
   image: registry.gitlab.com/phdactivities/smoke-master:master
   stage: smoke-curl
@@ -47,34 +46,10 @@ docker-build:
   only:
     - master
 
-# pass:
-#   image: registry.gitlab.com/phdactivities/smoke-master:master
-#   stage: test
-#   script:
-#     - exit 0
-#   only:
-#     - master
-
-# fail:
-#   image: registry.gitlab.com/phdactivities/smoke-master:master
-#   stage: test
-#   script:
-#     - exit 1
-#   only:
-#     - master
-
-
-# https://dojofive.com/blog/how-ci-pipeline-scripts-and-exit-codes-interact/
 curlGoogle:
   <<: *smoke-test-curl
   script:
     - create-smktest --assert-curl="curl www.google.com"
-    - create-smktest --assert-curl="curl www.google.com232332"
-    # - npm run passTest
-    - echo '--------------- test fail pipeline'
-    - echo ${BREAK_PIPELINE}
-    - exit ${BREAK_PIPELINE}
-
   only:
     - master
 
