@@ -119,5 +119,5 @@ docker-build:
     - docker push "smktesting/smoke-master:$CI_VERSION"
     - docker build --pull -t "smktesting/smoke-master:latest" .
     - docker push "smktesting/smoke-master:latest"    
-  except:
+  only:
     - master
