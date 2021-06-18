@@ -26,7 +26,7 @@ variables:
     - echo $KUBERNETES_TOKEN | base64 -d > /etc/deploy/config
   variables:
     SMKTEST_CONTEXT: 'kubernetes'
-    SMKTEST_NAMESPACE: 'edutelling-develop'
+
 
 # Template for use Curl smoke test.
 .smoke-test-curl: &smoke-test-curl
@@ -59,7 +59,7 @@ checkLogin:
   variables:
     SMKTEST_ASSERT_CURL: 'curl -X POST "https://edutelling-api-develop.openshift.techgap.it/api/v1/auth/authentication" -H "accept: application/json" -H "Content-Type: application/json" -d "{ \"email\": \"formazione@edutelling.it\", \"password\": \"Passw0rd\", \"stayLogged\": false }"'
   script:
-    - create-smktest --project-name="SmokeMaster"
+    - create-smktest
   only:
     - master
 

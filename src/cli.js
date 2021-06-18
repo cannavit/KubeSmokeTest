@@ -38,6 +38,7 @@ function parseArgumentsIntoOptions(rawArgs) {
       '--check-conditions': Boolean,
       '--check-if-all-pods-are-active': Boolean,
       '--check-pods-logs': Boolean,
+      '--create-config-file': Boolean,
       '--check-swagger-publics-apis': String, // Pending
       '-c': '--criterial',
       '-c': '--context',
@@ -162,6 +163,13 @@ function parseArgumentsIntoOptions(rawArgs) {
       consoleValue: '--check-pods-logs',
       jestTestPath: './src/services/kubernetesApi/test/logsCheck',
     },
+    {
+      variable: 'configFile',
+      environmentVariable: 'SMKTEST_CREATE_CONFIG_FILE',
+      defaultValue: undefined,
+      consoleValue: '--create-config-file',
+      jestTestPath: './src/services/kubernetesApi/test/logsCheck',
+    },
   ];
 
   let argumentsData = {};
@@ -250,8 +258,11 @@ async function promptForContext(options) {
       ],
     });
   }
-
-  const answers = await inquirer.prompt(questions);
+  let answers;
+  if (options.configFile) {
+    // only with --create-config-file
+    answers = await inquirer.prompt(questions);
+  }
 
   return {
     ...options,
