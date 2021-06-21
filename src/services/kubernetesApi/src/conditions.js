@@ -70,7 +70,7 @@ module.exports.checkConditions = async function (options) {
     },
   };
 
-  sendToSmokeCollector(options);
+  await sendToSmokeCollector(options);
 
   return options;
 };

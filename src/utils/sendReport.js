@@ -10,17 +10,14 @@ module.exports.sendToSmokeCollector = async function (options) {
 
   let data = options.smokeCollector.data;
 
-  console.log(' 💾 Econde address: ' + urlSomeCollectorCoded);
-
-  console.log('>>>>>1730030978>>>>>');
-  console.log(data);
-  console.log('<<<<<<<<<<<<<<<<<<<');
+  console.log(' 💾 Code address: ' + urlSomeCollectorCoded);
 
   if (urlSomeCollectorCoded) {
     var urlSomeCollector = base64.decode(urlSomeCollectorCoded) + 'smktest';
-    console.log(' 📬 Deconde Address: ' + urlSomeCollector);
 
+    console.log(' 📬 Decode Address: ' + urlSomeCollector);
     console.log();
+
     let result = await axios({
       method: 'post',
       url: urlSomeCollector,

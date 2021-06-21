@@ -138,7 +138,7 @@ export async function smktestCheckIfAllPodsAreActive(options) {
     },
   };
 
-  sendToSmokeCollector(options);
+  await sendToSmokeCollector(options);
 
   return options;
 }

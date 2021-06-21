@@ -126,7 +126,7 @@ module.exports.kubernetesIngress = async function (options) {
     },
   };
 
-  sendToSmokeCollector(options);
+  await sendToSmokeCollector(options);
 
   return options;
 };

@@ -48,7 +48,7 @@ export async function curlSingleTest(options) {
     },
   };
 
-  sendToSmokeCollector(options);
+  await sendToSmokeCollector(options);
 
   return options;
 }

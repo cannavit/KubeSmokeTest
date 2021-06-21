@@ -66,7 +66,7 @@ test('Check Logs errors', async () => {
     },
   };
 
-  sendToSmokeCollector(options);
+  await sendToSmokeCollector(options);
 
   expect(passTest).toBe(true);
 });
