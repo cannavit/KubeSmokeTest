@@ -3,6 +3,8 @@
 const { response } = require('express');
 const shell = require('shelljs');
 
+const { sendToSmokeCollector } = require('../../../utils/sendReport');
+
 async function getIngress(options) {
   let namespace = options.namespace;
 
@@ -33,6 +35,8 @@ async function getIngress(options) {
 module.exports.kubernetesIngress = async function (options) {
   // Check Kubernetes Ingress
 
+  var dateInit = await new Date();
+
   options = await getIngress(options);
 
   let ingressWithPathList = [];
@@ -61,13 +65,68 @@ module.exports.kubernetesIngress = async function (options) {
     }
   }
 
-  let SMKTEST_INGRESS_BY_TEST = '';
+  //! Load environment variable:
+  let listOfErrors = [
+    'ERROR',
+    '503 Service Temporarily Unavailable',
+    'Internal Server Error',
+  ];
+
+  let passTest = true;
+  let results = [];
+
   for (const key in ingressWithPathList) {
     let element = ingressWithPathList[key];
-    SMKTEST_INGRESS_BY_TEST = SMKTEST_INGRESS_BY_TEST + '@@s@@' + element;
+
+    if (element !== '') {
+      let response = await shell.exec(`curl ${element}`, {
+        silent: true,
+      });
+
+      //Check if is one Error.
+      for (const keyWold in listOfErrors) {
+        let errorWold = listOfErrors[keyWold];
+        if (response.stdout.includes(errorWold)) {
+          passTest = false;
+        }
+
+        if (response.stdout === '' && response.stderr.length > 600) {
+          passTest = false;
+          errorWold =
+            'Detect using response.stderr.length=' + response.stderr.length;
+        }
+        results.push({
+          passTest: passTest,
+          test: `curl ${element}`,
+          keyWold: errorWold,
+        });
+      }
+    }
   }
 
-  process.env['SMKTEST_KUBERNETES_INGRESS_BY_TEST'] = SMKTEST_INGRESS_BY_TEST;
+  options.responseTest = {
+    kubernetesIngress: results,
+  };
+
+  process.env['SMKTEST_KUBERNETES_INGRESS_BY_TEST'] = JSON.stringify(results);
+
+  var dateFinish = await new Date();
+  let timeTestSeconds = (dateFinish.getTime() - dateInit.getTime()) / 1000;
+
+  options.smokeCollector = {
+    data: {
+      projectName: options.projectName,
+      context: options.context,
+      namespace: options.namespace,
+      testName: 'kubernetesIngress',
+      testResult: JSON.stringify(results),
+      testId: options.testId,
+      testDuration: timeTestSeconds,
+      passTest: passTest,
+    },
+  };
+
+  sendToSmokeCollector(options);
 
   return options;
 };

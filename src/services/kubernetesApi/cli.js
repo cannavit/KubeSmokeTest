@@ -20,10 +20,6 @@ async function prompt(options) {
 }
 
 export async function cliKubernetes(options) {
-  console.log('@1Marker-No:_354467327');
-  console.log('>>>>>-1390624476>>>>>');
   // Console kubernetes options
   options = await prompt(options);
-  console.log(options);
-  console.log('<<<<<<<<<<<<<<<<<<<');
 }

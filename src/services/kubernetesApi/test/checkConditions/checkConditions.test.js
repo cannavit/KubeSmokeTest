@@ -7,29 +7,11 @@ test(`Check Node Conditions inside of the kubernetes cluster`, async () => {
   //? List of the wold to find error
 
   let response = process.env['SMKTEST_KUBERNETES_NODE_CONDITIONS'];
-  let responseTest = response;
+  response = JSON.parse(response);
 
-  response = response.trim().split(/\r?\n/);
+  let passTest = response.passTest;
 
-  let passTest = true;
-
-  for (const key in response) {
-    let element = response[key];
-
-    if (element.includes('Ready')) {
-      if (element.includes('False')) {
-        passTest = false;
-      }
-    }
-
-    if (!element.includes('Ready')) {
-      if (element.includes('True')) {
-        passTest = false;
-      }
-    }
-  }
-
-  if (!passTest) {
+  if (!response.passTest) {
     console.log(chalk.red.bold('👎 ERROR KUBERNETES CLUSTER CONDITIONS'));
     console.log(
       chalk.red.bold(
@@ -37,12 +19,12 @@ test(`Check Node Conditions inside of the kubernetes cluster`, async () => {
       )
     );
     console.log(chalk.red.bold('Your cluster is unstable.'));
-    console.log(chalk.red.bold(responseTest));
+    console.log(chalk.red.bold(response.conditionsText));
   } else {
     console.log(
       chalk.green.bold('👍 SUCCESS, 🚀   TEST WITH --check-conditions')
     );
-    console.log(chalk.green.bold(responseTest));
+    console.log(chalk.green.bold(response.conditionsText));
   }
 
   expect(passTest).toBe(true);

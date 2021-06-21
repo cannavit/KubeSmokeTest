@@ -13,6 +13,8 @@ import { checkConditions } from './services/kubernetesApi/src/conditions';
 import { getLogs } from './services/kubernetesApi/src/logs';
 import { getPods } from './services/kubernetesApi/src/pods';
 
+import generateUniqueId from 'generate-unique-id';
+
 //Single Test.
 import { curlSingleTest } from './services/assertTest/services/curl';
 
@@ -276,6 +278,8 @@ async function promptForContext(options) {
 }
 
 async function promptForScannerAPI(options) {
+  // options.
+
   //! Context localhost:
 
   if (options.skipPrompts) {
@@ -322,23 +326,22 @@ import promptDocker from './services/dockerService';
 export async function cli(args) {
   //! Presentation text:
 
-  console.log(
-    figlet.textSync('smkTest', {
-      font: 'Ghost',
-      horizontalLayout: 'default',
-      verticalLayout: 'default',
-      width: 80,
-      whitespaceBreak: true,
-    })
-  );
-
   let options = await parseArgumentsIntoOptions(args);
+
+  // Generate the Test Unic ID.
+  const id = generateUniqueId({
+    length: 32,
+    useLetters: true,
+  });
+
+  options.testId = id;
 
   options.projectDir = __dirname; // SmokeTest route
   options.smktestFolder = 'smktest'; // SmokeTet base directory
   options = await promptForContext(options);
 
   //! Run Context test.
+
   if (options.context === 'kubernetes') {
     if (options.namespace) {
       //* Init kubernetes options
@@ -347,18 +350,22 @@ export async function cli(args) {
           namespace: options.namespace,
         },
       };
+
       //* Check if All Pods Are Active
       if (options.checkIfAllPodsAreActive) {
         options = await smktestCheckIfAllPodsAreActive(options);
       }
+
       //* Check the ingress of the cluster
       if (options.checkIngress) {
-        await kubernetesIngress(options);
+        options = await kubernetesIngress(options);
       }
+
       //* Check the node cluster conditions
       if (checkConditions) {
-        await checkConditions(options);
+        options = await checkConditions(options);
       }
+
       //* Check if exist logs inside of the pods logs
       if (options.checkPodsLogs) {
         options = await getPods(options);
@@ -369,8 +376,10 @@ export async function cli(args) {
 
   //! Run Direct Accerts >>>>
   if (options.assertCurl) {
-    await curlSingleTest(options);
+    options = await curlSingleTest(options);
   }
+
+  process.env.SMKTEST_OPTIONS = JSON.stringify(options);
 
   //! Run Jest Tests.
   if (options.listOfJestPath) {

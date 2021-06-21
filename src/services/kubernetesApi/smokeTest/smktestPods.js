@@ -7,6 +7,7 @@ const {
 } = require('../index');
 
 const jest = require('jest');
+const { sendToSmokeCollector } = require('../../../utils/sendReport');
 
 async function getLatestPods(options) {
   // Example inputs
@@ -84,6 +85,8 @@ async function getLatestPods(options) {
 }
 
 export async function smktestCheckIfAllPodsAreActive(options) {
+  var dateInit = await new Date();
+
   options = await getLatestPods(options);
 
   let passTest = true;
@@ -106,6 +109,36 @@ export async function smktestCheckIfAllPodsAreActive(options) {
     podFail;
   process.env['SMKTEST_TEST_RESULTS_CHECK_IF_ALL_PODS_ARE_ACTIVE_POD_STATUS'] =
     statusPodFail;
+
+  options.responseTest = {
+    smktestCheckIfAllPodsAreActive: {
+      passTest: passTest,
+      podFail: podFail,
+      statusPodFail: statusPodFail,
+    },
+  };
+
+  var dateFinish = await new Date();
+  let timeTestSeconds = (dateFinish.getTime() - dateInit.getTime()) / 1000;
+
+  options.smokeCollector = {
+    data: {
+      projectName: options.projectName,
+      context: options.context,
+      namespace: options.namespace,
+      testName: 'smktestCheckIfAllPodsAreActive',
+      testResult: JSON.stringify({
+        passTest: passTest,
+        podFail: podFail,
+        statusPodFail: statusPodFail,
+      }),
+      testId: options.testId,
+      testDuration: timeTestSeconds,
+      passTest: passTest,
+    },
+  };
+
+  sendToSmokeCollector(options);
 
   return options;
 }

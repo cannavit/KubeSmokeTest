@@ -17,6 +17,7 @@ variables:
   SMKTEST_ENVIRONMENT: 'master'
   SMKTEST_NAMESPACE: 'edutelling-develop'
   SMKTEST_MODE_AUTO: 'true'
+  SMOKE_COLLECTOR: $SMOKE_COLLECTOR
 
 # Template for use kubernetes.
 .smoke-test-kubernetes: &smoke-test-kubernetes

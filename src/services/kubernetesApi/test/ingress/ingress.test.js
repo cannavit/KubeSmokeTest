@@ -15,32 +15,26 @@ test(`Check Kubernetes Ingress`, async () => {
 
   // Load environment variable:
   let smktestKubeIngress = process.env['SMKTEST_KUBERNETES_INGRESS_BY_TEST'];
+  smktestKubeIngress = JSON.parse(smktestKubeIngress);
 
-  smktestKubeIngress = smktestKubeIngress.split('@@s@@'); // Convert in one List
+  // smktestKubeIngress = smktestKubeIngress.split('@@s@@'); // Convert in one List
 
   let passTest = true;
+
   for (const key in smktestKubeIngress) {
     let element = smktestKubeIngress[key];
+    //Check if is one Error.
 
-    if (element !== '') {
-      let response = await shell.exec(`curl ${element}`, {
-        silent: true,
-      });
-
-      //Check if is one Error.
-      for (const keyWold in listOfErrors) {
-        let errorWold = listOfErrors[keyWold];
-        if (response.stdout.includes(errorWold)) {
-          console.log('ERROR >>>>>>>>>>>>>>>>>>>>>>>>>>>');
-          console.log('🐞 🛑 ERROR: Ingress: ' + element);
-          console.log('🚪 check your ingress in the cluster');
-          console.log(' <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
-          passTest = false;
-        }
-        {
-          console.log('✅ SUCCESS INGRESS: ' + element);
-        }
-      }
+    if (!element.passTest) {
+      console.log('ERROR >>>>>>>>>>>>>>>>>>>>>>>>>>>');
+      console.log('🐞 🛑 ERROR: Ingress: ' + element.test);
+      console.log('🚪 check your ingress in the cluster');
+      console.log('🚪 KeyWold :', element.keyWold);
+      console.log(' <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
+      passTest = false;
+    }
+    {
+      console.log('✅ SUCCESS INGRESS: ' + element.test);
     }
   }
 

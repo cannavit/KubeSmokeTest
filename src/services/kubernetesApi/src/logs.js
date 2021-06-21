@@ -95,6 +95,10 @@ module.exports.getLogs = async function (options) {
   options.testConfig.kubernetes.logs = logs;
   options.testConfig.kubernetes.logs.reportText = logsReportText;
 
+  options.responseTest = {
+    getLogs: logsReportText,
+  };
+
   return options;
 };
 

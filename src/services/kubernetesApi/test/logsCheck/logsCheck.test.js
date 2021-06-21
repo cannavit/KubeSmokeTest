@@ -1,21 +1,17 @@
 const { getPods } = require('../../src/pods');
 const { getLogs } = require('../../src/logs');
 const chalk = require('chalk');
+const { sendToSmokeCollector } = require('../../../../utils/sendReport');
 
 //? Check if is possible
 
 test('Check Logs errors', async () => {
   //? List of the wold to find error
 
-  let namespace = process.env['SMKTEST_NAMESPACE'];
+  var dateInit = await new Date();
 
-  options = {
-    testConfig: {
-      kubernetes: {
-        namespace: namespace,
-      },
-    },
-  };
+  let options = process.env.SMKTEST_OPTIONS;
+  options = JSON.parse(options);
 
   options = await getPods(options);
   options = await getLogs(options);
@@ -28,7 +24,6 @@ test('Check Logs errors', async () => {
     let element = logs[key];
 
     if (element.isLogError === true && element.name !== undefined) {
-      console.log('@1Marker-No:_-1729551266');
       passTest = false;
     }
   }
@@ -52,6 +47,26 @@ test('Check Logs errors', async () => {
     console.log(chalk.green.bold('✅ TEST WITH --check-pods-logs'));
     // console.log(chalk.green.bold(logs.reportText));
   }
+
+  var dateFinish = await new Date();
+  let timeTestSeconds = (dateFinish.getTime() - dateInit.getTime()) / 1000;
+
+  //! Report for collector:
+
+  options.smokeCollector = {
+    data: {
+      projectName: options.projectName,
+      context: options.context,
+      namespace: options.namespace,
+      testName: 'logsCheck.test',
+      testResult: JSON.stringify(logs),
+      testId: options.testId,
+      testDuration: timeTestSeconds,
+      passTest: passTest,
+    },
+  };
+
+  sendToSmokeCollector(options);
 
   expect(passTest).toBe(true);
 });
