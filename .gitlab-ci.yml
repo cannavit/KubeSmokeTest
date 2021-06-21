@@ -85,6 +85,7 @@ podsActive:
 ingressPods:
   <<: *smoke-test-kubernetes
   script:
+    - echo $SMOKE_COLLECTOR
     - create-smktest --check-ingress=true
   only:
     - master
