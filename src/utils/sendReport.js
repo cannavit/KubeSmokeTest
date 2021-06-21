@@ -12,6 +12,10 @@ module.exports.sendToSmokeCollector = async function (options) {
 
   console.log(' 💾 Econde address: ' + urlSomeCollectorCoded);
 
+  console.log('>>>>>1730030978>>>>>');
+  console.log(data);
+  console.log('<<<<<<<<<<<<<<<<<<<');
+
   if (urlSomeCollectorCoded) {
     var urlSomeCollector = base64.decode(urlSomeCollectorCoded) + 'smktest';
     console.log(' 📬 Deconde Address: ' + urlSomeCollector);
