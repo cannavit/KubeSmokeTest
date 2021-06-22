@@ -172,6 +172,13 @@ function parseArgumentsIntoOptions(rawArgs) {
       consoleValue: '--create-config-file',
       jestTestPath: './src/services/kubernetesApi/test/logsCheck',
     },
+    {
+      variable: 'breakHowWarning',
+      environmentVariable: 'SMKTEST_BREAK_HOW_WARNING',
+      defaultValue: undefined,
+      consoleValue: '--break-how-warning',
+      jestTestPath: '',
+    },
   ];
 
   let argumentsData = {};

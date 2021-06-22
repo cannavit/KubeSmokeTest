@@ -51,6 +51,7 @@ curlGoogle:
   <<: *smoke-test-curl
   variables:
     SMKTEST_BREAK_HOW_WARNING: "true"
+    SMKTEST_CONTEXT: 'remote-server'
   script:
     - create-smktest --assert-curl="curl www.google.com"
     - create-smktest --assert-curl="curl www.google.comasdad"
