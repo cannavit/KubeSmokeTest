@@ -121,6 +121,9 @@ This test validates that the ingress exposed in the cluster are active. The test
 
 ## Check if all pods are Active:
 
+![toolss_500px](docs/ingress.png)
+This test verifies that all pods are operational.
+
 ### Descriptions:
 
 Verify if all Pods are running and are active
