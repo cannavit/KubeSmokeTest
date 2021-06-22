@@ -1,4 +1,6 @@
-# Smoke Master
+# 💨🔥💨 Smoke Master
+
+#### ✅ Kubernetes, ✅ Automatic-test, ✅Smoke Test
 
 Smoke Master is a service dedicated to conducting smoke testing on kubernetes pipelines. It does not require any configuration in the cluster. The service accesses the cluster by SSH performs the tests and then is automatically destroyed, which makes it totally secure.
 The smoke tests focus on validating the stability of the cluster. It is highly recommended when combining multiple projects in a single kubernetes server.It can be run 100% from the gitlab pipeline.
