@@ -7,7 +7,7 @@ The smoke tests focus on validating the stability of the cluster. It is highly r
 
 # Functional tests (BACKEND)
 
-![toolss_200px](docs//examplePipeline.png)
+![toolss_400px](docs/examplePipeline.png)
 
 ## Build Image steps
 
