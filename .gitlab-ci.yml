@@ -50,14 +50,13 @@ docker-build:
 curlGoogle:
   <<: *smoke-test-curl
   variables:
-    SMKTEST_BREAK_HOW_WARNING: "true"
     SMKTEST_CONTEXT: 'remote-server'
   script:
     - create-smktest --assert-curl="curl www.google.com"
     - create-smktest --assert-curl="curl www.google.comasdad"
   only:
     - master
-  allow_failure: true
+  allow_failure: true #If fail using waring signal
 
 checkLogin:
   <<: *smoke-test-curl

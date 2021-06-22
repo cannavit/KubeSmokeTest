@@ -27,12 +27,7 @@ module.exports.runJestTest = async function (options) {
     console.log('-------------------------------------------------------');
     console.log();
 
-    let pipelineCode = 1; // Break
-    if (process.env.SMKTEST_BREAK_HOW_WARNING) {
-      pipelineCode = 2;
-    }
-
-    process.exit(pipelineCode); // failed pipeline gitlab
+    process.exit(1); // failed pipeline gitlab
   } else {
     console.log();
     console.log('-------------------------------------------------------');
