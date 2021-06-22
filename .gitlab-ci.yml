@@ -57,6 +57,7 @@ curlGoogle:
     - create-smktest --assert-curl="curl www.google.comasdad"
   only:
     - master
+  allow_failure: true
 
 checkLogin:
   <<: *smoke-test-curl
