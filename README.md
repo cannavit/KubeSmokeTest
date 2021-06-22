@@ -11,17 +11,21 @@ It is recommended to use a first test to validate the conditions of the cluster 
 
 The rest of the test cases can be applied right after the deployment of the service. This will help verify that the system is in proper condition before executing other types of tests.
 
-# Functional tests (BACKEND)
+## Smoke Master configuration options:
 
-## Build Image steps
+This section mentions the options related to general configuration services. You can use these commands to activate the test context or give you access to the services in your kubernetes cluster using SSH.
+It is important to activate the rest of the test.
 
-    1. Login with:
-        docker login --username $DOCKER_USER -p $DOCKER_TOKEN
-    2. Build base imagen:
-        docker build -t smktesting/smoke-master:latest -f Dockerfile .
-    3. docker push smktesting/smoke-master:latest
+| Console command | Environment Variable | Context   | Environment Variable                                             |
+| :-------------- | :------------------- | :-------- | :--------------------------------------------------------------- |
+| --context       | SMKTEST_CONTEXT      | undefined | Context of the test for example kubernetes, docker               |
+| --environment   | SMKTEST_ENVIRONMENT  | undefined | Environment when the test is running example: localhost, develop |
+| --project-name  | SMKTEST_PROJECT_NAME | undefined | Name of the project when the test go to running                  |
+| --namespace     | SMKTEST_NAMPESPACE   | undefined | Namespace of the kubernetes node                                 |
 
 ## Table of Commands Smoke-Master:
+
+These are the parameters to enable the different types of smoke tests
 
 | Console command                | Environment Variable                 | Context    | Environment Variable                                   |
 | :----------------------------- | :----------------------------------- | :--------- | :----------------------------------------------------- |
@@ -31,6 +35,47 @@ The rest of the test cases can be applied right after the deployment of the serv
 | --check-pods-logs              | SMKTEST_CHECK_PODS_LOGS              | Kubernetes | Check if exist logs error inside of Pods               |
 | --assert-curl                  | SMKTEST_ASSERT_CURL                  | all        | Check respose using Curl petitions                     |
 | --check-ingress                | SMKTEST_CHECK_INGRESS                | Kubernetes | Check ingress and load balancer                        |
+
+## Connect test remote kubernetes cluster.
+
+To connect the test to a remote cluster you must perform the following steps.
+
+1. Copy the cluster credentials in this format
+
+   Name of the variable of environment: KUBERNETES_TOKEN
+
+   apiVersion: v1
+   kind: Config
+   clusters:
+
+   - name: "serverName"
+     cluster:
+     server: "https://server-example"
+     certificate-authority-data: "VGhlIEFkdmFuY2VkIEVuY3J5cHRpb24gU3RhbmRhcmQgKEFFUyksIGFsc28ga25vd24gYnkgaXRzIG9yaWdpbmFsIG5hbWUgUmlqbmRhZWwgKER1dGNoIHByb251bmNpYXRpb246IFvLiHLJm2luZGHLkGxdKSxbM10gaXMgYSBzcGVjaWZpY2F0aW9uIGZvciB0aGUgZW5jcnlwdGlvbiBvZiBlbGVjdHJvbmljIGRhdGEgZXN0YWJsaXNoZWQgYnkgdGhlIFUuUy4gTmF0aW9uYWwgSW5zdGl0dXRlIG9mIFN0YW5kYXJkcyBhbmQgVGVjaG5vbG9neSAoTklTVCkgaW4gMjAwMS5bNF0NCg0KQUVTIGlzIGEgc3Vic2V0IG9mIHRoZSBSaWpuZGFlbCBibG9jayBjaXBoZXJbM10gZGV2ZWxvcGVkIGJ5IHR3byBCZWxnaWFuIGNyeXB0b2dyYXBoZXJzLCBWaW5jZW50IFJpam1lbiBhbmQgSm9hbiBEYWVtZW4sIHdobyBzdWJtaXR0ZWQgYSBwcm9wb3NhbFs1XSB0byBOSVNUIGR1cmluZyB0aGUgQUVTIHNlbGVjdGlvbiBwcm9jZXNzLls2XSBSaWpuZGFlbCBpcyBhIGZhbWlseSBvZiBjaXBoZXJzIHdpdGggZGlmZmVyZW50IGtleSBhbmQgYmxvY2sgc2l6ZXMuIEZvciBBRVMsIE5JU1Qgc2VsZWN0ZWQgdGhyZWUgbWVtYmVycyBvZiB0aGUgUmlqbmRhZWwgZmFtaWx5LCBlYWNoIHdpdGggYSBibG9jayBzaXplIG9mIDEyOCBiaXRzLCBidXQgdGhyZWUgZGlmZmVyZW50IGtleSBsZW5ndGhzOiAxMjgsIDE5MiBhbmQgMjU2IGJpdHMuDQoNCkFFUyBoYXMgYmVlbiBhZG9wdGVkIGJ5IHRoZSBVLlMuIGdvdmVybm1lbnQuIEl0IHN1cGVyc2VkZXMgdGhlIERhdGEgRW5jcnlwdGlvbiBTdGFuZGFyZCAoREVTKSxbN10gd2hpY2ggd2FzIHB1Ymxpc2hlZCBpbiAxOTc3LiBUaGUgYWxnb3JpdGhtIGRlc2NyaWJlZCBieSBBRVMgaXMgYSBzeW1tZXRyaWMta2V5IGFsZ29yaXRobSwgbWVhbmluZyB0aGUgc2FtZSBrZXkgaXMgdXNlZCBmb3IgYm90aCBlbmNyeXB0aW5nIGFuZCBkZWNyeXB0aW5nIHRoZSBkYXRhLg=="
+   - name: "serverName"
+     cluster:
+     server: "ServerExample"
+     certificate-authority-data: "VGhlIEFkdmFuY2VkIEVuY3J5cHRpb24gU3RhbmRhcmQgKEFFUyksIGFsc28ga25vd24gYnkgaXRzIG9yaWdpbmFsIG5hbWUgUmlqbmRhZWwgKER1dGNoIHByb251bmNpYXRpb246IFvLiHLJm2luZGHLkGxdKSxbM10gaXMgYSBzcGVjaWZpY2F0aW9uIGZvciB0aGUgZW5jcnlwdGlvbiBvZiBlbGVjdHJvbmljIGRhdGEgZXN0YWJsaXNoZWQgYnkgdGhlIFUuUy4gTmF0aW9uYWwgSW5zdGl0dXRlIG9mIFN0YW5kYXJkcyBhbmQgVGVjaG5vbG9neSAoTklTVCkgaW4gMjAwMS5bNF0NCg0KQUVTIGlzIGEgc3Vic2V0IG9mIHRoZSBSaWpuZGFlbCBibG9jayBjaXBoZXJbM10gZGV2ZWxvcGVkIGJ5IHR3byBCZWxnaWFuIGNyeXB0b2dyYXBoZXJzLCBWaW5jZW50IFJpam1lbiBhbmQgSm9hbiBEYWVtZW4sIHdobyBzdWJtaXR0ZWQgYSBwcm9wb3NhbFs1XSB0byBOSVNUIGR1cmluZyB0aGUgQUVTIHNlbGVjdGlvbiBwcm9jZXNzLls2XSBSaWpuZGFlbCBpcyBhIGZhbWlseSBvZiBjaXBoZXJzIHdpdGggZGlmZmVyZW50IGtleSBhbmQgYmxvY2sgc2l6ZXMuIEZvciBBRVMsIE5JU1Qgc2VsZWN0ZWQgdGhyZWUgbWVtYmVycyBvZiB0aGUgUmlqbmRhZWwgZmFtaWx5LCBlYWNoIHdpdGggYSBibG9jayBzaXplIG9mIDEyOCBiaXRzLCBidXQgdGhyZWUgZGlmZmVyZW50IGtleSBsZW5ndGhzOiAxMjgsIDE5MiBhbmQgMjU2IGJpdHMuDQoNCkFFUyBoYXMgYmVlbiBhZG9wdGVkIGJ5IHRoZSBVLlMuIGdvdmVybm1lbnQuIEl0IHN1cGVyc2VkZXMgdGhlIERhdGEgRW5jcnlwdGlvbiBTdGFuZGFyZCAoREVTKSxbN10gd2hpY2ggd2FzIHB1Ymxpc2hlZCBpbiAxOTc3LiBUaGUgYWxnb3JpdGhtIGRlc2NyaWJlZCBieSBBRVMgaXMgYSBzeW1tZXRyaWMta2V5IGFsZ29yaXRobSwgbWVhbmluZyB0aGUgc2FtZSBrZXkgaXMgdXNlZCBmb3IgYm90aCBlbmNyeXB0aW5nIGFuZCBkZWNyeXB0aW5nIHRoZSBkYXRhLg=="
+     users: - name: "EXAMPLE"
+     user:
+     token: "TOKEN CLUSTER EXAMPLE"
+
+   contexts: - name: "USER NAME EXAMPLE"
+   context:
+   user: "USER_NAME"
+   cluster: CLUSTER_NAME
+
+   - name: "server example name"
+     context:
+     user: "name"
+     cluster: "server example name"
+     current-context: CONTEXTNAME
+
+2. Encode the data with Base of 64bits.
+   Example of the Result
+   DQogICAgYXBpVmVyc2lvbjogdjENCiAgICBraW5kOiBDb25maWcNCiAgICBjbHVzdGVyczoNCiAgICAtIG5hbWU6ICJzZXJ2ZXJOYW1lIg0KICAgIGNsdXN0ZXI6DQogICAgICAgIHNlcnZlcjogImh0dHBzOi8vc2VydmVyLWV4YW1wbGUiDQogICAgICAgIGNlcnRpZmljYXRlLWF1dGhvcml0eS1kYXRhOiAiVkdobElFRmtkbUZ1WTJWa0lFVnVZM0o1Y0hScGIyNGdVM1JoYm1SaGNtUWdLRUZGVXlrc0lHRnNjMjhnYTI1dmQyNGdZbmtnYVhSeklHOXlhV2RwYm1Gc0lHNWhiV1VnVW1scWJtUmhaV3dnS0VSMWRHTm9JSEJ5YjI1MWJtTnBZWFJwYjI0NklGdkxpSExKbTJsdVpHSExrR3hkS1N4Yk0xMGdhWE1nWVNCemNHVmphV1pwWTJGMGFXOXVJR1p2Y2lCMGFHVWdaVzVqY25sd2RHbHZiaUJ2WmlCbGJHVmpkSEp2Ym1saklHUmhkR0VnWlhOMFlXSnNhWE5vWldRZ1lua2dkR2hsSUZVdVV5NGdUbUYwYVc5dVlXd2dTVzV6ZEdsMGRYUmxJRzltSUZOMFlXNWtZWEprY3lCaGJtUWdWR1ZqYUc1dmJHOW5lU0FvVGtsVFZDa2dhVzRnTWpBd01TNWJORjBOQ2cwS1FVVlRJR2x6SUdFZ2MzVmljMlYwSUc5bUlIUm9aU0JTYVdwdVpHRmxiQ0JpYkc5amF5QmphWEJvWlhKYk0xMGdaR1YyWld4dmNHVmtJR0o1SUhSM2J5QkNaV3huYVdGdUlHTnllWEIwYjJkeVlYQm9aWEp6TENCV2FXNWpaVzUwSUZKcGFtMWxiaUJoYm1RZ1NtOWhiaUJFWVdWdFpXNHNJSGRvYnlCemRXSnRhWFIwWldRZ1lTQndjbTl3YjNOaGJGczFYU0IwYnlCT1NWTlVJR1IxY21sdVp5QjBhR1VnUVVWVElITmxiR1ZqZEdsdmJpQndjbTlqWlhOekxsczJYU0JTYVdwdVpHRmxiQ0JwY3lCaElHWmhiV2xzZVNCdlppQmphWEJvWlhKeklIZHBkR2dnWkdsbVptVnlaVzUwSUd0bGVTQmhibVFnWW14dlkyc2djMmw2WlhNdUlFWnZjaUJCUlZNc0lFNUpVMVFnYzJWc1pXTjBaV1FnZEdoeVpXVWdiV1Z0WW1WeWN5QnZaaUIwYUdVZ1VtbHFibVJoWld3Z1ptRnRhV3g1TENCbFlXTm9JSGRwZEdnZ1lTQmliRzlqYXlCemFYcGxJRzltSURFeU9DQmlhWFJ6TENCaWRYUWdkR2h5WldVZ1pHbG1abVZ5Wlc1MElHdGxlU0JzWlc1bmRHaHpPaUF4TWpnc0lERTVNaUJoYm1RZ01qVTJJR0pwZEhNdURRb05Da0ZGVXlCb1lYTWdZbVZsYmlCaFpHOXdkR1ZrSUdKNUlIUm9aU0JWTGxNdUlHZHZkbVZ5Ym0xbGJuUXVJRWwwSUhOMWNHVnljMlZrWlhNZ2RHaGxJRVJoZEdFZ1JXNWpjbmx3ZEdsdmJpQlRkR0Z1WkdGeVpDQW9SRVZUS1N4Yk4xMGdkMmhwWTJnZ2QyRnpJSEIxWW14cGMyaGxaQ0JwYmlBeE9UYzNMaUJVYUdVZ1lXeG5iM0pwZEdodElHUmxjMk55YVdKbFpDQmllU0JCUlZNZ2FYTWdZU0J6ZVcxdFpYUnlhV010YTJWNUlHRnNaMjl5YVhSb2JTd2diV1ZoYm1sdVp5QjBhR1VnYzJGdFpTQnJaWGtnYVhNZ2RYTmxaQ0JtYjNJZ1ltOTBhQ0JsYm1OeWVYQjBhVzVuSUdGdVpDQmtaV055ZVhCMGFXNW5JSFJvWlNCa1lYUmhMZz09Ig0KICAgIC0gbmFtZTogInNlcnZlck5hbWUiDQogICAgY2x1c3RlcjoNCiAgICAgICAgc2VydmVyOiAiU2VydmVyRXhhbXBsZSINCiAgICAgICAgY2VydGlmaWNhdGUtYXV0aG9yaXR5LWRhdGE6ICJWR2hsSUVGa2RtRnVZMlZrSUVWdVkzSjVjSFJwYjI0Z1UzUmhibVJoY21RZ0tFRkZVeWtzSUdGc2MyOGdhMjV2ZDI0Z1lua2dhWFJ6SUc5eWFXZHBibUZzSUc1aGJXVWdVbWxxYm1SaFpXd2dLRVIxZEdOb0lIQnliMjUxYm1OcFlYUnBiMjQ2SUZ2TGlITEptMmx1WkdITGtHeGRLU3hiTTEwZ2FYTWdZU0J6Y0dWamFXWnBZMkYwYVc5dUlHWnZjaUIwYUdVZ1pXNWpjbmx3ZEdsdmJpQnZaaUJsYkdWamRISnZibWxqSUdSaGRHRWdaWE4wWVdKc2FYTm9aV1FnWW5rZ2RHaGxJRlV1VXk0Z1RtRjBhVzl1WVd3Z1NXNXpkR2wwZFhSbElHOW1JRk4wWVc1a1lYSmtjeUJoYm1RZ1ZHVmphRzV2Ykc5bmVTQW9Ua2xUVkNrZ2FXNGdNakF3TVM1Yk5GME5DZzBLUVVWVElHbHpJR0VnYzNWaWMyVjBJRzltSUhSb1pTQlNhV3B1WkdGbGJDQmliRzlqYXlCamFYQm9aWEpiTTEwZ1pHVjJaV3h2Y0dWa0lHSjVJSFIzYnlCQ1pXeG5hV0Z1SUdOeWVYQjBiMmR5WVhCb1pYSnpMQ0JXYVc1alpXNTBJRkpwYW0xbGJpQmhibVFnU205aGJpQkVZV1Z0Wlc0c0lIZG9ieUJ6ZFdKdGFYUjBaV1FnWVNCd2NtOXdiM05oYkZzMVhTQjBieUJPU1ZOVUlHUjFjbWx1WnlCMGFHVWdRVVZUSUhObGJHVmpkR2x2YmlCd2NtOWpaWE56TGxzMlhTQlNhV3B1WkdGbGJDQnBjeUJoSUdaaGJXbHNlU0J2WmlCamFYQm9aWEp6SUhkcGRHZ2daR2xtWm1WeVpXNTBJR3RsZVNCaGJtUWdZbXh2WTJzZ2MybDZaWE11SUVadmNpQkJSVk1zSUU1SlUxUWdjMlZzWldOMFpXUWdkR2h5WldVZ2JXVnRZbVZ5Y3lCdlppQjBhR1VnVW1scWJtUmhaV3dnWm1GdGFXeDVMQ0JsWVdOb0lIZHBkR2dnWVNCaWJHOWpheUJ6YVhwbElHOW1JREV5T0NCaWFYUnpMQ0JpZFhRZ2RHaHlaV1VnWkdsbVptVnlaVzUwSUd0bGVTQnNaVzVuZEdoek9pQXhNamdzSURFNU1pQmhibVFnTWpVMklHSnBkSE11RFFvTkNrRkZVeUJvWVhNZ1ltVmxiaUJoWkc5d2RHVmtJR0o1SUhSb1pTQlZMbE11SUdkdmRtVnlibTFsYm5RdUlFbDBJSE4xY0dWeWMyVmtaWE1nZEdobElFUmhkR0VnUlc1amNubHdkR2x2YmlCVGRHRnVaR0Z5WkNBb1JFVlRLU3hiTjEwZ2QyaHBZMmdnZDJGeklIQjFZbXhwYzJobFpDQnBiaUF4T1RjM0xpQlVhR1VnWVd4bmIzSnBkR2h0SUdSbGMyTnlhV0psWkNCaWVTQkJSVk1nYVhNZ1lTQnplVzF0WlhSeWFXTXRhMlY1SUdGc1oyOXlhWFJvYlN3Z2JXVmhibWx1WnlCMGFHVWdjMkZ0WlNCclpYa2dhWE1nZFhObFpDQm1iM0lnWW05MGFDQmxibU55ZVhCMGFXNW5JR0Z1WkNCa1pXTnllWEIwYVc1bklIUm9aU0JrWVhSaExnPT0iDQogICAgdXNlcnM6DQogICAgICAgIC0gbmFtZTogIkVYQU1QTEUiDQogICAgdXNlcjoNCiAgICAgICAgdG9rZW46ICJUT0tFTiBDTFVTVEVSIEVYQU1QTEUiDQoNCiAgICBjb250ZXh0czoNCiAgICAgICAgLSBuYW1lOiAiVVNFUiBOQU1FIEVYQU1QTEUiDQogICAgY29udGV4dDoNCiAgICAgICAgdXNlcjogIlVTRVJfTkFNRSINCiAgICAgICAgY2x1c3RlcjogQ0xVU1RFUl9OQU1FDQogICAgLSBuYW1lOiAic2VydmVyIGV4YW1wbGUgbmFtZSINCiAgICAgICAgY29udGV4dDoNCiAgICAgICAgdXNlcjogIm5hbWUiDQogICAgICAgIGNsdXN0ZXI6ICJzZXJ2ZXIgZXhhbXBsZSBuYW1lIg0KICAgIGN1cnJlbnQtY29udGV4dDogQ09OVEVYVE5BTUU=
+
+3. Create one Environment variable with the name KUBERNETES_TOKEN and the last step results
 
 ## Check Ingress.
 
@@ -163,3 +208,19 @@ This command checks that those that do not exist alert in the cluster. These ale
         - create-smktest --check-pods-logs=true
     only:
         - master
+
+## Build Image steps
+
+    1. Login with:
+        docker login --username $DOCKER_USER -p $DOCKER_TOKEN
+    2. Build base imagen:
+        docker build -t smktesting/smoke-master:latest -f Dockerfile .
+    3. docker push smktesting/smoke-master:latest
+
+## Build Image steps
+
+    1. Login with:
+        docker login --username $DOCKER_USER -p $DOCKER_TOKEN
+    2. Build base imagen:
+        docker build -t smktesting/smoke-master:latest -f Dockerfile .
+    3. docker push smktesting/smoke-master:latest
