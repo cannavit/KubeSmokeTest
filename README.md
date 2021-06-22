@@ -83,6 +83,8 @@ cluster: CLUSTER_NAME
 
 ## Check Ingress.
 
+    * Automatic Test: 🦾
+
 This test validates that the ingress exposed in the cluster are active. The test consists of making a CURL request and verifying that they are operatively
 ![toolss_500px](docs/ingress.png)
 
@@ -121,6 +123,8 @@ This test validates that the ingress exposed in the cluster are active. The test
 
 ## Check if all pods are Active:
 
+    * Automatic Test: 🦾
+
 ![toolss_500px](docs/pods.png)
 This test verifies that all pods are operational.
 
@@ -148,6 +152,8 @@ Verify if all Pods are running and are active
         - master
 
 ## Check Conditions.
+
+    * Automatic Test: 🦾
 
 This command checks that those that do not exist alert in the cluster. These alerts can cause instability in all the nodes involved.
 ![toolss_500px](docs/nodes.png)
@@ -219,6 +225,29 @@ This command checks that those that do not exist alert in the cluster. These ale
         - create-smktest --check-pods-logs=true
     only:
         - master
+
+## Assert with CURL petitions.
+
+    * Input  required: 💪
+
+This test is based on CURL requests. They can be used to check if an api is available or a website. Example. It can be used to verify that the login page is enabled
+
+#### Command smoke-master:
+
+    --assert-curl="www.google.com"
+
+#### Example:
+
+    create-smktest --check-conditions=true
+
+#### Gitlab pipeline
+
+    checkLogin:
+    <<: *smoke-test-curl
+    variables:
+        SMKTEST_ASSERT_CURL: 'curl -X POST "https://edutelling-api-develop.openshift.techgap.it/api/v1/auth/authentication" -H "accept: application/json" -H "Content-Type: application/json" -d "{ \"email\": \"formazione@edutelling.it\", \"password\": \"Passw0rd\", \"stayLogged\": false }"'
+    script:
+        - create-smktest --context=remote-server
 
 ## Build Image steps
 
