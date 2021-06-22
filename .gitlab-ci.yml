@@ -50,7 +50,7 @@ docker-build:
 curlGoogle:
   <<: *smoke-test-curl
   variables:
-    SMKTEST_BREAK_HOW_WARNING: true
+    SMKTEST_BREAK_HOW_WARNING: "true"
   script:
     - create-smktest --assert-curl="curl www.google.com"
     - create-smktest --assert-curl="curl www.google.comasdad"
