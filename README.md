@@ -83,6 +83,9 @@ cluster: CLUSTER_NAME
 
 ## Check Ingress.
 
+This test validates that the ingress exposed in the cluster are active. The test consists of making a CURL request and verifying that they are operatively
+![toolss_500px](docs/ingress.png)
+
 #### Command Kubectl:
 
     kubectl get ingress --namespace=NAME_SPACE -o json
