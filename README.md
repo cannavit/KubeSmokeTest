@@ -150,6 +150,7 @@ Verify if all Pods are running and are active
 ## Check Conditions.
 
 This command checks that those that do not exist alert in the cluster. These alerts can cause instability in all the nodes involved.
+![toolss_500px](docs/nodes.png)
 
 #### Command Kubectl:
 
