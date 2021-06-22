@@ -3,11 +3,15 @@
 Smoke Master is a service dedicated to conducting smoke testing on kubernetes pipelines. It does not require any configuration in the cluster. The service accesses the cluster by SSH performs the tests and then is automatically destroyed, which makes it totally secure.
 The smoke tests focus on validating the stability of the cluster. It is highly recommended when combining multiple projects in a single kubernetes server.It can be run 100% from the gitlab pipeline.
 
-## Example how to use the smoke-test structure inside of one pipeline:
+#### Example how to use the smoke-test structure inside of one pipeline:
+
+It is recommended to use a first test to validate the conditions of the cluster as shown in the example with the step "checkCluster" This will check that the cluster is in proper conditions
+
+![toolss_500px](docs/examplePipeline.png)
+
+The rest of the test cases can be applied right after the deployment of the service. This will help verify that the system is in proper condition before executing other types of tests.
 
 # Functional tests (BACKEND)
-
-![toolss_400px](docs/examplePipeline.png)
 
 ## Build Image steps
 
