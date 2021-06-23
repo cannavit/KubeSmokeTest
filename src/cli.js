@@ -42,6 +42,7 @@ function parseArgumentsIntoOptions(rawArgs) {
       '--check-if-all-pods-are-active': Boolean,
       '--check-pods-logs': Boolean,
       '--create-config-file': Boolean,
+      '--check-swagger-public-apis': String,
       '--check-swagger-publics-apis': String, // Pending
       '-c': '--criterial',
       '-c': '--context',
@@ -179,6 +180,13 @@ function parseArgumentsIntoOptions(rawArgs) {
       defaultValue: undefined,
       consoleValue: '--check-volumes',
       jestTestPath: './src/services/kubernetesApi/test/volumes',
+    },
+    {
+      variable: 'checkSwaggerPublicApis',
+      environmentVariable: 'SMKTEST_CHECK_SWAGGER_PUBLIC_APIS',
+      defaultValue: undefined,
+      consoleValue: '--check-swagger-public-apis',
+      jestTestPath: './src/services/swagger/test/swaggerGetPublic',
     },
   ];
 
