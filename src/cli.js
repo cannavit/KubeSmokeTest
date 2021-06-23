@@ -393,7 +393,7 @@ export async function cli(args) {
 
   //! Run Jest Tests.
   if (options.listOfJestPath) {
-    runJestTest(options);
+    await runJestTest(options);
   }
 
   return;

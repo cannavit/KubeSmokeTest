@@ -58,4 +58,4 @@ test('Check space free inside of volumes', async () => {
   await sendToSmokeCollector(options);
 
   expect(passTest).toBe(true);
-});
+}, 100000);

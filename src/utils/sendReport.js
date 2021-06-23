@@ -4,7 +4,7 @@ const axios = require('axios');
 module.exports.sendToSmokeCollector = async function (options) {
   // export async function sendToSmokeCollector(options) {
   // Decode
-  console.log(' 💾 SEND REPORT TO SMOKE-COLLECTOR');
+  console.log(' 💾 SEND REPORT TO SMOKE_COLLECTOR');
 
   let urlSomeCollectorCoded = process.env.SMOKE_COLLECTOR;
 
