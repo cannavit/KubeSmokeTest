@@ -38,6 +38,7 @@ function parseArgumentsIntoOptions(rawArgs) {
       '--mode-auto': Boolean,
       '--check-ingress': Boolean,
       '--check-conditions': Boolean,
+      '--check-volumes': Boolean,
       '--check-if-all-pods-are-active': Boolean,
       '--check-pods-logs': Boolean,
       '--create-config-file': Boolean,
@@ -171,6 +172,13 @@ function parseArgumentsIntoOptions(rawArgs) {
       defaultValue: undefined,
       consoleValue: '--create-config-file',
       jestTestPath: './src/services/kubernetesApi/test/logsCheck',
+    },
+    {
+      variable: 'checkVolumes',
+      environmentVariable: 'SMKTEST_CHECK_VOLUMES',
+      defaultValue: undefined,
+      consoleValue: '--check-volumes',
+      jestTestPath: './src/services/kubernetesApi/test/volumes',
     },
   ];
 
@@ -341,7 +349,7 @@ export async function cli(args) {
   options = await promptForContext(options);
 
   //! Run Context test.
-
+  process.env.SMKTEST_OPTIONS = JSON.stringify(options);
   if (options.context === 'kubernetes') {
     if (options.namespace) {
       //* Init kubernetes options
@@ -373,6 +381,8 @@ export async function cli(args) {
       }
     }
   }
+
+  process.env.SMKTEST_OPTIONS = JSON.stringify(options);
 
   //! Run Direct Accerts >>>>
   if (options.assertCurl) {

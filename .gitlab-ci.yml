@@ -110,6 +110,13 @@ logsPods:
     - master
 
 
+volumeSpace:
+  <<: *smoke-test-kubernetes
+  script:
+    - create-smktest --check-volumes=true
+  only:
+    - master
+
 pushDockerHub:
   image: docker:latest
   stage: docker-hub
