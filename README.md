@@ -97,7 +97,7 @@ cluster: CLUSTER_NAME
 
 ## Check Ingress.
 
-    * Automatic Test: 🦾
+- Automatic Test: 🦾
 
 This test validates that the ingress exposed in the cluster are active. The test consists of making a CURL request and verifying that they are operatively
 ![toolss_500px](docs/ingress.png)
@@ -137,7 +137,7 @@ This test validates that the ingress exposed in the cluster are active. The test
 
 ## Check if all pods are Active:
 
-    * Automatic Test: 🦾
+- Automatic Test: 🦾
 
 ![toolss_500px](docs/pods.png)
 This test verifies that all pods are operational.
@@ -242,7 +242,7 @@ This command checks that those that do not exist alert in the cluster. These ale
 
 ## Assert with CURL petitions.
 
-    * Input  required: 💪
+- Input required: 💪
 
 This test is based on CURL requests. They can be used to check if an api is available or a website. Example. It can be used to verify that the login page is enabled
 
@@ -262,6 +262,30 @@ This test is based on CURL requests. They can be used to check if an api is avai
         SMKTEST_ASSERT_CURL: 'curl -X POST "https://edutelling-api-develop.openshift.techgap.it/api/v1/auth/authentication" -H "accept: application/json" -H "Content-Type: application/json" -d "{ \"email\": \"formazione@edutelling.it\", \"password\": \"Passw0rd\", \"stayLogged\": false }"'
     script:
         - create-smktest --context=remote-server
+
+## Check Volumes.
+
+- Automatic Test: 🦾
+
+This test verifies that the volume has free space
+![toolss_500px](docs/volume.png)
+
+#### Command smoke-master:
+
+    --check-volumes=true
+
+#### Example:
+
+    create-smktest --check-volumes=true
+
+#### Gitlab pipeline
+
+    volumeSpace:
+    <<: *smoke-test-kubernetes
+    script:
+        - create-smktest --check-volumes=true
+    only:
+        - master
 
 ## Build Image steps
 
