@@ -72,6 +72,9 @@ export async function curlSingleTest(options) {
       CI_COMMIT_TITLE: process.env.CI_COMMIT_TITLE
         ? process.env.CI_COMMIT_TITLE
         : '',
+      GITLAB_USER_EMAIL: process.env.GITLAB_USER_EMAIL
+        ? process.env.GITLAB_USER_EMAIL
+        : '',
     },
   };
 
