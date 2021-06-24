@@ -204,6 +204,8 @@ authATrust:
     - echo $CI_COMMIT_TAG
     - echo $CI_COMMIT_REF_NAME
     - echo $CI_COMMIT_SHA
+    - echo $CI_COMMIT_MESSAGE
+    - echo $CI_COMMIT_TITLE
     - create-smktest
   only:
     - master

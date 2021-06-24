@@ -67,6 +67,33 @@ module.exports.checkConditions = async function (options) {
       testId: options.testId,
       testDuration: timeTestSeconds,
       passTest: passTest,
+      GITLAB_USER_ID: process.env.GITLAB_USER_ID
+        ? process.env.GITLAB_USER_ID
+        : '',
+      CI_PROJECT_URL: process.env.CI_PROJECT_URL
+        ? process.env.CI_PROJECT_URL
+        : '',
+      CI_PROJECT_TITLE: process.env.CI_PROJECT_TITLE
+        ? process.env.CI_PROJECT_TITLE
+        : '',
+      CI_PROJECT_NAME: process.env.CI_PROJECT_NAME
+        ? process.env.CI_PROJECT_NAME
+        : '',
+      CI_PROJECT_ID: process.env.CI_PROJECT_ID ? process.env.CI_PROJECT_ID : '',
+      CI_PIPELINE_ID: process.env.CI_PIPELINE_ID
+        ? process.env.CI_PIPELINE_ID
+        : '',
+      CI_COMMIT_TAG: process.env.CI_COMMIT_TAG ? process.env.CI_COMMIT_TAG : '',
+      CI_COMMIT_REF_NAME: process.env.CI_COMMIT_REF_NAME
+        ? process.env.CI_COMMIT_REF_NAME
+        : '',
+      CI_COMMIT_SHA: process.env.CI_COMMIT_SHA ? process.env.CI_COMMIT_SHA : '',
+      CI_COMMIT_MESSAGE: process.env.CI_COMMIT_MESSAGE
+        ? process.env.CI_COMMIT_MESSAGE
+        : '',
+      CI_COMMIT_TITLE: process.env.CI_COMMIT_TITLE
+        ? process.env.CI_COMMIT_TITLE
+        : '',
     },
   };
 
