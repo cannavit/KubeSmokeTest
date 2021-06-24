@@ -7,16 +7,17 @@ The smoke tests focus on validating the stability of the cluster. It is highly r
 
 ## Library status:
 
-| Type of Test                    | Status | Command                        |
-| :------------------------------ | :----- | :----------------------------- |
-| Check Logs Content              | ✅     | --check-pods-logs              |
-| Check Pods Status               | ✅     | --check-if-all-pods-are-active |
-| Check if Ingress are active     | ✅     | --check-ingress                |
-| Check endpoint                  | ✅     | --assert-curl                  |
-| Check volume                    | ✅     | --check-volumes                |
-| Check networks                  | ❌     | pending                        |
-| Check Publics Apis with Swagger | ✅     | --check-swagger-publics-apis   |
-| Add Smoke criterial             | ❌     | pending                        |
+| Type of Test                         | Status | Command                                       |
+| :----------------------------------- | :----- | :-------------------------------------------- |
+| Check Logs Content                   | ✅     | --check-pods-logs                             |
+| Check Pods Status                    | ✅     | --check-if-all-pods-are-active                |
+| Check if Ingress are active          | ✅     | --check-ingress                               |
+| Check endpoint                       | ✅     | --assert-curl                                 |
+| Check volume                         | ✅     | --check-volumes                               |
+| Check networks                       | ❌     | pending                                       |
+| Check Publics Apis with Swagger      | ✅     | --check-swagger-publics-apis                  |
+| Check Swagger [GET]/Apis with Access | ✅     | --check-swagger-apis and --swagger-login-curl |
+| Add Smoke criterial                  | ❌     | pending                                       |
 
 #### Example how to use the smoke-test structure inside of one pipeline:
 

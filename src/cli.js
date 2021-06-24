@@ -16,14 +16,14 @@ import { getPods } from './services/kubernetesApi/src/pods';
 import generateUniqueId from 'generate-unique-id';
 
 require('dotenv').config();
-//Single Test.
+//Single  Test.
 import { curlSingleTest } from './services/assertTest/services/curl';
 
 function parseArgumentsIntoOptions(rawArgs) {
   const args = arg(
     {
-      '--yes': Boolean,
       '--criterial': String,
+      '--yes': Boolean,
       '--context': String,
       '--environmentVariable': String,
       '--environment': String,
@@ -43,8 +43,9 @@ function parseArgumentsIntoOptions(rawArgs) {
       '--check-if-all-pods-are-active': Boolean,
       '--check-pods-logs': Boolean,
       '--create-config-file': Boolean,
-      '--check-swagger-public-apis': String,
-      '--check-swagger-publics-apis': String, // Pending
+      '--check-swagger-publics-apis': String,
+      '--check-swagger-apis': String,
+      '--swagger-login-curl': String,
       '-c': '--criterial',
       '-c': '--context',
       '-s': '--scannerApi',
@@ -188,6 +189,20 @@ function parseArgumentsIntoOptions(rawArgs) {
       defaultValue: undefined,
       consoleValue: '--check-swagger-public-apis',
       jestTestPath: './src/services/swagger/test/swaggerGetPublic',
+    },
+    {
+      variable: 'checkSwaggerApis',
+      environmentVariable: 'SMKTEST_CHECK_SWAGGER_APIS',
+      defaultValue: undefined,
+      consoleValue: '--check-swagger-apis',
+      jestTestPath: './src/services/swagger/test/swaggerGetWithAuth',
+    },
+    {
+      variable: 'swaggerLoginCurl',
+      environmentVariable: 'SMKTEST_CHECK_LOGIN_CURL',
+      defaultValue: undefined,
+      consoleValue: '--swagger-login-curl',
+      jestTestPath: '',
     },
   ];
 
