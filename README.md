@@ -15,7 +15,7 @@ The smoke tests focus on validating the stability of the cluster. It is highly r
 | Check endpoint                  | ✅     | --assert-curl                  |
 | Check volume                    | ✅     | --check-volumes                |
 | Check networks                  | ❌     | pending                        |
-| Check Publics Apis with Swagger | ❌     | pending                        |
+| Check Publics Apis with Swagger | ✅     | --check-swagger-publics-apis   |
 | Add Smoke criterial             | ❌     | pending                        |
 
 #### Example how to use the smoke-test structure inside of one pipeline:
@@ -51,6 +51,7 @@ These are the parameters to enable the different types of smoke tests
 | --assert-curl                  | SMKTEST_ASSERT_CURL                  | all        | Check respose using Curl petitions                      |
 | --check-ingress                | SMKTEST_CHECK_INGRESS                | Kubernetes | Check ingress and load balancer                         |
 | --check-volumes                | SMKTEST_CHECK_VOLUMES                | Kubernetes | Check that the available space is less than 80% percent |
+| --check-swagger-publics-apis   | SMKTEST_CHECK_SWAGGER_PUBLICS_APIS   | all        | Check if exist 500 status response code in swagger apis |
 
 ## Connect test remote kubernetes cluster.
 
@@ -284,6 +285,29 @@ This test verifies that the volume has free space
     <<: *smoke-test-kubernetes
     script:
         - create-smktest --check-volumes=true
+    only:
+        - master
+
+## Check publics apis using SWAGGER
+
+This test automatically obtains the public apis that do not require parameters from the Swagger documentation. If any api returns a status of number 500 the test fails. It is designed to obtain instabilities in apis automatically.
+![toolss_500px](docs/swaggerGetPublic.png)
+
+#### Command smoke-master:
+
+    --check-swagger-public-apis="https://petstore.swagger.io/v2/swagger.json"
+
+#### Example:
+
+    create-smktest --check-swagger-public-apis="https://petstore.swagger.io/v2/swagger.json"
+
+#### Gitlab pipeline
+
+    pubAPetStore:
+    <<: *smoke-test-kubernetes
+    stage: swagger
+    script:
+        - create-smktest --check-swagger-public-apis="https://petstore.swagger.io/v2/swagger.json"
     only:
         - master
 

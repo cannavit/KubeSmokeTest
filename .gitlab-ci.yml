@@ -7,7 +7,9 @@ stages:
   - package
   - smoke-curl
   - kubernetes
+  - swagger
   - docker-hub
+  
 
 variables:
   CI_VERSION: "1.0.${CI_JOB_ID}"
@@ -29,12 +31,15 @@ variables:
   variables:
     SMKTEST_CONTEXT: 'kubernetes'
 
-# Template for use Curl smoke test.
+# Template for use Curl or swagger smoke test.
 .smoke-test-curl: &smoke-test-curl
   image: registry.gitlab.com/phdactivities/smoke-master:master
   stage: smoke-curl
   variables:
     SMKTEST_CONTEXT: 'remote-server'
+
+
+
 
 docker-build:
   image:
@@ -66,6 +71,11 @@ checkLogin:
     - create-smktest --context=remote-server
   only:
     - master
+
+
+# ------------------------------------------------------
+# EXAMPLE USING KUBERNETES: ----------------------------
+# ------------------------------------------------------>>>>
 
 # Example how connect one remote cluster.
 remoteAccess:
@@ -116,6 +126,40 @@ volumeSpace:
     - create-smktest --check-volumes=true
   only:
     - master
+
+# ------------------------------------------------<<<<
+
+# ------------------------------------------------------
+# EXAMPLE USING SWAGGER: -------------------------------
+# ------------------------------------------------------>>>>
+pubAPetStore:
+  <<: *smoke-test-kubernetes
+  stage: swagger
+  script:
+    - create-smktest --check-swagger-public-apis="https://petstore.swagger.io/v2/swagger.json"
+  only:
+    - master
+  allow_failure: true #If fail using waring signal
+
+pubAEdutelling:
+  <<: *smoke-test-kubernetes
+  stage: swagger
+  script:
+    - create-smktest --check-swagger-public-apis="https://edutelling-api-develop.openshift.techgap.it/api/v1/api-docs/"
+  only:
+    - master
+  allow_failure: true #If fail using waring signal
+
+pubATrust:
+  <<: *smoke-test-kubernetes
+  stage: swagger
+  script:
+    - create-smktest --check-swagger-public-apis="https://edutelling-api-develop.openshift.techgap.it/api/v1/api-docs/"
+  only:
+    - master
+  allow_failure: true #If fail using waring signal
+
+# ------------------------------------------------<<<<
 
 pushDockerHub:
   image: docker:latest
