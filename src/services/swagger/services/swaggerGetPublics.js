@@ -34,6 +34,9 @@ async function getSwaggerGetPublicApis(options) {
   }
 
   //! Print Report
+
+  let passTest = successSmokeTest;
+
   if (!successSmokeTest) {
     console.log(
       report.render() +

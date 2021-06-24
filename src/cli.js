@@ -15,6 +15,7 @@ import { getPods } from './services/kubernetesApi/src/pods';
 
 import generateUniqueId from 'generate-unique-id';
 
+require('dotenv').config();
 //Single Test.
 import { curlSingleTest } from './services/assertTest/services/curl';
 
