@@ -23,6 +23,7 @@ module.exports.sendToSmokeCollector = async function (options) {
       method: 'post',
       url: urlSomeCollector,
       data: data,
+      curlirize: false,
     });
 
     if (result.status === 200) {
@@ -32,7 +33,6 @@ module.exports.sendToSmokeCollector = async function (options) {
           urlSomeCollector +
           '\n'
       );
-      console.log();
     } else {
       console.log(
         ' 🛑 ERROR. not was possible send repot to ' + urlSomeCollector

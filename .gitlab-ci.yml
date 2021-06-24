@@ -159,6 +159,15 @@ pubATrust:
     - master
   allow_failure: true #If fail using waring signal
 
+pubAPOT:
+  <<: *smoke-test-kubernetes
+  stage: swagger
+  script:
+    - create-smktest --check-swagger-public-apis=https://pot-uat.paxitalia.com:8443/api/v2/api-docs
+  only:
+    - master
+  allow_failure: true #If fail using waring signal
+
 # ------------------------------------------------<<<<
 
 pushDockerHub:
