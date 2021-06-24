@@ -194,6 +194,16 @@ authATrust:
     SMKTEST_SWAGGER_LOGIN_CURL: 'curl -X POST "https://edutelling-api-develop.openshift.techgap.it/api/v1/auth/authentication" -H "accept: application/json" -H "Content-Type: application/json" -d "{ \"email\": \"formazione@edutelling.it\", \"password\": \"Passw0rd\", \"stayLogged\": false }"'
     SMKTEST_CHECK_SWAGGER_APIS: https://edutelling-api-develop.openshift.techgap.it/api/v1/api-docs/
   script:
+    - echo $GITLAB_USER_EMAIL
+    - echo $GITLAB_USER_ID
+    - echo $CI_PROJECT_URL
+    - echo $CI_PROJECT_TITLE
+    - echo $CI_PROJECT_NAME
+    - echo $CI_PROJECT_ID
+    - echo $CI_PIPELINE_ID
+    - echo $CI_COMMIT_TAG
+    - echo $CI_COMMIT_REF_NAME
+    - echo $CI_COMMIT_SHA
     - create-smktest
   only:
     - master
