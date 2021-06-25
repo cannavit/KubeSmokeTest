@@ -44,16 +44,18 @@ It is important to activate the rest of the test.
 
 These are the parameters to enable the different types of smoke tests
 
-| Console command                | Environment Variable                 | Context    | Environment Variable                                    |
-| :----------------------------- | :----------------------------------- | :--------- | :------------------------------------------------------ |
-| --check-endpoints              | SMKTEST_CHECK_INGRESS                | Kubernetes | Verify that the income is available and without errors  |
-| --check-if-all-pods-are-active | SMKTEST_CHECK_IF_ALL_PODS_ARE_ACTIVE | Kubernetes | Check if all pods are active                            |
-| --check-conditions             | SMKTEST_CHECK_CONDITIONS             | Kubernetes | Check cluster condition (MemoryPressure, PIDPressure)   |
-| --check-pods-logs              | SMKTEST_CHECK_PODS_LOGS              | Kubernetes | Check if exist logs error inside of Pods                |
-| --assert-curl                  | SMKTEST_ASSERT_CURL                  | all        | Check respose using Curl petitions                      |
-| --check-ingress                | SMKTEST_CHECK_INGRESS                | Kubernetes | Check ingress and load balancer                         |
-| --check-volumes                | SMKTEST_CHECK_VOLUMES                | Kubernetes | Check that the available space is less than 80% percent |
-| --check-swagger-publics-apis   | SMKTEST_CHECK_SWAGGER_PUBLICS_APIS   | all        | Check if exist 500 status response code in swagger apis |
+| Console command                | Environment Variable                 | Context    | Environment Variable                                                        |
+| :----------------------------- | :----------------------------------- | :--------- | :-------------------------------------------------------------------------- |
+| --check-endpoints              | SMKTEST_CHECK_INGRESS                | Kubernetes | Verify that the income is available and without errors                      |
+| --check-if-all-pods-are-active | SMKTEST_CHECK_IF_ALL_PODS_ARE_ACTIVE | Kubernetes | Check if all pods are active                                                |
+| --check-conditions             | SMKTEST_CHECK_CONDITIONS             | Kubernetes | Check cluster condition (MemoryPressure, PIDPressure)                       |
+| --check-pods-logs              | SMKTEST_CHECK_PODS_LOGS              | Kubernetes | Check if exist logs error inside of Pods                                    |
+| --assert-curl                  | SMKTEST_ASSERT_CURL                  | all        | Check respose using Curl petitions                                          |
+| --check-ingress                | SMKTEST_CHECK_INGRESS                | Kubernetes | Check ingress and load balancer                                             |
+| --check-volumes                | SMKTEST_CHECK_VOLUMES                | Kubernetes | Check that the available space is less than 80% percent                     |
+| --check-swagger-publics-apis   | SMKTEST_CHECK_SWAGGER_PUBLICS_APIS   | all        | Check if exist 500 status response code in swagger apis                     |
+| --check-swagger-apis           | SMKTEST_CHECK_SWAGGER_APIS           | all        | Check if exist 500 status response code in swagger apis with authentication |
+| --swagger-login-curl           | SMKTEST_SWAGGER_LOGIN_CURL           | all        | Add the configuration parameters                                            |
 
 ## Connect test remote kubernetes cluster.
 
