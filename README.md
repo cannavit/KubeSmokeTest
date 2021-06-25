@@ -7,17 +7,18 @@ The smoke tests focus on validating the stability of the cluster. It is highly r
 
 ## Library status:
 
-| Type of Test                         | Status | Command                                       |
-| :----------------------------------- | :----- | :-------------------------------------------- |
-| Check Logs Content                   | ✅     | --check-pods-logs                             |
-| Check Pods Status                    | ✅     | --check-if-all-pods-are-active                |
-| Check if Ingress are active          | ✅     | --check-ingress                               |
-| Check endpoint                       | ✅     | --assert-curl                                 |
-| Check volume                         | ✅     | --check-volumes                               |
-| Check networks                       | ❌     | pending                                       |
-| Check Publics Apis with Swagger      | ✅     | --check-swagger-publics-apis                  |
-| Check Swagger [GET]/Apis with Access | ✅     | --check-swagger-apis and --swagger-login-curl |
-| Add Smoke criterial                  | ❌     | pending                                       |
+| Type of Test                       | Status | Inputs Required | Command                                       |
+| :--------------------------------- | :----- | :-------------- | :-------------------------------------------- |
+| Check Logs Content                 | ✅     | 🤖 Automatic    | --check-pods-logs                             |
+| Check Pods Status                  | ✅     | 🤖 Automatic    | --check-if-all-pods-are-active                |
+| Check if Ingress are active        | ✅     | 🤖 Automatic    | --check-ingress                               |
+| Check endpoint                     | ✅     | 🤖 Automatic    | --assert-curl                                 |
+| Check volume                       | ✅     | 🤖 Automatic    | --check-volumes                               |
+| Check networks                     | ❌     | 🤖 Automatic    | pending                                       |
+| Check Publics Apis with Swagger    | ✅     | 👋 Manual       | --check-swagger-publics-apis                  |
+| Check Swagger [GET]/Apis with Auth | ✅     | 👋 Manual       | --check-swagger-apis and --swagger-login-curl |
+| Check dependencies                 | ❌     | 👋 Manual       | pending                                       |
+| Add Smoke criterial                | ❌     | 🤖 Automatic    | pending                                       |
 
 #### Example how to use the smoke-test structure inside of one pipeline:
 
@@ -32,12 +33,12 @@ The rest of the test cases can be applied right after the deployment of the serv
 This section mentions the options related to general configuration services. You can use these commands to activate the test context or give you access to the services in your kubernetes cluster using SSH.
 It is important to activate the rest of the test.
 
-| Console command | Environment Variable | Context   | Environment Variable                                             |
-| :-------------- | :------------------- | :-------- | :--------------------------------------------------------------- |
-| --context       | SMKTEST_CONTEXT      | undefined | Context of the test for example kubernetes, docker               |
-| --environment   | SMKTEST_ENVIRONMENT  | undefined | Environment when the test is running example: localhost, develop |
-| --project-name  | SMKTEST_PROJECT_NAME | undefined | Name of the project when the test go to running                  |
-| --namespace     | SMKTEST_NAMPESPACE   | undefined | Namespace of the kubernetes node                                 |
+| Console command | Environment Variable | Environment Variable                                             |
+| :-------------- | :------------------- | :--------------------------------------------------------------- |
+| --context       | SMKTEST_CONTEXT      | Context of the test for example kubernetes, docker               |
+| --environment   | SMKTEST_ENVIRONMENT  | Environment when the test is running example: localhost, develop |
+| --project-name  | SMKTEST_PROJECT_NAME | Name of the project when the test go to running                  |
+| --namespace     | SMKTEST_NAMPESPACE   | Namespace of the kubernetes node                                 |
 
 ## Table of Commands Smoke-Master:
 
@@ -311,6 +312,19 @@ This test automatically obtains the public apis that do not require parameters f
         - create-smktest --check-swagger-public-apis="https://petstore.swagger.io/v2/swagger.json"
     only:
         - master
+
+## Check publics apis using SWAGGER with Authentication
+
+This test obtains the list of apis [GET] that do not require parameters and makes a request to each one of the APIs using the authentication intended by the user in the form of CURL.
+
+#### Command smoke-master:
+
+    --check-swagger-apis=https://petstore.swagger.io/v2/swagger.json
+    --swagger-login-curl=curl LOGIN WITH LOGIN ACCESS
+
+#### Example:
+
+    create-smktest --check-swagger-public-apis="https://petstore.swagger.io/v2/swagger.json" --swagger-login-curl=curl LOGIN WITH LOGIN ACCESS
 
 ## Build Image steps
 
