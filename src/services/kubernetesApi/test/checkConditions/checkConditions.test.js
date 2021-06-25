@@ -7,6 +7,7 @@ test(`Check Node Conditions inside of the kubernetes cluster`, async () => {
   //? List of the wold to find error
 
   let response = process.env['SMKTEST_KUBERNETES_NODE_CONDITIONS'];
+
   response = JSON.parse(response);
 
   let passTest = response.passTest;
