@@ -153,6 +153,71 @@ module.exports.kubernetesIngress = async function (options) {
       GITLAB_USER_EMAIL: process.env.GITLAB_USER_EMAIL
         ? process.env.GITLAB_USER_EMAIL
         : '',
+      SMKTEST_CHECK_LOGIN_CURL: provess.env.SMKTEST_CHECK_LOGIN_CURL
+        ? process.env.SMKTEST_CHECK_LOGIN_CURL
+        : '',
+      SMKTEST_CHECK_SWAGGER_APIS: provess.env.SMKTEST_CHECK_SWAGGER_APIS
+        ? process.env.SMKTEST_CHECK_SWAGGER_APIS
+        : '',
+      SMKTEST_CHECK_SWAGGER_PUBLIC_APIS: provess.env
+        .SMKTEST_CHECK_SWAGGER_PUBLIC_APIS
+        ? process.env.SMKTEST_CHECK_SWAGGER_PUBLIC_APIS
+        : '',
+      SMKTEST_CHECK_VOLUMES: provess.env.SMKTEST_CHECK_VOLUMES
+        ? process.env.SMKTEST_CHECK_VOLUMES
+        : '',
+      SMKTEST_CREATE_CONFIG_FILE: provess.env.SMKTEST_CREATE_CONFIG_FILE
+        ? process.env.SMKTEST_CREATE_CONFIG_FILE
+        : '',
+      SMKTEST_CHECK_PODS_LOGS: provess.env.SMKTEST_CHECK_PODS_LOGS
+        ? process.env.SMKTEST_CHECK_PODS_LOGS
+        : '',
+      SMKTEST_CHECK_CONDITIONS: provess.env.SMKTEST_CHECK_CONDITIONS
+        ? process.env.SMKTEST_CHECK_CONDITIONS
+        : '',
+      SMKTEST_CHECK_INGRESS: provess.env.SMKTEST_CHECK_INGRESS
+        ? process.env.SMKTEST_CHECK_INGRESS
+        : '',
+      SMKTEST_CHECK_IF_ALL_PODS_ARE_ACTIVE: provess.env
+        .SMKTEST_CHECK_IF_ALL_PODS_ARE_ACTIVE
+        ? process.env.SMKTEST_CHECK_IF_ALL_PODS_ARE_ACTIVE
+        : '',
+      SMKTEST_NAMESPACE: provess.env.SMKTEST_NAMESPACE
+        ? process.env.SMKTEST_NAMESPACE
+        : '',
+      SMKTEST_AUTO_DETECT: provess.env.SMKTEST_AUTO_DETECT
+        ? process.env.SMKTEST_AUTO_DETECT
+        : '',
+      SMKTEST_SCANNER_LOGIN: provess.env.SMKTEST_SCANNER_LOGIN
+        ? process.env.SMKTEST_SCANNER_LOGIN
+        : '',
+      SMKTEST_CURL_LOGIN: provess.env.SMKTEST_CURL_LOGIN
+        ? process.env.SMKTEST_CURL_LOGIN
+        : '',
+      SMKTEST_SCANNER_API_METHOD: provess.env.SMKTEST_SCANNER_API_METHOD
+        ? process.env.SMKTEST_SCANNER_API_METHOD
+        : '',
+      SMKTEST_CRITERIAL: provess.env.SMKTEST_CRITERIAL
+        ? process.env.SMKTEST_CRITERIAL
+        : '',
+      SMKTEST_ASSERT_CURL: provess.env.SMKTEST_ASSERT_CURL
+        ? process.env.SMKTEST_ASSERT_CURL
+        : '',
+      SMKTEST_CONTEXT: provess.env.SMKTEST_CONTEXT
+        ? process.env.SMKTEST_CONTEXT
+        : '',
+      SMKTEST_ENVIRONMENT: provess.env.SMKTEST_ENVIRONMENT
+        ? process.env.SMKTEST_ENVIRONMENT
+        : '',
+      SMKTEST_ENVIRONMENT_VARIABLE: provess.env.SMKTEST_ENVIRONMENT_VARIABLE
+        ? process.env.SMKTEST_ENVIRONMENT_VARIABLE
+        : '',
+      SMKTEST_PROJECT_NAME: provess.env.SMKTEST_PROJECT_NAME
+        ? process.env.SMKTEST_PROJECT_NAME
+        : '',
+      SMKTEST_SKIP_PROMPTS: provess.env.SMKTEST_SKIP_PROMPTS
+        ? process.env.SMKTEST_SKIP_PROMPTS
+        : '',
     },
   };
 
