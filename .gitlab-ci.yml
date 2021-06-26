@@ -127,6 +127,13 @@ volumeSpace:
   only:
     - master
 
+networks:
+  <<: *smoke-test-kubernetes
+  script:
+    - create-smktest --check-networks-from-service=edutelling-api
+  only:
+    - master
+
 # ------------------------------------------------<<<<
 
 # ------------------------------------------------------
