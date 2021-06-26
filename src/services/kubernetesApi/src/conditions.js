@@ -17,9 +17,6 @@ module.exports.checkConditions = async function (options) {
     silent: true,
   });
 
-  console.log('>>>>>-1781805501>>>>>');
-  console.log(response);
-  console.log('<<<<<<<<<<<<<<<<<<<');
   var dateInit = await new Date();
 
   response = response.stdout; //Get outupts

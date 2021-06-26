@@ -32,7 +32,7 @@
   "author": "Cannavit",
   "license": "MIT",
   "dependencies": {
-    "@kubernetes/client-node": "^0.14.3",
+    "@kubernetes/client-node": "^0.13.0",
     "arg": "^5.0.0",
     "assert": "^2.0.0",
     "axios": "^0.21.1",

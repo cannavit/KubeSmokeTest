@@ -11,6 +11,8 @@ const shell = require('shelljs');
 // kubectl top pod   --namespace=edutelling-develop --containers
 //  kubectl get storageclasses
 // kubectl --namespace=edutelling-develop exec edutelling-api-68f5bfbbbd-wtg2g -- df -h --block-size=1GB /usr/src/app/uploads
+// kubectl -n edutelling-develop get --raw /apis/metrics.k8s.io/v1beta1/namespaces/default/pods/edutelling-api-68f5bfbbbd-wtg2g | jq
+
 async function convertToMi(unit) {
   //   unit = '8Gi';
 

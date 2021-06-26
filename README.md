@@ -14,7 +14,7 @@ The smoke tests focus on validating the stability of the cluster. It is highly r
 | Check if Ingress are active        | ✅     | 🤖 Automatic    | --check-ingress                               |
 | Check endpoint                     | ✅     | 🤖 Automatic    | --assert-curl                                 |
 | Check volume                       | ✅     | 🤖 Automatic    | --check-volumes                               |
-| Check networks                     | ❌     | 🤖 Automatic    | pending                                       |
+| Check networks                     | ✅     | 🤖 Automatic    | --check-networks-from-service                 |
 | Check Publics Apis with Swagger    | ✅     | 👋 Manual       | --check-swagger-publics-apis                  |
 | Check Swagger [GET]/Apis with Auth | ✅     | 👋 Manual       | --check-swagger-apis and --swagger-login-curl |
 | Check dependencies                 | ❌     | 👋 Manual       | pending                                       |
@@ -56,6 +56,7 @@ These are the parameters to enable the different types of smoke tests
 | --check-swagger-publics-apis   | SMKTEST_CHECK_SWAGGER_PUBLICS_APIS   | all        | Check if exist 500 status response code in swagger apis                     |
 | --check-swagger-apis           | SMKTEST_CHECK_SWAGGER_APIS           | all        | Check if exist 500 status response code in swagger apis with authentication |
 | --swagger-login-curl           | SMKTEST_SWAGGER_LOGIN_CURL           | all        | Add the configuration parameters                                            |
+| --check-networks-from-service  | SMKTEST_CHECK_NETWORKS_FROM_SERVICES | kubernetes | Check network connection using other service how bridge                     |
 
 ## Connect test remote kubernetes cluster.
 

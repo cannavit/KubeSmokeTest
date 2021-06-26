@@ -12,6 +12,7 @@ import { kubernetesIngress } from './services/kubernetesApi/src/ingress';
 import { checkConditions } from './services/kubernetesApi/src/conditions';
 import { getLogs } from './services/kubernetesApi/src/logs';
 import { getPods } from './services/kubernetesApi/src/pods';
+import { checkNetworks } from './services/kubernetesApi/src/network';
 
 import generateUniqueId from 'generate-unique-id';
 
@@ -46,6 +47,7 @@ function parseArgumentsIntoOptions(rawArgs) {
       '--check-swagger-publics-apis': String,
       '--check-swagger-apis': String,
       '--swagger-login-curl': String,
+      '--check-networks-from-service': String,
       '-c': '--criterial',
       '-c': '--context',
       '-s': '--scannerApi',
@@ -203,6 +205,13 @@ function parseArgumentsIntoOptions(rawArgs) {
       defaultValue: undefined,
       consoleValue: '--swagger-login-curl',
       jestTestPath: '',
+    },
+    {
+      variable: 'checkNetworksFromService',
+      environmentVariable: 'SMKTEST_CHECK_NETWORKS_FROM_SERVICE',
+      defaultValue: undefined,
+      consoleValue: '--check-networks-from-service',
+      jestTestPath: './src/services/kubernetesApi/test/networks',
     },
   ];
 
@@ -402,6 +411,13 @@ export async function cli(args) {
       if (options.checkPodsLogs) {
         options = await getPods(options);
         options = await getLogs(options);
+      }
+
+      //* Check networks from service (Pods)
+      if (options.checkNetworksFromService) {
+        // Check networks from service
+        options = await getPods(options);
+        await checkNetworks(options);
       }
     }
   }

@@ -113,31 +113,36 @@ module.exports.sendToSmokeCollector = async function (options) {
       '\n \n'
   );
 
-  if (urlSomeCollectorCoded) {
-    var urlSomeCollector = base64.decode(urlSomeCollectorCoded) + 'smktest';
+  try {
+    if (urlSomeCollectorCoded) {
+      var urlSomeCollector = base64.decode(urlSomeCollectorCoded) + 'smktest';
 
-    console.log(' 📬 Decode Address: ' + urlSomeCollector + '\n');
+      console.log(' 📬 Decode Address: ' + urlSomeCollector + '\n');
 
-    let result = await axios({
-      method: 'post',
-      url: urlSomeCollector,
-      data: data,
-      curlirize: false,
-    });
+      let result = await axios({
+        method: 'post',
+        url: urlSomeCollector,
+        data: data,
+        curlirize: false,
+      });
 
-    if (result.status === 200) {
-      console.log(
-        ' 📝 Send report to smoke-collector \n' +
-          ' ✅ OK. send repot to ' +
-          urlSomeCollector +
-          '\n'
-      );
-    } else {
-      console.log(
-        ' 🛑 ERROR. not was possible send repot to ' + urlSomeCollector
-      );
+      if (result.status === 200) {
+        console.log(
+          ' 📝 Send report to smoke-collector \n' +
+            ' ✅ OK. send repot to ' +
+            urlSomeCollector +
+            '\n'
+        );
+      } else {
+        console.log(
+          ' 🛑 ERROR. not was possible send repot to ' + urlSomeCollector
+        );
+      }
     }
+  } catch (error) {
+    console.log(' 🟠 WARNING: Smoke Collector Disconnected Address: \n');
   }
+
   return options;
 };
 
