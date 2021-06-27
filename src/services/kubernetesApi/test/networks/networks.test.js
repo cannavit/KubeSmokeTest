@@ -14,6 +14,8 @@ test(`Check Networks connections from inside of one Service : ${checkNetworksFro
 
   options.networks = JSON.parse(SMKTEST_OPTIONS_NETWORK);
 
+  console.log(options.networks.abstract);
+
   var dateFinish = await new Date();
   let timeTestSeconds = (dateFinish.getTime() - dateInit.getTime()) / 1000;
 
