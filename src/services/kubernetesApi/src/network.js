@@ -2,6 +2,7 @@ const shell = require('shelljs');
 
 // async function checkNetworks(options) {
 module.exports.checkNetworks = async function (options) {
+  //
   let masterNetworkPod = process.env.SMKTEST_CHECK_NETWORKS_FROM_SERVICE;
   let namespace = process.env.SMKTEST_NAMESPACE;
 

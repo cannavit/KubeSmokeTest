@@ -5,6 +5,21 @@
 Smoke Master is a service dedicated to conducting smoke testing on kubernetes pipelines. It does not require any configuration in the cluster. The service accesses the cluster by SSH performs the tests and then is automatically destroyed, which makes it totally secure.
 The smoke tests focus on validating the stability of the cluster. It is highly recommended when combining multiple projects in a single kubernetes server.It can be run 100% from the gitlab pipeline.
 
+## Table of Contents
+
+- [Smoke Master configuration options](#smoke-master-configuration-options)
+- [Table of Commands Smoke-Master](#table-of-commands-smoke-master)
+- [Connect test remote kubernetes cluster](#connect-test-remote-kubernetes-cluster)
+- [Available smoke test types](#available-smoke-test-types)
+  - [Check Ingress](#check-ingress)
+  - [Check Conditions](#check-conditions)
+  - [Check Logs Inside of the Pods](#check-logs-inside-of-the-pods)
+  - [Assert with CURL petitions](#assert-with-curl-petitions)
+  - [Check Volumes](#check-volumes)
+  - [Check publics apis using SWAGGER](#check-publics-apis-using-swagger)
+  - [Check publics apis using SWAGGER with Authentication](#check-publics-apis-using-swagger-with-authentication)
+  - [Check notwork from services](#check-notwork-from-services)
+
 ## Library status:
 
 | Type of Test                       | Status | Inputs Required | Command                                       |
@@ -40,7 +55,7 @@ It is important to activate the rest of the test.
 | --project-name  | SMKTEST_PROJECT_NAME | Name of the project when the test go to running                  |
 | --namespace     | SMKTEST_NAMPESPACE   | Namespace of the kubernetes node                                 |
 
-## Table of Commands Smoke-Master:
+## Table of Commands Smoke Master:
 
 These are the parameters to enable the different types of smoke tests
 
@@ -100,6 +115,8 @@ cluster: CLUSTER_NAME
     DQogICAgYXBpVmVyc2lvbjogdjENCiAgICBraW5kOiBDb25maWcNCiAgICBjbHVzdGVyczoNCiAgICAtIG5hbWU6ICJzZXJ2ZXJOYW1lIg0KICAgIGNsdXN0ZXI6DQogICAgICAgIHNlcnZlcjogImh0dHBzOi8vc2VydmVyLWV4YW1wbGUiDQogICAgICAgIGNlcnRpZmljYXRlLWF1dGhvcml0eS1kYXRhOiAiVkdobElFRmtkbUZ1WTJWa0lFVnVZM0o1Y0hScGIyNGdVM1JoYm1SaGNtUWdLRUZGVXlrc0lHRnNjMjhnYTI1dmQyNGdZbmtnYVhSeklHOXlhV2RwYm1Gc0lHNWhiV1VnVW1scWJtUmhaV3dnS0VSMWRHTm9JSEJ5YjI1MWJtTnBZWFJwYjI0NklGdkxpSExKbTJsdVpHSExrR3hkS1N4Yk0xMGdhWE1nWVNCemNHVmphV1pwWTJGMGFXOXVJR1p2Y2lCMGFHVWdaVzVqY25sd2RHbHZiaUJ2WmlCbGJHVmpkSEp2Ym1saklHUmhkR0VnWlhOMFlXSnNhWE5vWldRZ1lua2dkR2hsSUZVdVV5NGdUbUYwYVc5dVlXd2dTVzV6ZEdsMGRYUmxJRzltSUZOMFlXNWtZWEprY3lCaGJtUWdWR1ZqYUc1dmJHOW5lU0FvVGtsVFZDa2dhVzRnTWpBd01TNWJORjBOQ2cwS1FVVlRJR2x6SUdFZ2MzVmljMlYwSUc5bUlIUm9aU0JTYVdwdVpHRmxiQ0JpYkc5amF5QmphWEJvWlhKYk0xMGdaR1YyWld4dmNHVmtJR0o1SUhSM2J5QkNaV3huYVdGdUlHTnllWEIwYjJkeVlYQm9aWEp6TENCV2FXNWpaVzUwSUZKcGFtMWxiaUJoYm1RZ1NtOWhiaUJFWVdWdFpXNHNJSGRvYnlCemRXSnRhWFIwWldRZ1lTQndjbTl3YjNOaGJGczFYU0IwYnlCT1NWTlVJR1IxY21sdVp5QjBhR1VnUVVWVElITmxiR1ZqZEdsdmJpQndjbTlqWlhOekxsczJYU0JTYVdwdVpHRmxiQ0JwY3lCaElHWmhiV2xzZVNCdlppQmphWEJvWlhKeklIZHBkR2dnWkdsbVptVnlaVzUwSUd0bGVTQmhibVFnWW14dlkyc2djMmw2WlhNdUlFWnZjaUJCUlZNc0lFNUpVMVFnYzJWc1pXTjBaV1FnZEdoeVpXVWdiV1Z0WW1WeWN5
 
 3. Create one Environment variable with the name KUBERNETES_TOKEN and the last step results
+
+# Available smoke test types
 
 ## Check Ingress.
 
@@ -328,6 +345,30 @@ This test obtains the list of apis [GET] that do not require parameters and make
 #### Example:
 
     create-smktest --check-swagger-public-apis="https://petstore.swagger.io/v2/swagger.json" --swagger-login-curl=curl LOGIN WITH LOGIN ACCESS
+
+## Check notwork from services:
+
+With this test, a PING_TCP request can be made through a service within the cluster. It is necessary to do it this way in order to access the internal networks of the cluster
+
+![toolss_500px](docs/checkNetworksFromService.png)
+
+#### Command smoke-master:
+
+    --check-networks-from-service=SERVICE_NAME
+
+#### Gitlab pipeline
+
+    networks:
+    <<: *smoke-test-kubernetes
+    stage: swagger
+    script:
+        - create-smktest --check-networks-from-service=SEVICE_NAME
+    only:
+        - master
+
+#### Example:
+
+    create-smktest --check-networks-from-service=SERVICE_NAME
 
 ## Build Image steps
 
