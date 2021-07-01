@@ -48,6 +48,9 @@ function parseArgumentsIntoOptions(rawArgs) {
       '--check-swagger-apis': String,
       '--swagger-login-curl': String,
       '--check-networks-from-service': String,
+      '--check-dependencies-from-service': String,
+      '--curl-dependencies': String,
+      '--assert-number-of-dependencies-exited': String,
       '-c': '--criterial',
       '-c': '--context',
       '-s': '--scannerApi',
@@ -212,6 +215,27 @@ function parseArgumentsIntoOptions(rawArgs) {
       defaultValue: undefined,
       consoleValue: '--check-networks-from-service',
       jestTestPath: './src/services/kubernetesApi/test/networks',
+    },
+    {
+      variable: 'checkDependenciesFromService',
+      environmentVariable: 'SMKTEST_CHECK_DEPENDENCIES_FROM_SERVICE',
+      defaultValue: undefined,
+      consoleValue: '--check-dependencies-from-service',
+      jestTestPath: '',
+    },
+    {
+      variable: 'curlDependencies',
+      environmentVariable: 'SMKTEST_CURL_DEPENDENCIES',
+      defaultValue: undefined,
+      consoleValue: '--curl-dependencies',
+      jestTestPath: '',
+    },
+    {
+      variable: 'assertNumberOfDependenciesExited',
+      environmentVariable: 'SMKTEST_ASSERT_NUMBER_OF_DEPENDENCIES_EXITED',
+      defaultValue: 'all',
+      consoleValue: '--assert-number-of-dependencies-exited',
+      jestTestPath: '',
     },
   ];
 
@@ -418,6 +442,14 @@ export async function cli(args) {
         // Check networks from service
         options = await getPods(options);
         await checkNetworks(options);
+      }
+
+      //* Check dependencies
+      if (options.curlDependencies && options.checkDependenciesFromService) {
+        // Run the test only if exist the last conditions
+        options.listOfJestPath.push(
+          './src/services/kubernetesApi/test/checkDependencies'
+        );
       }
     }
   }

@@ -102,8 +102,6 @@ module.exports.getLogs = async function (options) {
   return options;
 };
 
-const { getPods } = require('./pods');
-
 //Using Shell Commands
 // async function getLogsV2(options) {
 module.exports.getLogsV2 = async function (options) {
