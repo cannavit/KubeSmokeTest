@@ -2,15 +2,12 @@ const { getKS } = require('./connect');
 
 module.exports.getServices = async function (options) {
   const k8sApi = await getKS();
-  let nameSpace = await options.testConfig.kubernetes.namespace;
+  let nameSpace = options.namespace || options.testConfig.kubernetes.namespace; //?
 
   let listServices = [];
   let listNamespace;
-  try {
-    listNamespace = await k8sApi.listNamespacedService(nameSpace);
-  } catch (error) {
-    console.log(error.message);
-  }
+
+  listNamespace = await k8sApi.listNamespacedService(nameSpace);
 
   listNamespace.body.items.map((data) => {
     let ports = data.spec.ports;
@@ -62,8 +59,6 @@ module.exports.getServices = async function (options) {
       }
     }
   });
-
-  console.log(listServices);
 
   if (options.testConfig.kubernetes.services) {
     options.testConfig.kubernetes.services = listServices;

@@ -7,10 +7,10 @@ const checkDependenciesFromService =
 test(`🧪 Check dependencies from inside of service ${checkDependenciesFromService}`, async () => {
   //! Is possible use /api-docs
 
-  var dateInit = await new Date();
+  var dateInit = await new Date(); //?
 
   let passTest = false;
-  let options = JSON.parse(process.env.SMKTEST_OPTIONS);
+  let options = JSON.parse(process.env.SMKTEST_OPTIONS); //?
 
   let assertNumberOfDependenciesExited =
     process.env.SMKTEST_ASSERT_NUMBER_OF_DEPENDENCIES_EXITED || 'all';

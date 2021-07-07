@@ -7,7 +7,7 @@ module.exports.getPods = async function (options) {
 
   const k8sApi = await getKS();
 
-  let nameSpace = options.testConfig.kubernetes.namespace;
+  let nameSpace = options.namespace || options.testConfig.kubernetes.namespace; //?
   let listNamespace = await k8sApi.listNamespacedPod(nameSpace);
 
   let dataPods = [];
