@@ -159,7 +159,10 @@ async function installLibraryDependencies(options) {
 }
 
 const { fork } = require('child_process');
-var forked = fork('./src/services/kubernetesApi/src/dependencies/runCurl');
+
+// var forked = fork('./src/services/kubernetesApi/src/dependencies/runCurl');
+
+var forked = require('child_process').fork(__dirname + '/runCurl');
 
 async function getDependencies(options) {
   //

@@ -1,6 +1,7 @@
 const shell = require('shelljs');
 
 require('dotenv').config();
+
 const swaggerSmktest = require('swagger-smktest');
 
 async function initDependencies(options) {
