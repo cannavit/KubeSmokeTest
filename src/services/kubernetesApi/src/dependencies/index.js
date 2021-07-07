@@ -218,7 +218,7 @@ async function getDependencies(options) {
   );
   let netResponse;
   let response = await shell.exec(
-    `kubectl --namespace=${namespace} exec ${podMaster} -- timeout 10 tcpdump -c 100 -i ${SMKTEST_DEPENDENCIES_NET} -n`,
+    `kubectl --namespace=${namespace} exec ${podMaster} -- timeout 5 tcpdump -c 100 -i ${SMKTEST_DEPENDENCIES_NET} -n`,
     {
       silent: false,
     }
