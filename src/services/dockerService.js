@@ -72,8 +72,6 @@ async function dockerOptions(options) {
 }
 
 async function dockerPingTrain(options) {
-  console.log('@1Marker-No:_354467327');
-
   let test = [];
 
   return options;

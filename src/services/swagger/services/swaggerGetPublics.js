@@ -27,11 +27,7 @@ async function getSwaggerGetPublicApis(options) {
     report,
     abstractReport,
   } = await swaggerSmktest.smokeTest(docsSwagger);
-  console.log('@1Marker-No:_219503613');
-  console.log('@1Marker-No:_-647677017');
   console.log(report);
-  console.log(abstractReport);
-  console.log('@1Marker-No:_-999625004');
 
   //Get test fail for send the report
   let failTestList = [];
@@ -41,7 +37,6 @@ async function getSwaggerGetPublicApis(options) {
     status200: 0,
     status600: 0,
   };
-  console.log('@1Marker-No:_-469148146');
   for (const key in responseOfRequest) {
     let element = responseOfRequest[key];
     let codeString = String(element.status).substr(0, 1);
@@ -61,7 +56,6 @@ async function getSwaggerGetPublicApis(options) {
     }
   }
 
-  console.log('@1Marker-No:_-1360949302');
   let sendReport = {
     failCases: failTestList,
     shortReport: shortReport,
@@ -70,7 +64,6 @@ async function getSwaggerGetPublicApis(options) {
   //! Print Report
 
   let passTest = successSmokeTest;
-  console.log('@1Marker-No:_-241775085');
   if (passTest == false) {
     console.log(
       report.render() +
@@ -97,7 +90,6 @@ async function getSwaggerGetPublicApis(options) {
 
   var dateFinish = await new Date();
   let timeTestSeconds = (dateFinish.getTime() - dateInit.getTime()) / 1000;
-  console.log('@1Marker-No:_-2034763523');
 }
 
 getSwaggerGetPublicApis(options);

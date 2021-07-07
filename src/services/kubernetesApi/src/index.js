@@ -40,20 +40,15 @@ async function initDependencies(options) {
 
 async function testDependencies(options) {
   //
-  console.log('@1Marker-No:_-2028918397');
 
   let services = await getServices(options);
 
-  console.log('@1Marker-No:_795196452');
-  console.log('@1Marker-No:_-403040819');
   services = options.testConfig.kubernetes.services;
-  console.log('@1Marker-No:_1420548827');
 
   let dependencies = [];
 
   let netResponse = options.dependencies.netResponse;
   let numberOfDependenciesExited = 0;
-  console.log('@1Marker-No:_-2044720609');
   for (const key in services) {
     // Get pod name
     let element = services[key];
@@ -66,7 +61,6 @@ async function testDependencies(options) {
 
     dependencies.push({ userPort: userPort, service: element.name });
   }
-  console.log('@1Marker-No:_-58828915');
   options.dependencies.result = {
     dependencies: dependencies,
     numberOfDependenciesExited: numberOfDependenciesExited,
@@ -206,16 +200,12 @@ async function getDependencies(options) {
     );
 
     netResponse = response.stdout;
-  } catch (error) {
-    console.log('@1Marker-No:_738561607🛑');
-  }
+  } catch (error) {}
 
   //! Get expose ports:
 
   options.dependencies.netResponse = netResponse;
-  console.log('@1Marker-No:_1288219128');
 
-  console.log('@1Marker-No:_37827449');
   forked.kill('SIGHUP'); //Close parallel service
   console.log(' 🏁 Close the parallel script');
 

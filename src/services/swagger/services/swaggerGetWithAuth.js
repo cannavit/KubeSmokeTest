@@ -3,8 +3,6 @@ const swaggerSmktest = require('swagger-smktest');
 require('dotenv').config();
 
 async function test() {
-  console.log('@1Marker-No:_354467327');
-
   // Using Edutelling ---------
   let swaggerLoginCurl = process.env.SMKTEST_SWAGGER_LOGIN_CURL;
   let checkSwaggerApis = process.env.SMKTEST_CHECK_SWAGGER_APIS;

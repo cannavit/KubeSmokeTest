@@ -22,18 +22,18 @@ The smoke tests focus on validating the stability of the cluster. It is highly r
 
 ## Library status:
 
-| Type of Test                       | Status | Inputs Required | Command                                       |
-| :--------------------------------- | :----- | :-------------- | :-------------------------------------------- |
-| Check Logs Content                 | ✅     | 🤖 Automatic    | --check-pods-logs                             |
-| Check Pods Status                  | ✅     | 🤖 Automatic    | --check-if-all-pods-are-active                |
-| Check if Ingress are active        | ✅     | 🤖 Automatic    | --check-ingress                               |
-| Check endpoint                     | ✅     | 🤖 Automatic    | --assert-curl                                 |
-| Check volume                       | ✅     | 🤖 Automatic    | --check-volumes                               |
-| Check networks                     | ✅     | 🤖 Automatic    | --check-networks-from-service                 |
-| Check Publics Apis with Swagger    | ✅     | 👋 Manual       | --check-swagger-publics-apis                  |
-| Check Swagger [GET]/Apis with Auth | ✅     | 👋 Manual       | --check-swagger-apis and --swagger-login-curl |
-| Check dependencies                 | ❌     | 👋 Manual       | pending                                       |
-| Add Smoke criterial                | ❌     | 🤖 Automatic    | pending                                       |
+| Type of Test                       | Status | Command                                       |
+| :--------------------------------- | :----- | :-------------------------------------------- |
+| Check Logs Content                 | ✅     | --check-pods-logs                             |
+| Check Pods Status                  | ✅     | --check-if-all-pods-are-active                |
+| Check if Ingress are active        | ✅    | --check-ingress                               |
+| Check endpoint                     | ✅    | --assert-curl                                 |
+| Check volume                       | ✅    | --check-volumes                               |
+| Check networks                     | ✅    | --check-networks-from-service                 |
+| Check Publics Apis with Swagger    | ✅    | --check-swagger-publics-apis                  |
+| Check Swagger [GET]/Apis with Auth | ✅    | --check-swagger-apis and --swagger-login-curl |
+| Check dependencies                 | ✅    | pending                                       |
+| Add Smoke criterial                | ❌    | pending                                       |
 
 #### Example how to use the smoke-test structure inside of one pipeline:
 
@@ -65,7 +65,7 @@ These are the parameters to enable the different types of smoke tests
 | --check-if-all-pods-are-active | SMKTEST_CHECK_IF_ALL_PODS_ARE_ACTIVE | Kubernetes | Check if all pods are active                                                |
 | --check-conditions             | SMKTEST_CHECK_CONDITIONS             | Kubernetes | Check cluster condition (MemoryPressure, PIDPressure)                       |
 | --check-pods-logs              | SMKTEST_CHECK_PODS_LOGS              | Kubernetes | Check if exist logs error inside of Pods                                    |
-| --assert-curl                  | SMKTEST_ASSERT_CURL                  | all        | Check respose using Curl petitions                                          |
+| --assert-curl                  | SMKTEST_ASSERT_CURL                  | all        | Check respose using Curl petitions                                          |`
 | --check-ingress                | SMKTEST_CHECK_INGRESS                | Kubernetes | Check ingress and load balancer                                             |
 | --check-volumes                | SMKTEST_CHECK_VOLUMES                | Kubernetes | Check that the available space is less than 80% percent                     |
 | --check-swagger-publics-apis   | SMKTEST_CHECK_SWAGGER_PUBLICS_APIS   | all        | Check if exist 500 status response code in swagger apis                     |
@@ -384,4 +384,5 @@ With this test, a PING_TCP request can be made through a service within the clus
         docker login --username $DOCKER_USER -p $DOCKER_TOKEN
     2. Build base imagen:
         docker build -t smktesting/smoke-master:latest -f Dockerfile .
+
     3. docker push smktesting/smoke-master:latest

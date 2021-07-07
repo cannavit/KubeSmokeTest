@@ -34,7 +34,6 @@ async function getLatestPods(options) {
     let existPodByService = false;
 
     for (const key2 in options.testConfig.kubernetes.pods) {
-      //   console.log('@1Marker-No:_887020282');
       existPodByService = false;
       let pod = options.testConfig.kubernetes.pods[key2];
       let namePod = pod.pod;

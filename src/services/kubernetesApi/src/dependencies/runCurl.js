@@ -15,7 +15,6 @@ async function initDependencies(options) {
   );
 
   try {
-    console.log('@1Marker-No:_-2144834999');
     await shell.exec(SMKTEST_CURL_DEPENDENCIES, {
       silent: false,
     });
@@ -33,8 +32,6 @@ async function initDependencies(options) {
     } catch (error) {
       console.log(' 🛑 ERROR: ', error.message);
     }
-
-    console.log('@1Marker-No:_405191413');
   }
 
   return options;

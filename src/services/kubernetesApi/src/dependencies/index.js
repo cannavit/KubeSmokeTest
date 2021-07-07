@@ -50,10 +50,7 @@ async function checkDependencies(options) {
 
   let netResponse = options.dependencies.netResponse;
   let numberOfDependenciesExited = 0;
-  console.log('@1Marker-No:_-798151914');
   for (const key in services) {
-    console.log();
-    console.log('@1Marker-No:_-1985270138');
     // Get pod name
     let element = services[key];
 
@@ -174,7 +171,6 @@ async function getDependencies(options) {
   options = await installLibraryDependencies(options);
 
   let podMaster = options.dependencies.podMaster;
-
   //! Get TOKEN:
   let token = await swaggerSmktest.getToken({
     tokenConfig: {
@@ -204,7 +200,7 @@ async function getDependencies(options) {
   );
   let netResponse;
   let response = await shell.exec(
-    `kubectl --namespace=${namespace} exec ${podMaster} -- timeout 5 tcpdump -c 100 -i ${SMKTEST_DEPENDENCIES_NET} -n`,
+    `kubectl --namespace=${namespace} exec ${podMaster} -- timeout 10 tcpdump -c 100 -i ${SMKTEST_DEPENDENCIES_NET} -n`,
     {
       silent: false,
     }
@@ -225,13 +221,13 @@ async function getDependencies(options) {
   return options;
 }
 
-getDependencies({
-  namespace: 'edutelling-develop',
-  testConfig: {
-    kubernetes: {
-      namespace: 'edutelling-develop',
-    },
-  },
-});
+// getDependencies({
+//   namespace: 'edutelling-develop',
+//   testConfig: {
+//     kubernetes: {
+//       namespace: 'edutelling-develop',
+//     },
+//   },
+// });
 
 module.exports.getDependencies = getDependencies;
