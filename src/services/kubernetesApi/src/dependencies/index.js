@@ -75,7 +75,7 @@ async function checkDependencies(options) {
 async function installLibraryDependencies(options) {
   //
   let SMKTEST_CHECK_DEPENDENCIES_FROM_SERVICE =
-    process.env.SMKTEST_CHECK_DEPENDENCIES_FROM_SERVICE;
+    process.env.SMKTEST_CHECK_DEPENDENCIES_FROM_SERVICE; //?
 
   let pods = await getPods(options);
   pods = options.testConfig.kubernetes.pods;
@@ -166,7 +166,7 @@ async function getDependencies(options) {
 
   let namespace = options.namespace
     ? options.namespace
-    : process.env.SMKTEST_NAMESPACE;
+    : process.env.SMKTEST_NAMESPACE; //?
 
   options = await installLibraryDependencies(options);
 

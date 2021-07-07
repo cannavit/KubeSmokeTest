@@ -16,8 +16,13 @@ RUN  /usr/bin/curl -LO https://storage.googleapis.com/kubernetes-release/release
 # Directory by config certify. 
 RUN mkdir -p /etc/deploy
 # Copy Project
+
 RUN mkdir -p /usr/src/app
+
 WORKDIR /usr/src/app
 COPY . /usr/src/app
+
 RUN npm install
+RUN npm install shelljs
+
 RUN npm link
