@@ -18,6 +18,10 @@ async function initDependencies(options) {
     },
   });
 
+  console.log('>>>>>-103375224>>>>>');
+  console.log(token);
+  console.log('<<<<<<<<<<<<<<<<<<<');
+
   SMKTEST_CURL_DEPENDENCIES = SMKTEST_CURL_DEPENDENCIES.replace(
     '$SMKTEST_CURL_LOGIN',
     token.tokenObj.tokenValue
