@@ -11,6 +11,13 @@ async function initDependencies(options) {
   let SMKTEST_CURL_LOGIN = process.env.SMKTEST_CURL_LOGIN;
   let SMKTEST_CURL_DEPENDENCIES = process.env.SMKTEST_CURL_DEPENDENCIES;
 
+  console.log('>>>>>-1771688685>>>>>');
+  console.log(SMKTEST_CURL_LOGIN);
+  console.log('<<<<<<<<<<<<<<<<<<<');
+  console.log('>>>>>-929487283>>>>>');
+  console.log(SMKTEST_CURL_DEPENDENCIES);
+  console.log('<<<<<<<<<<<<<<<<<<<');
+
   // options.tokenConfig.curlRequest;
   let token = await swaggerSmktest.getToken({
     tokenConfig: {
@@ -18,12 +25,20 @@ async function initDependencies(options) {
     },
   });
 
+  console.log('>>>>>1519141600>>>>>');
+  console.log(token);
+  console.log('<<<<<<<<<<<<<<<<<<<');
+
   SMKTEST_CURL_DEPENDENCIES = SMKTEST_CURL_DEPENDENCIES.replace(
     '$SMKTEST_CURL_LOGIN',
     token.tokenObj.tokenValue
   );
 
   // console.log(key);
+
+  console.log('>>>>>-82508259>>>>>');
+  console.log(SMKTEST_CURL_DEPENDENCIES);
+  console.log('<<<<<<<<<<<<<<<<<<<');
 
   let response = await shell.exec(SMKTEST_CURL_DEPENDENCIES, {
     silent: true,
