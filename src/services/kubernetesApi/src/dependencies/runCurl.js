@@ -12,6 +12,10 @@ async function initDependencies(options) {
     options.msg.token
   );
 
+  console.log('>>>>>-549535235>>>>>');
+  console.log(options.msg.token);
+  console.log('<<<<<<<<<<<<<<<<<<<');
+
   console.log(
     ` \n ℹ️  Parallel Script Depenencies CURL: \n \n ${SMKTEST_CURL_DEPENDENCIES} \n`
   );
