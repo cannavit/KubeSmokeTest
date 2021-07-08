@@ -214,11 +214,11 @@ async function getDependencies(options) {
   // console.log(" Use the ")
 
   console.log(
-    `🧪 kubectl --namespace=${namespace} exec ${podMaster} -- timeout 10 tcpdump -c 100 -i ${SMKTEST_DEPENDENCIES_NET} -n \n`
+    `🧪 kubectl --namespace=${namespace} exec ${podMaster} -- timeout 20 tcpdump -c 100 -i ${SMKTEST_DEPENDENCIES_NET} -n \n`
   );
   let netResponse;
   let response = await shell.exec(
-    `kubectl --namespace=${namespace} exec ${podMaster} -- timeout 5 tcpdump -c 100 -i ${SMKTEST_DEPENDENCIES_NET} -n`,
+    `kubectl --namespace=${namespace} exec ${podMaster} -- timeout 20 tcpdump -c 100 -i ${SMKTEST_DEPENDENCIES_NET} -n`,
     {
       silent: false,
     }
