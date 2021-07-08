@@ -46,6 +46,6 @@ process.on('message', (msg) => {
   if (msg.runCurl) {
     setTimeout(async () => {
       options = await initDependencies(options);
-    }, 2000);
+    }, 5000);
   }
 });
