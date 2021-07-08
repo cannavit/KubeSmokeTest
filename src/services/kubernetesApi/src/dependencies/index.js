@@ -200,14 +200,19 @@ async function getDependencies(options) {
 
   console.log('⌛️ Test dependencies, run parallel script runCurl.js ');
 
+  console.log('@1Marker-No:_-918590183');
   console.log('🔑 TOKEN :', token.tokenObj.tokenValue);
 
-  SMKTEST_CURL_DEPENDENCIES_TOKEN =
-    process.env.SMKTEST_CURL_DEPENDENCIES.replace(
-      '$SMKTEST_CURL_LOGIN',
-      token.tokenObj.tokenValue
-    );
+  let SMKTEST_CURL_DEPENDENCIES_TOKEN = process.env.SMKTEST_CURL_DEPENDENCIES;
 
+  console.log('>>>>>669684720>>>>>');
+  console.log(SMKTEST_CURL_DEPENDENCIES_TOKEN);
+  console.log('<<<<<<<<<<<<<<<<<<<');
+
+  SMKTEST_CURL_DEPENDENCIES_TOKEN = SMKTEST_CURL_DEPENDENCIES_TOKEN.replace(
+    '$SMKTEST_CURL_LOGIN',
+    token.tokenObj.tokenValue
+  );
   console.log('>>>>>2004327509>>>>>');
   console.log(SMKTEST_CURL_DEPENDENCIES_TOKEN);
   console.log('<<<<<<<<<<<<<<<<<<<');
