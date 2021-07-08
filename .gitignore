@@ -16,7 +16,7 @@ local.properties
 .passTest.txt
 # External tool builders
 .externalToolBuilders/
-
+.env
 # Locally stored "Eclipse launch configurations"
 *.launch
 

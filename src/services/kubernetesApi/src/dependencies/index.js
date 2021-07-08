@@ -213,6 +213,7 @@ async function getDependencies(options) {
     '$SMKTEST_CURL_LOGIN',
     token.tokenObj.tokenValue
   );
+
   console.log('>>>>>2004327509>>>>>');
   console.log(SMKTEST_CURL_DEPENDENCIES_TOKEN);
   console.log('<<<<<<<<<<<<<<<<<<<');
