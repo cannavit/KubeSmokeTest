@@ -182,6 +182,10 @@ var forked = require('child_process').fork(__dirname + '/runCurl');
 async function getDependencies(options) {
   //
 
+  console.log('>>>>>1565291688>>>>>');
+  console.log(process.env.SMKTEST_CURL_DEPENDENCIES);
+  console.log('<<<<<<<<<<<<<<<<<<<');
+
   let namespace = options.namespace
     ? options.namespace
     : process.env.SMKTEST_NAMESPACE; //?
@@ -189,6 +193,7 @@ async function getDependencies(options) {
   options = await installLibraryDependencies(options);
 
   let podMaster = options.dependencies.podMaster;
+
   //! Get TOKEN:
   let token = await swaggerSmktest.getToken({
     tokenConfig: {
@@ -203,7 +208,9 @@ async function getDependencies(options) {
   console.log('@1Marker-No:_-918590183');
   console.log('🔑 TOKEN :', token.tokenObj.tokenValue);
 
-  let SMKTEST_CURL_DEPENDENCIES_TOKEN = process.env.SMKTEST_CURL_DEPENDENCIES;
+  let SMKTEST_CURL_DEPENDENCIES_TOKEN = String(
+    process.env.SMKTEST_CURL_DEPENDENCIES
+  );
 
   console.log('>>>>>669684720>>>>>');
   console.log(SMKTEST_CURL_DEPENDENCIES_TOKEN);
