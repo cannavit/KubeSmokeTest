@@ -208,6 +208,10 @@ async function getDependencies(options) {
       token.tokenObj.tokenValue
     );
 
+  console.log('>>>>>2004327509>>>>>');
+  console.log(SMKTEST_CURL_DEPENDENCIES_TOKEN);
+  console.log('<<<<<<<<<<<<<<<<<<<');
+
   forked.send({
     runCurl: true,
     SMKTEST_CURL_LOGIN: process.env.SMKTEST_CURL_LOGIN,
