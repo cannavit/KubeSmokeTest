@@ -7,14 +7,7 @@ const swaggerSmktest = require('swagger-smktest');
 async function initDependencies(options) {
   //Get environment variables.
 
-  let SMKTEST_CURL_DEPENDENCIES = options.msg.SMKTEST_CURL_DEPENDENCIES.replace(
-    '$SMKTEST_CURL_LOGIN',
-    options.msg.token
-  );
-
-  console.log('>>>>>-549535235>>>>>');
-  console.log(options.msg.token);
-  console.log('<<<<<<<<<<<<<<<<<<<');
+  let SMKTEST_CURL_DEPENDENCIES = options.msg.SMKTEST_CURL_DEPENDENCIES;
 
   console.log(
     ` \n ℹ️  Parallel Script Depenencies CURL: \n \n ${SMKTEST_CURL_DEPENDENCIES} \n`
