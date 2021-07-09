@@ -28,7 +28,7 @@ test(`🧪 Check dependencies from inside of service ${checkDependenciesFromServ
     }
   } else {
     totalDependencies = Number(assertNumberOfDependenciesExited);
-    if (numberOfDependenciesExited === totalDependencies) {
+    if (numberOfDependenciesExited >= totalDependencies) {
       passTest = true;
     }
   }
