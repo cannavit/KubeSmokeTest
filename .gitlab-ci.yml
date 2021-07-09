@@ -146,7 +146,7 @@ dependencies:
     SMKTEST_CURL_DEPENDENCIES: curl 'https://edutelling-api-develop.openshift.techgap.it/api/v1/auth/user' -H 'authority:edutelling-api-develop.openshift.techgap.it' -H 'sec-ch-ua:" Not;A Brand";v="99", "Google Chrome";v="91", "Chromium";v="91"' -H 'accept:application/json, text/plain, */*' -H 'authorization:Bearer $SMKTEST_CURL_LOGIN' -H 'accept-language:it' -H 'sec-ch-ua-mobile:?0' -H 'user-agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36' -H 'origin:https://edutelling-app-develop.openshift.techgap.it' -H 'sec-fetch-site:same-site' -H 'sec-fetch-mode:cors' -H 'sec-fetch-dest:empty' -H 'referer:https://edutelling-app-develop.openshift.techgap.it/' -H 'if-none-match:W/"837-HakEFZEWDaF6n7swn4jHVp/2fX0"' --compressed
     SMKTEST_CHECK_DEPENDENCIES_FROM_SERVICE: edutelling-api
   script:
-    - create-smktest  --assert-number-of-dependencies-exited=2
+    - create-smktest  --assert-number-of-dependencies-exited=1
   only:
     - master
   allow_failure: true #If fail using waring signal
