@@ -13,19 +13,11 @@ async function initDependencies(options) {
 
   // options.tokenConfig.curlRequest;
 
-  console.log('>>>>>1889659292>>>>>');
-  console.log(SMKTEST_CURL_LOGIN);
-  console.log('<<<<<<<<<<<<<<<<<<<');
-
   let token = await swaggerSmktest.getToken({
     tokenConfig: {
       curlRequest: SMKTEST_CURL_LOGIN,
     },
   });
-
-  console.log('>>>>>-103375224>>>>>');
-  console.log(token);
-  console.log('<<<<<<<<<<<<<<<<<<<');
 
   SMKTEST_CURL_DEPENDENCIES = SMKTEST_CURL_DEPENDENCIES.replace(
     '$SMKTEST_CURL_LOGIN',

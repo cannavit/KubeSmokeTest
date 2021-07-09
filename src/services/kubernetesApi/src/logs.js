@@ -115,8 +115,6 @@ module.exports.getLogsV2 = async function (options) {
 
   // options = await getPods(options);
 
-  //>>>>>>>>>
-
   const k8sApi = await getKS();
 
   let namespace = options.testConfig.kubernetes.namespace;

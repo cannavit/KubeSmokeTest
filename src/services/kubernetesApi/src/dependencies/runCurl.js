@@ -15,7 +15,7 @@ async function initDependencies(options) {
 
   try {
     await shell.exec(SMKTEST_CURL_DEPENDENCIES, {
-      silent: false,
+      silent: true,
     });
   } catch (error) {
     console.log('🐞 ERROR :' + error.message);
@@ -26,7 +26,7 @@ async function initDependencies(options) {
 
     try {
       await shell.exec(options.msg.SMKTEST_CURL_LOGIN, {
-        silent: false,
+        silent: true,
       });
     } catch (error) {
       console.log(' 🛑 ERROR: ', error.message);

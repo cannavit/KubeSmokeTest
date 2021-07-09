@@ -15,7 +15,7 @@ export async function curlSingleTest(options) {
   const optionsJest = {
     projects: [__dirname],
     roots: [__dirname],
-    silent: false,
+    silent: true,
   };
 
   let testResult = await jest.runCLI(optionsJest, optionsJest.projects);

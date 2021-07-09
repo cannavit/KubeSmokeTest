@@ -11,13 +11,6 @@ async function initDependencies(options) {
   let SMKTEST_CURL_LOGIN = process.env.SMKTEST_CURL_LOGIN;
   let SMKTEST_CURL_DEPENDENCIES = process.env.SMKTEST_CURL_DEPENDENCIES;
 
-  console.log('>>>>>-1771688685>>>>>');
-  console.log(SMKTEST_CURL_LOGIN);
-  console.log('<<<<<<<<<<<<<<<<<<<');
-  console.log('>>>>>-929487283>>>>>');
-  console.log(SMKTEST_CURL_DEPENDENCIES);
-  console.log('<<<<<<<<<<<<<<<<<<<');
-
   // options.tokenConfig.curlRequest;
   let token = await swaggerSmktest.getToken({
     tokenConfig: {
@@ -25,20 +18,12 @@ async function initDependencies(options) {
     },
   });
 
-  console.log('>>>>>1519141600>>>>>');
-  console.log(token);
-  console.log('<<<<<<<<<<<<<<<<<<<');
-
   SMKTEST_CURL_DEPENDENCIES = SMKTEST_CURL_DEPENDENCIES.replace(
     '$SMKTEST_CURL_LOGIN',
     token.tokenObj.tokenValue
   );
 
   // console.log(key);
-
-  console.log('>>>>>-82508259>>>>>');
-  console.log(SMKTEST_CURL_DEPENDENCIES);
-  console.log('<<<<<<<<<<<<<<<<<<<');
 
   let response = await shell.exec(SMKTEST_CURL_DEPENDENCIES, {
     silent: true,
@@ -182,9 +167,10 @@ var forked = require('child_process').fork(__dirname + '/runCurl');
 async function getDependencies(options) {
   //
 
-  console.log('>>>>>1565291688>>>>>');
-  console.log(process.env.SMKTEST_CURL_DEPENDENCIES);
-  console.log('<<<<<<<<<<<<<<<<<<<');
+  console.log(
+    'RUN PARALLEL COMMAND DEPENDENCIES : ' +
+      process.env.SMKTEST_CURL_DEPENDENCIES
+  );
 
   let namespace = options.namespace
     ? options.namespace
@@ -204,26 +190,26 @@ async function getDependencies(options) {
   //! Run Script in parallel:
 
   console.log('⌛️ Test dependencies, run parallel script runCurl.js ');
-
-  console.log('@1Marker-No:_-918590183');
   console.log('🔑 TOKEN :', token.tokenObj.tokenValue);
 
   let SMKTEST_CURL_DEPENDENCIES_TOKEN = String(
     process.env.SMKTEST_CURL_DEPENDENCIES
   );
 
-  console.log('>>>>>669684720>>>>>');
-  console.log(SMKTEST_CURL_DEPENDENCIES_TOKEN);
-  console.log('<<<<<<<<<<<<<<<<<<<');
+  console.log(
+    'READ VARIABLE SMKTEST_CURL_DEPENDENCIES :   ' +
+      SMKTEST_CURL_DEPENDENCIES_TOKEN
+  );
 
   SMKTEST_CURL_DEPENDENCIES_TOKEN = SMKTEST_CURL_DEPENDENCIES_TOKEN.replace(
     '$SMKTEST_CURL_LOGIN',
     token.tokenObj.tokenValue
   );
 
-  console.log('>>>>>2004327509>>>>>');
-  console.log(SMKTEST_CURL_DEPENDENCIES_TOKEN);
-  console.log('<<<<<<<<<<<<<<<<<<<');
+  console.log(
+    'EVAL TOKEN INSIDE OF THE SMKTEST_CURL_DEPENDENCIES :' +
+      SMKTEST_CURL_DEPENDENCIES_TOKEN
+  );
 
   forked.send({
     runCurl: true,

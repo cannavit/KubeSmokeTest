@@ -26,11 +26,9 @@ test(`Check Kubernetes Ingress`, async () => {
     //Check if is one Error.
 
     if (!element.passTest) {
-      console.log('ERROR >>>>>>>>>>>>>>>>>>>>>>>>>>>');
       console.log('🐞 🛑 ERROR: Ingress: ' + element.test);
       console.log('🚪 check your ingress in the cluster');
       console.log('🚪 KeyWold :', element.keyWold);
-      console.log(' <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
       passTest = false;
     }
     {

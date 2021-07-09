@@ -27,7 +27,6 @@ async function getSwaggerGetPublicApis(options) {
     report,
     abstractReport,
   } = await swaggerSmktest.smokeTest(docsSwagger);
-  console.log(report);
 
   //Get test fail for send the report
   let failTestList = [];
