@@ -3,13 +3,11 @@
 FROM node:14.4.0-alpine
 # FROM node:14.4.0
 WORKDIR /tmp
-# Install uitls
-RUN apk update
-RUN apk add curl
-RUN apk add util-linux
-
-# Install kubeclt
-RUN  /usr/bin/curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl \
+# Install uitls and install kubectl
+RUN apk update \
+    && apk add curl \
+    && apk add util-linux \
+    && /usr/bin/curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl \
     && chmod +x ./kubectl  \
     &&  mv ./kubectl /usr/local/bin/kubectl 
 
