@@ -10,7 +10,6 @@ stages:
   - swagger
   - docker-hub
   
-
 variables:
   CI_VERSION: "1.0.${CI_JOB_ID}"
   KUBECONFIG: /etc/deploy/config
@@ -40,7 +39,6 @@ variables:
     - echo $KUBERNETES_TOKEN | base64 -d > /etc/deploy/config
   variables:
     SMKTEST_CONTEXT: 'kubernetes'
-
 
 
 # Template for use Curl or swagger smoke test.
