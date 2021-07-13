@@ -10,6 +10,7 @@ stages:
   - swagger
   - docker-hub
   
+  
 variables:
   CI_VERSION: "1.0.${CI_JOB_ID}"
   KUBECONFIG: /etc/deploy/config
