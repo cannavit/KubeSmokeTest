@@ -90,7 +90,6 @@ module.exports.getLogs = async function (options) {
       wordError: wordError,
     });
   }
-  // console.log(body);
 
   options.testConfig.kubernetes.logs = logs;
   options.testConfig.kubernetes.logs.reportText = logsReportText;
@@ -174,7 +173,6 @@ module.exports.getLogsV2 = async function (options) {
       logsShort: logsShort ? logsShort : '',
     });
   }
-  // console.log(body);
 
   options.testConfig.kubernetes.logs = logs;
   options.testConfig.kubernetes.logs.reportText = logsReportText;

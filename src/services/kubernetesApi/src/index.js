@@ -24,8 +24,6 @@ async function initDependencies(options) {
     token.tokenObj.tokenValue
   );
 
-  // console.log(key);
-
   let response = await shell.exec(SMKTEST_CURL_DEPENDENCIES, {
     silent: true,
   });
@@ -107,8 +105,6 @@ async function installLibraryDependencies(options) {
 
   response = response.stdout; //Get outupts
 
-  console.log(response);
-
   console.log(' 2) Install net-tool \n');
 
   console.log(
@@ -118,7 +114,7 @@ async function installLibraryDependencies(options) {
   response = await shell.exec(
     `kubectl --namespace=${namespace} exec ${podName} -- apt-get install -y net-tools`,
     {
-      silent: false,
+      silent: true,
     }
   );
 
@@ -182,11 +178,7 @@ async function getDependencies(options) {
     token: token.tokenObj.tokenValue,
   });
 
-  // console.log('Open tcpdump ');
-
   let SMKTEST_DEPENDENCIES_NET = process.env.SMKTEST_DEPENDENCIES_NET || 'eth0';
-
-  // console.log(" Use the ")
 
   console.log(
     `🧪 kubectl --namespace=${namespace} exec ${podMaster} -- timeout 5 tcpdump -c 100 -i ${SMKTEST_DEPENDENCIES_NET} -n \n`
@@ -196,7 +188,7 @@ async function getDependencies(options) {
     let response = await shell.exec(
       `kubectl --namespace=${namespace} exec ${podMaster} -- timeout 5 tcpdump -c 100 -i ${SMKTEST_DEPENDENCIES_NET} -n`,
       {
-        silent: false,
+        silent: true,
       }
     );
 

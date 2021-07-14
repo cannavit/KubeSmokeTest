@@ -1,8 +1,13 @@
 const { getKS } = require('./connect');
 
 module.exports.getServices = async function (options) {
+  //
   const k8sApi = await getKS();
-  let nameSpace = options.namespace || options.testConfig.kubernetes.namespace; //?
+
+  if (!options.namespace) {
+    options = JSON.parse(process.env.SMKTEST_OPTIONS);
+  }
+  let nameSpace = options.namespace; //?
 
   let listServices = [];
   let listNamespace;
@@ -60,12 +65,15 @@ module.exports.getServices = async function (options) {
     }
   });
 
-  if (options.testConfig.kubernetes.services) {
+  if (options.testConfig) {
     options.testConfig.kubernetes.services = listServices;
   } else {
-    options.testConfig.kubernetes = {
-      services: listServices,
+    options.testConfig = {
+      kubernetes: {
+        services: listServices,
+      },
     };
   }
+
   return options;
 };

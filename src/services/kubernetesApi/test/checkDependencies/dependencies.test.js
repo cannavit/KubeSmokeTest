@@ -40,14 +40,12 @@ test(`🧪 Check dependencies from inside of service ${checkDependenciesFromServ
       `  🎯 Captured ${String(
         numberOfDependenciesExited
       )} dependencies out of a total of ${String(totalDependencies)} \n`;
-    console.log(responseLogTest);
   } else {
     responseLogTest =
       ` \n 🛑 Error Dependencies Test from ${checkDependenciesFromService} \n` +
       `  🎯 Captured ${String(
         numberOfDependenciesExited
       )} dependencies out of a total of ${String(totalDependencies)} \n`;
-    console.log(responseLogTest);
   }
 
   var dateFinish = await new Date();

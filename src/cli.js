@@ -21,6 +21,8 @@ require('dotenv').config();
 import { curlSingleTest } from './services/assertTest/services/curl';
 
 function parseArgumentsIntoOptions(rawArgs) {
+  //
+
   const args = arg(
     {
       '--criterial': String,
@@ -467,9 +469,9 @@ export async function cli(args) {
   if (options.listOfJestPath) {
     await runJestTest(options);
   }
-
-  return;
 }
+
+// cli();
 
 // create-smktest --project-name=test --environment=develop --context=kubernetes --namespace=NAMESPACE --mode-auto=true --assert-curl="curl www.google.com"
 

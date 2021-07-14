@@ -68,6 +68,7 @@ test(`Check Swagger [GET-WITH-AUTH]/${docsSwagger}`, async () => {
   let passTest = successSmokeTest;
 
   if (passTest === false || passTest === 'false') {
+    console.log('@1Marker-No:_-22657907');
     console.log(
       report.render() +
         '\n \n' +

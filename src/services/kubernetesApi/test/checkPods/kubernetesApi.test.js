@@ -36,16 +36,14 @@ test('Kubernetes smokeTest check if can read SERVICES', async () => {
 
   options = JSON.parse(process.env.SMKTEST_OPTIONS);
 
-  options = await getServices(options); // Get Pods Name
+  options = await getServices(options); //?
 
-  services = options.testConfig.kubernetes.services;
+  services = options.testConfig.kubernetes.services; //?
 
   let existPod = false;
   for (const key in services) {
     let service = services[key];
-
     let port = service.port;
-
     if (port) {
       existPod = true;
     }

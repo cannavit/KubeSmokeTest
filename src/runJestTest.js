@@ -9,7 +9,7 @@ module.exports.runJestTest = async function (options) {
   const optionsJest = {
     projects: [__dirname],
     roots: options.listOfJestPath,
-    silent: true,
+    silent: false,
   };
 
   let testResult = await jest.runCLI(optionsJest, optionsJest.projects);

@@ -28,7 +28,6 @@ test('Check space free inside of volumes', async () => {
           )
       );
 
-      console.log();
       console.log(chalk.red.bold(element.responseTestOriginal));
     } else {
       console.log(
