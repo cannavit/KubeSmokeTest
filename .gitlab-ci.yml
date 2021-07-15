@@ -258,7 +258,6 @@ allSmokeTest:
     SMKTEST_PROJECT_NAME: "edutelling-develop"
     SMKTEST_ENVIRONMENT: "develop"
     SMKTEST_NAMESPACE: "edutelling-develop"
-    SMKTEST_CONTEXT: 'kubernetes'
     # Apply Test. 
     SMKTEST_CHECK_IF_ALL_PODS_ARE_ACTIVE: "true"
     SMKTEST_CHECK_INGRESS: "true"
@@ -278,7 +277,7 @@ allSmokeTest:
     - create-smktest
   only:
     - production
-  allow_failure: true #If fail using waring signal
+  # allow_failure: true #If fail using waring signal
 
 pushDockerHub:
   image: docker:latest
