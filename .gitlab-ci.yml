@@ -253,24 +253,31 @@ allSmokeTest:
   <<: *smoke-test-kubernetes-prod
   stage: swagger
   variables:
+    # Config params: -------
     SMKTEST_CONTEXT: 'kubernetes'
+    SMKTEST_PROJECT_NAME: "edutelling-develop"
+    SMKTEST_ENVIRONMENT: "develop"
+    SMKTEST_NAMESPACE: "edutelling-develop"
+    SMKTEST_CONTEXT: 'kubernetes'
+    # Apply Test. 
     SMKTEST_CHECK_IF_ALL_PODS_ARE_ACTIVE: "true"
     SMKTEST_CHECK_INGRESS: "true"
     SMKTEST_CHECK_CONDITIONS: "true"
     SMKTEST_CHECK_LOGS: "true"
-    SMKTEST_CHECK_VOLUME: "true"    
+    SMKTEST_CHECK_VOLUME: "true"
+    #
     SMKTEST_CURL_LOGIN: curl -X POST "https://edutelling-api-develop.openshift.techgap.it/api/v1/auth/authentication" -H "accept:application/json" -H "Content-Type:application/json" -d "{ \"email\":\"formazione@edutelling.it\", \"password\":\"Passw0rd\", \"stayLogged\":false }"
     SMKTEST_CURL_DEPENDENCIES: curl 'https://edutelling-api-develop.openshift.techgap.it/api/v1/auth/user' -H 'authority:edutelling-api-develop.openshift.techgap.it' -H 'sec-ch-ua:" Not;A Brand";v="99", "Google Chrome";v="91", "Chromium";v="91"' -H 'accept:application/json, text/plain, */*' -H 'authorization:Bearer $SMKTEST_CURL_LOGIN' -H 'accept-language:it' -H 'sec-ch-ua-mobile:?0' -H 'user-agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36' -H 'origin:https://edutelling-app-develop.openshift.techgap.it' -H 'sec-fetch-site:same-site' -H 'sec-fetch-mode:cors' -H 'sec-fetch-dest:empty' -H 'referer:https://edutelling-app-develop.openshift.techgap.it/' -H 'if-none-match:W/"837-HakEFZEWDaF6n7swn4jHVp/2fX0"' --compressed    
     SMKTEST_ASSERT_NUMBER_OF_DEPENDENCIES_EXITED: 2
     SMKTEST_ASSERT_CURL: 'curl -X POST "https://edutelling-api-develop.openshift.techgap.it/api/v1/auth/authentication" -H "accept: application/json" -H "Content-Type: application/json" -d "{ \"email\": \"formazione@edutelling.it\", \"password\": \"Passw0rd\", \"stayLogged\": false }"'
     SMKTEST_CHECK_NETWORK_FROM_SERVICE: "edutelling-api"
-    SMKTEST_CHECK_SWAGGER_PUBLIC_APIS: "https://petstore.swagger.io/v2/swagger.json"
+    SMKTEST_CHECK_SWAGGER_PUBLIC_APIS: "https://edutelling-api-develop.openshift.techgap.it/api/v1/api-docs/"
     SMKTEST_SWAGGER_LOGIN_CURL: 'curl -X POST "https://edutelling-api-develop.openshift.techgap.it/api/v1/auth/authentication" -H "accept: application/json" -H "Content-Type: application/json" -d "{ \"email\": \"formazione@edutelling.it\", \"password\": \"Passw0rd\", \"stayLogged\": false }"'
     SMKTEST_CHECK_SWAGGER_APIS: https://edutelling-api-develop.openshift.techgap.it/api/v1/api-docs/
   script:
     - create-smktest
   only:
-    - production
+    - develop
   allow_failure: true #If fail using waring signal
 
 pushDockerHub:
