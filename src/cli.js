@@ -409,7 +409,14 @@ export async function cli(args) {
 
   //! Run Context test.
   process.env.SMKTEST_OPTIONS = JSON.stringify(options);
+  //
   if (options.context === 'kubernetes') {
+    //* Check the node cluster conditions:
+
+    if (options.checkConditions) {
+      options = await checkConditions(options);
+    }
+
     if (options.namespace) {
       //* Init kubernetes options
       options.testConfig = {
@@ -426,11 +433,6 @@ export async function cli(args) {
       //* Check the ingress of the cluster
       if (options.checkIngress) {
         options = await kubernetesIngress(options);
-      }
-
-      //* Check the node cluster conditions
-      if (checkConditions) {
-        options = await checkConditions(options);
       }
 
       //* Check if exist logs inside of the pods logs
