@@ -277,7 +277,7 @@ allSmokeTest:
   script:
     - create-smktest
   only:
-    - develop
+    - production
   allow_failure: true #If fail using waring signal
 
 pushDockerHub:
