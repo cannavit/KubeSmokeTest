@@ -75,6 +75,7 @@ These are the parameters to enable the different types of smoke tests
 
 ## Connect test remote kubernetes cluster.
 
+
 To connect the test to a remote cluster you must perform the following steps.
 
 #### 1. Copy the cluster credentials in this format
