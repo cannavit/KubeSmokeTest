@@ -28,7 +28,10 @@ The smoke tests focus on validating the stability of the cluster. It is highly r
 
 | Criteria name                      | Inputs | Criterial Command                             |  Criteria content |
 | :--------------------------------- | :----- | :-------------------------------------------- |:----------- |
-| Service Coverage                   | 🟢     | --service-coverage                            | --services-up, --check-if-all-pods-are-active|
+| Cluster Coverage                   | 🟢     | --cluster-coverage                            | --check-cluster, --check-nodes, --check-certificates, --check-internet-access, --check-main-ingress |
+| Service Coverage                   | 🟢     | --service-coverage                            | --services-up, --check-if-all-pods-are-active |
+| Resources Up                       | 🟢     | --resources-up                                | --volume-conditions, --volume-persistent |
+| Dependencies Coverage              | 🟢     | --dependencies-coverage                       | --images-not-latest |
 
 
 🟢 Inputs not required
@@ -49,8 +52,8 @@ The smoke tests focus on validating the stability of the cluster. It is highly r
 | Add Smoke criterial                | 🟠     | pending                                       | 
 
 
-🟢 Inputs not required
-🟠 Input required
+#### 🟢   - Inputs not required
+#### 🟠   - Input required
 #### Example how to use the smoke-test structure inside of one pipeline:
 
 It is recommended to use a first test to validate the conditions of the cluster as shown in the example with the step "checkCluster" This will check that the cluster is in proper conditions
@@ -79,7 +82,7 @@ These are the parameters to enable the different types of smoke tests
 | :----------------------------- | :----------------------------------- | :--------- | :-------------------------------------------------------------------------- |
 | --check-endpoints              | SMKTEST_CHECK_INGRESS                | Kubernetes | Verify that the income is available and without errors                      |
 | --check-if-all-pods-are-active | SMKTEST_CHECK_IF_ALL_PODS_ARE_ACTIVE | Kubernetes | Check if all pods are active                                                |
-| --check-cluster             | SMKTEST_CHECK_CONDITIONS             | Kubernetes | Check cluster condition (MemoryPressure, PIDPressure)                       |
+| --check-cluster                | SMKTEST_CHECK_CONDITIONS             | Kubernetes | Check cluster condition (MemoryPressure, PIDPressure)                       |
 | --check-pods-logs              | SMKTEST_CHECK_PODS_LOGS              | Kubernetes | Check if exist logs error inside of Pods                                    |
 | --assert-curl                  | SMKTEST_ASSERT_CURL                  | all        | Check respose using Curl petitions                                          |`
 | --check-ingress                | SMKTEST_CHECK_INGRESS                | Kubernetes | Check ingress and load balancer                                             |
