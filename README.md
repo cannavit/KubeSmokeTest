@@ -34,8 +34,8 @@ The smoke tests focus on validating the stability of the cluster. It is highly r
 | Dependencies Coverage              | 🟢     | --dependencies-coverage                       | --images-not-latest |
 
 
-🟢 Inputs not required
-🟠 Input required
+##### 🟢   - Inputs not required
+##### 🟠   - Input required
 ## Library status:
 
 | Type of Test                       | Inputs | Command                                       |
@@ -52,8 +52,8 @@ The smoke tests focus on validating the stability of the cluster. It is highly r
 | Add Smoke criterial                | 🟠     | pending                                       | 
 
 
-#### 🟢   - Inputs not required
-#### 🟠   - Input required
+##### 🟢   - Inputs not required
+##### 🟠   - Input required
 #### Example how to use the smoke-test structure inside of one pipeline:
 
 It is recommended to use a first test to validate the conditions of the cluster as shown in the example with the step "checkCluster" This will check that the cluster is in proper conditions
