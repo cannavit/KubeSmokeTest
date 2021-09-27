@@ -118,7 +118,7 @@ ingressPods:
 conditionsCluster:
   <<: *smoke-test-kubernetes
   script:
-    - create-smktest --check-conditions=true
+    - create-smktest --check-cluster=true
   only:
     - master
 

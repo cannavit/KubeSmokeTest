@@ -41,7 +41,7 @@ function parseArgumentsIntoOptions(rawArgs) {
       '--project-name': String,
       '--mode-auto': Boolean,
       '--check-ingress': Boolean,
-      '--check-conditions': Boolean,
+      '--check-cluster': Boolean,
       '--check-volumes': Boolean,
       '--check-if-all-pods-are-active': Boolean,
       '--check-pods-logs': Boolean,
@@ -166,7 +166,7 @@ function parseArgumentsIntoOptions(rawArgs) {
       variable: 'checkConditions',
       environmentVariable: 'SMKTEST_CHECK_CONDITIONS',
       defaultValue: false,
-      consoleValue: '--check-conditions',
+      consoleValue: '--check-cluster',
       jestTestPath: './src/services/kubernetesApi/test/checkConditions',
     },
     {
@@ -327,19 +327,28 @@ async function promptForContext(options) {
       ],
     });
   }
+
   let answers;
   if (options.configFile) {
     // only with --create-config-file
     answers = await inquirer.prompt(questions);
   }
+  
 
+  //! Default values >>>
+  let projectName; try { projectName = answers.projectName} catch (error) {projectName = "undefined"}
+  let environmentVariable; try { projectName = answers.environmentVariable} catch (error) {environmentVariable = "undefined"}
+  let environment; try { projectName = answers.environment} catch (error) {environment = "kubernetes"}
+  let context; try { projectName = answers.context} catch (error) {context = "kubernetes"}
+
+  
+   
   return {
     ...options,
-    projectName: options.projectName || answers.projectName,
-    environmentVariable:
-      options.environmentVariable || answers.environmentVariable,
-    environment: options.environment || answers.environment,
-    context: options.context || answers.context,
+    projectName: options.projectName || projectName,
+    environmentVariable: options.environmentVariable || environmentVariable,
+    environment: options.environment || environment,
+    context: options.context || context,
     // scannerApiMethod: options.scannerApiMethod || answers.scannerApiMethod,
   };
 }
@@ -497,6 +506,6 @@ export async function cli(args) {
 
 // create-smktest --project-name=test --environment=develop --context=kubernetes --namespace=edutelling-develop --mode-auto=true --check-ingress=true
 
-// create-smktest --project-name=test --environment=develop --context=kubernetes --namespace=edutelling-develop --mode-auto=true --check-conditions=true
+// create-smktest --project-name=test --environment=develop --context=kubernetes --namespace=edutelling-develop --mode-auto=true --check-cluster=true
 
 // create-smktest --project-name=test --environment=develop --context=kubernetes --namespace=edutelling-develop --mode-auto=true --check-pods-logs=true

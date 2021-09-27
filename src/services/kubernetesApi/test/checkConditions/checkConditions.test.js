@@ -23,7 +23,7 @@ test(`Check Node Conditions inside of the kubernetes cluster`, async () => {
     console.log(chalk.red.bold(response.conditionsText));
   } else {
     console.log(
-      chalk.green.bold('👍 SUCCESS, 🚀   TEST WITH --check-conditions')
+      chalk.green.bold('👍 SUCCESS, 🚀   TEST WITH --check-cluster')
     );
     console.log(chalk.green.bold(response.conditionsText));
   }

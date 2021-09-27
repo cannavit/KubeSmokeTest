@@ -1,5 +1,8 @@
 # 💨🔥💨 Smoke Master
 
+
+<!-- kubectl  get node | grep -v  "Ready" -->
+<!-- kubectl  get node -o=jsonpath='{.items[*].status.conditions[*].status}' -->
 #### ✅ Kubernetes, ✅ Automatic-test, ✅Smoke Test
 
 Smoke Master is a service dedicated to conducting smoke testing on kubernetes pipelines. It does not require any configuration in the cluster. The service accesses the cluster by SSH performs the tests and then is automatically destroyed, which makes it totally secure.
@@ -20,21 +23,34 @@ The smoke tests focus on validating the stability of the cluster. It is highly r
   - [Check publics apis using SWAGGER with Authentication](#check-publics-apis-using-swagger-with-authentication)
   - [Check notwork from services](#check-notwork-from-services)
 
+
+## Criteria content:
+
+| Criteria name                      | Inputs | Criterial Command                             |  Criteria content |
+| :--------------------------------- | :----- | :-------------------------------------------- |:----------- |
+| Service Coverage                   | 🟢     | --service-coverage                            | --services-up, --check-if-all-pods-are-active|
+
+
+🟢 Inputs not required
+🟠 Input required
 ## Library status:
 
-| Type of Test                       | Status | Command                                       |
+| Type of Test                       | Inputs | Command                                       |
 | :--------------------------------- | :----- | :-------------------------------------------- |
-| Check Logs Content                 | ✅     | --check-pods-logs                             |
-| Check Pods Status                  | ✅     | --check-if-all-pods-are-active                |
-| Check if Ingress are active        | ✅    | --check-ingress                               |
-| Check endpoint                     | ✅    | --assert-curl                                 |
-| Check volume                       | ✅    | --check-volumes                               |
-| Check networks                     | ✅    | --check-networks-from-service                 |
-| Check Publics Apis with Swagger    | ✅    | --check-swagger-publics-apis                  |
-| Check Swagger [GET]/Apis with Auth | ✅    | --check-swagger-apis and --swagger-login-curl |
-| Check dependencies                 | ✅    | pending                                       |
-| Add Smoke criterial                | ❌    | pending                                       |
+| Check Logs Content                 | 🟢     | --check-pods-logs                             |
+| Check Pods Status                  | 🟢     | --check-if-all-pods-are-active                | 
+| Check if Ingress are active        | 🟢     | --check-ingress                               | 
+| Check endpoint                     | 🟢     | --assert-curl                                 | 
+| Check volume                       | 🟢     | --check-volumes                               | 
+| Check networks                     | 🟢     | --check-networks-from-service                 | 
+| Check Publics Apis with Swagger    | 🟠     | --check-swagger-publics-apis                  | 
+| Check Swagger [GET]/Apis with Auth | 🟠     | --check-swagger-apis and --swagger-login-curl | 
+| Check dependencies                 | 🟠     | pending                                       |  
+| Add Smoke criterial                | 🟠     | pending                                       | 
 
+
+🟢 Inputs not required
+🟠 Input required
 #### Example how to use the smoke-test structure inside of one pipeline:
 
 It is recommended to use a first test to validate the conditions of the cluster as shown in the example with the step "checkCluster" This will check that the cluster is in proper conditions
@@ -63,7 +79,7 @@ These are the parameters to enable the different types of smoke tests
 | :----------------------------- | :----------------------------------- | :--------- | :-------------------------------------------------------------------------- |
 | --check-endpoints              | SMKTEST_CHECK_INGRESS                | Kubernetes | Verify that the income is available and without errors                      |
 | --check-if-all-pods-are-active | SMKTEST_CHECK_IF_ALL_PODS_ARE_ACTIVE | Kubernetes | Check if all pods are active                                                |
-| --check-conditions             | SMKTEST_CHECK_CONDITIONS             | Kubernetes | Check cluster condition (MemoryPressure, PIDPressure)                       |
+| --check-cluster             | SMKTEST_CHECK_CONDITIONS             | Kubernetes | Check cluster condition (MemoryPressure, PIDPressure)                       |
 | --check-pods-logs              | SMKTEST_CHECK_PODS_LOGS              | Kubernetes | Check if exist logs error inside of Pods                                    |
 | --assert-curl                  | SMKTEST_ASSERT_CURL                  | all        | Check respose using Curl petitions                                          |`
 | --check-ingress                | SMKTEST_CHECK_INGRESS                | Kubernetes | Check ingress and load balancer                                             |
@@ -136,7 +152,7 @@ This test validates that the ingress exposed in the cluster are active. The test
 
 #### Example:
 
-    create-smktest --check-ingress=true
+    create-smktest --namespace=NAME_SPACE --check-ingress
 
 #### Gitlab Pipeline example:
 
@@ -210,11 +226,11 @@ This command checks that those that do not exist alert in the cluster. These ale
 
 #### Command smoke-master:
 
-    --check-conditions
+    --check-cluster
 
 #### Example:
 
-    create-smktest --check-conditions=true
+    create-smktest --check-cluster
 
 #### Gitlab Pipeline example:
 
@@ -231,7 +247,7 @@ This command checks that those that do not exist alert in the cluster. These ale
     script:
         # Create cluster remote configuration file.
         - echo $KUBERNETES_TOKEN | base64 -d > /etc/deploy/config
-        - create-smktest --check-conditions=true
+        - create-smktest --check-cluster=true
     only:
         - master
 
@@ -276,7 +292,7 @@ This test is based on CURL requests. They can be used to check if an api is avai
 
 #### Example:
 
-    create-smktest --check-conditions=true
+    create-smktest --check-cluster=true
 
 #### Gitlab pipeline
 
