@@ -19,7 +19,7 @@ module.exports.checkConditions = async function (options) {
 
   var dateInit = await new Date();
 
-  response = response.stdout; //Get outupts
+  response = response.stdout; //Get outuptsj
   response = response.split('Conditions:'); // Detect kew wold
   response = response[1];
   response = 'Addresses: ' + response;

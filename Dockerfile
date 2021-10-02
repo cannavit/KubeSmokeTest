@@ -1,6 +1,6 @@
 # Smoke-Master. 
 # Project for create automatic smoke-testing suites. 
-FROM node:14.4.0-alpine
+FROM node:15.8.0-alpine
 # FROM node:14.4.0
 WORKDIR /tmp
 # Install uitls and install kubectl

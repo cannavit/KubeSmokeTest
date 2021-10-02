@@ -15,6 +15,8 @@ test(`Check Kubernetes Ingress`, async () => {
 
   // Load environment variable:
   let smktestKubeIngress = process.env['SMKTEST_KUBERNETES_INGRESS_BY_TEST'];
+  
+  
   smktestKubeIngress = JSON.parse(smktestKubeIngress);
 
   // smktestKubeIngress = smktestKubeIngress.split('@@s@@'); // Convert in one List

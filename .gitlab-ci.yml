@@ -10,10 +10,9 @@ stages:
   - swagger
   - docker-hub
   - testDockerHub
-  
-  
+
 variables:
-  CI_VERSION: "1.0.${CI_JOB_ID}"
+  CI_VERSION: '1.0.${CI_JOB_ID}'
   KUBECONFIG: /etc/deploy/config
   PROJECT_NAME: smoke-master
   SMKTEST_PROJECT_NAME: 'SmokeMaster'
@@ -27,7 +26,7 @@ variables:
   image: registry.gitlab.com/phdactivities/smoke-master:master
   stage: kubernetes
   before_script:
-    # Create cluster remote configuration file. 
+    # Create cluster remote configuration file.
     - echo $KUBERNETES_TOKEN | base64 -d > /etc/deploy/config
   variables:
     SMKTEST_CONTEXT: 'kubernetes'
@@ -37,11 +36,10 @@ variables:
   image: registry.gitlab.com/phdactivities/smoke-master:production
   stage: kubernetes
   before_script:
-    # Create cluster remote configuration file. 
+    # Create cluster remote configuration file.
     - echo $KUBERNETES_TOKEN | base64 -d > /etc/deploy/config
   variables:
     SMKTEST_CONTEXT: 'kubernetes'
-
 
 # Template for use Curl or swagger smoke test.
 .smoke-test-curl: &smoke-test-curl
@@ -53,8 +51,8 @@ variables:
 docker-build:
   image:
     name: gcr.io/kaniko-project/executor:debug-v0.19.0
-    entrypoint: [""]
-  stage: package  
+    entrypoint: ['']
+  stage: package
   script:
     - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
     - /kaniko/executor --context . --dockerfile Dockerfile --destination $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG --cache
@@ -82,7 +80,6 @@ checkLogin:
   only:
     - master
 
-
 # ------------------------------------------------------
 # EXAMPLE USING KUBERNETES: ----------------------------
 # ------------------------------------------------------>>>>
@@ -91,7 +88,7 @@ checkLogin:
 remoteAccess:
   <<: *smoke-test-curl
   script:
-    # Create cluster remote configuration file. 
+    # Create cluster remote configuration file.
     - echo $KUBERNETES_TOKEN | base64 -d > /etc/deploy/config
     - kubectl get pods --namespace=edutelling-develop
   only:
@@ -101,7 +98,7 @@ remoteAccess:
 podsActive:
   <<: *smoke-test-kubernetes
   script:
-    - create-smktest --check-if-all-pods-are-active=true
+    - create-smktest --check-pods-running=true
   only:
     - master
 
@@ -129,7 +126,6 @@ logsPods:
   only:
     - master
 
-
 volumeSpace:
   <<: *smoke-test-kubernetes
   script:
@@ -144,14 +140,13 @@ networks:
   only:
     - master
 
-
 dependencies:
   <<: *smoke-test-kubernetes
   variables:
     SMKTEST_CONTEXT: 'kubernetes'
     SMKTEST_PROJECT_NAME: smoke-test
     SMKTEST_ENVIRONMENT: develop
-    SMKTEST_NAMESPACE: edutelling-develop    
+    SMKTEST_NAMESPACE: edutelling-develop
     SMKTEST_CURL_LOGIN: curl -X POST "https://edutelling-api-develop.openshift.techgap.it/api/v1/auth/authentication" -H "accept:application/json" -H "Content-Type:application/json" -d "{ \"email\":\"formazione@edutelling.it\", \"password\":\"Passw0rd\", \"stayLogged\":false }"
     SMKTEST_CURL_DEPENDENCIES: curl 'https://edutelling-api-develop.openshift.techgap.it/api/v1/auth/user' -H 'authority:edutelling-api-develop.openshift.techgap.it' -H 'sec-ch-ua:" Not;A Brand";v="99", "Google Chrome";v="91", "Chromium";v="91"' -H 'accept:application/json, text/plain, */*' -H 'authorization:Bearer $SMKTEST_CURL_LOGIN' -H 'accept-language:it' -H 'sec-ch-ua-mobile:?0' -H 'user-agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36' -H 'origin:https://edutelling-app-develop.openshift.techgap.it' -H 'sec-fetch-site:same-site' -H 'sec-fetch-mode:cors' -H 'sec-fetch-dest:empty' -H 'referer:https://edutelling-app-develop.openshift.techgap.it/' -H 'if-none-match:W/"837-HakEFZEWDaF6n7swn4jHVp/2fX0"' --compressed
     SMKTEST_CHECK_DEPENDENCIES_FROM_SERVICE: edutelling-api
@@ -160,7 +155,6 @@ dependencies:
   only:
     - master
   allow_failure: true #If fail using waring signal
-
 
 # ------------------------------------------------<<<<
 
@@ -203,10 +197,9 @@ pubAPOT:
     - master
   allow_failure: true #If fail using waring signal
 
-
 # ------------------------------------------------------
 # EXAMPLE USING SWAGGER WITH AUTH: -------------------------------
-# ------------------------------------------------------>>>> 
+# ------------------------------------------------------>>>>
 
 authAEdutelling:
   <<: *smoke-test-kubernetes
@@ -253,22 +246,22 @@ allSmokeTest:
   variables:
     # Config params: -------
     SMKTEST_CONTEXT: 'kubernetes'
-    SMKTEST_PROJECT_NAME: "edutelling-develop"
-    SMKTEST_ENVIRONMENT: "develop"
-    SMKTEST_NAMESPACE: "edutelling-develop"
-    # Apply Test. 
-    SMKTEST_CHECK_IF_ALL_PODS_ARE_ACTIVE: "true"
-    SMKTEST_CHECK_INGRESS: "true"
-    SMKTEST_CHECK_CONDITIONS: "true"
-    SMKTEST_CHECK_LOGS: "true"
-    SMKTEST_CHECK_VOLUME: "true"
+    SMKTEST_PROJECT_NAME: 'edutelling-develop'
+    SMKTEST_ENVIRONMENT: 'develop'
+    SMKTEST_NAMESPACE: 'edutelling-develop'
+    # Apply Test.
+    SMKTEST_CHECK_IF_ALL_PODS_ARE_ACTIVE: 'true'
+    SMKTEST_CHECK_INGRESS: 'true'
+    SMKTEST_CHECK_CONDITIONS: 'true'
+    SMKTEST_CHECK_LOGS: 'true'
+    SMKTEST_CHECK_VOLUME: 'true'
     #
     SMKTEST_CURL_LOGIN: curl -X POST "https://edutelling-api-develop.openshift.techgap.it/api/v1/auth/authentication" -H "accept:application/json" -H "Content-Type:application/json" -d "{ \"email\":\"formazione@edutelling.it\", \"password\":\"Passw0rd\", \"stayLogged\":false }"
-    SMKTEST_CURL_DEPENDENCIES: curl 'https://edutelling-api-develop.openshift.techgap.it/api/v1/auth/user' -H 'authority:edutelling-api-develop.openshift.techgap.it' -H 'sec-ch-ua:" Not;A Brand";v="99", "Google Chrome";v="91", "Chromium";v="91"' -H 'accept:application/json, text/plain, */*' -H 'authorization:Bearer $SMKTEST_CURL_LOGIN' -H 'accept-language:it' -H 'sec-ch-ua-mobile:?0' -H 'user-agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36' -H 'origin:https://edutelling-app-develop.openshift.techgap.it' -H 'sec-fetch-site:same-site' -H 'sec-fetch-mode:cors' -H 'sec-fetch-dest:empty' -H 'referer:https://edutelling-app-develop.openshift.techgap.it/' -H 'if-none-match:W/"837-HakEFZEWDaF6n7swn4jHVp/2fX0"' --compressed    
+    SMKTEST_CURL_DEPENDENCIES: curl 'https://edutelling-api-develop.openshift.techgap.it/api/v1/auth/user' -H 'authority:edutelling-api-develop.openshift.techgap.it' -H 'sec-ch-ua:" Not;A Brand";v="99", "Google Chrome";v="91", "Chromium";v="91"' -H 'accept:application/json, text/plain, */*' -H 'authorization:Bearer $SMKTEST_CURL_LOGIN' -H 'accept-language:it' -H 'sec-ch-ua-mobile:?0' -H 'user-agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36' -H 'origin:https://edutelling-app-develop.openshift.techgap.it' -H 'sec-fetch-site:same-site' -H 'sec-fetch-mode:cors' -H 'sec-fetch-dest:empty' -H 'referer:https://edutelling-app-develop.openshift.techgap.it/' -H 'if-none-match:W/"837-HakEFZEWDaF6n7swn4jHVp/2fX0"' --compressed
     SMKTEST_ASSERT_NUMBER_OF_DEPENDENCIES_EXITED: 2
     SMKTEST_ASSERT_CURL: 'curl -X POST "https://edutelling-api-develop.openshift.techgap.it/api/v1/auth/authentication" -H "accept: application/json" -H "Content-Type: application/json" -d "{ \"email\": \"formazione@edutelling.it\", \"password\": \"Passw0rd\", \"stayLogged\": false }"'
-    SMKTEST_CHECK_NETWORK_FROM_SERVICE: "edutelling-api"
-    SMKTEST_CHECK_SWAGGER_PUBLIC_APIS: "https://edutelling-api-develop.openshift.techgap.it/api/v1/api-docs/"
+    SMKTEST_CHECK_NETWORK_FROM_SERVICE: 'edutelling-api'
+    SMKTEST_CHECK_SWAGGER_PUBLIC_APIS: 'https://edutelling-api-develop.openshift.techgap.it/api/v1/api-docs/'
     SMKTEST_SWAGGER_LOGIN_CURL: 'curl -X POST "https://edutelling-api-develop.openshift.techgap.it/api/v1/auth/authentication" -H "accept: application/json" -H "Content-Type: application/json" -d "{ \"email\": \"formazione@edutelling.it\", \"password\": \"Passw0rd\", \"stayLogged\": false }"'
     SMKTEST_CHECK_SWAGGER_APIS: https://edutelling-api-develop.openshift.techgap.it/api/v1/api-docs/
   script:
@@ -290,7 +283,7 @@ pushDockerHub:
     - docker build --pull -t "smktesting/smoke-master:$CI_VERSION" .
     - docker push "smktesting/smoke-master:$CI_VERSION"
     - docker build --pull -t "smktesting/smoke-master:latest" .
-    - docker push "smktesting/smoke-master:latest"    
+    - docker push "smktesting/smoke-master:latest"
   only:
     - production
 
@@ -300,29 +293,28 @@ checkDockerImage:
   variables:
     # Config params: -------
     SMKTEST_CONTEXT: 'kubernetes'
-    SMKTEST_PROJECT_NAME: "edutelling-develop"
-    SMKTEST_ENVIRONMENT: "develop"
-    SMKTEST_NAMESPACE: "edutelling-develop"
-    # Apply Test. 
-    SMKTEST_CHECK_IF_ALL_PODS_ARE_ACTIVE: "true"
-    SMKTEST_CHECK_INGRESS: "true"
-    SMKTEST_CHECK_CONDITIONS: "true"
-    SMKTEST_CHECK_LOGS: "true"
-    SMKTEST_CHECK_VOLUME: "true"
+    SMKTEST_PROJECT_NAME: 'edutelling-develop'
+    SMKTEST_ENVIRONMENT: 'develop'
+    SMKTEST_NAMESPACE: 'edutelling-develop'
+    # Apply Test.
+    SMKTEST_CHECK_IF_ALL_PODS_ARE_ACTIVE: 'true'
+    SMKTEST_CHECK_INGRESS: 'true'
+    SMKTEST_CHECK_CONDITIONS: 'true'
+    SMKTEST_CHECK_LOGS: 'true'
+    SMKTEST_CHECK_VOLUME: 'true'
     #
     SMKTEST_CURL_LOGIN: curl -X POST "https://edutelling-api-develop.openshift.techgap.it/api/v1/auth/authentication" -H "accept:application/json" -H "Content-Type:application/json" -d "{ \"email\":\"formazione@edutelling.it\", \"password\":\"Passw0rd\", \"stayLogged\":false }"
-    SMKTEST_CURL_DEPENDENCIES: curl 'https://edutelling-api-develop.openshift.techgap.it/api/v1/auth/user' -H 'authority:edutelling-api-develop.openshift.techgap.it' -H 'sec-ch-ua:" Not;A Brand";v="99", "Google Chrome";v="91", "Chromium";v="91"' -H 'accept:application/json, text/plain, */*' -H 'authorization:Bearer $SMKTEST_CURL_LOGIN' -H 'accept-language:it' -H 'sec-ch-ua-mobile:?0' -H 'user-agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36' -H 'origin:https://edutelling-app-develop.openshift.techgap.it' -H 'sec-fetch-site:same-site' -H 'sec-fetch-mode:cors' -H 'sec-fetch-dest:empty' -H 'referer:https://edutelling-app-develop.openshift.techgap.it/' -H 'if-none-match:W/"837-HakEFZEWDaF6n7swn4jHVp/2fX0"' --compressed    
+    SMKTEST_CURL_DEPENDENCIES: curl 'https://edutelling-api-develop.openshift.techgap.it/api/v1/auth/user' -H 'authority:edutelling-api-develop.openshift.techgap.it' -H 'sec-ch-ua:" Not;A Brand";v="99", "Google Chrome";v="91", "Chromium";v="91"' -H 'accept:application/json, text/plain, */*' -H 'authorization:Bearer $SMKTEST_CURL_LOGIN' -H 'accept-language:it' -H 'sec-ch-ua-mobile:?0' -H 'user-agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36' -H 'origin:https://edutelling-app-develop.openshift.techgap.it' -H 'sec-fetch-site:same-site' -H 'sec-fetch-mode:cors' -H 'sec-fetch-dest:empty' -H 'referer:https://edutelling-app-develop.openshift.techgap.it/' -H 'if-none-match:W/"837-HakEFZEWDaF6n7swn4jHVp/2fX0"' --compressed
     SMKTEST_ASSERT_NUMBER_OF_DEPENDENCIES_EXITED: 2
     SMKTEST_ASSERT_CURL: 'curl -X POST "https://edutelling-api-develop.openshift.techgap.it/api/v1/auth/authentication" -H "accept: application/json" -H "Content-Type: application/json" -d "{ \"email\": \"formazione@edutelling.it\", \"password\": \"Passw0rd\", \"stayLogged\": false }"'
-    SMKTEST_CHECK_NETWORK_FROM_SERVICE: "edutelling-api"
-    SMKTEST_CHECK_SWAGGER_PUBLIC_APIS: "https://edutelling-api-develop.openshift.techgap.it/api/v1/api-docs/"
+    SMKTEST_CHECK_NETWORK_FROM_SERVICE: 'edutelling-api'
+    SMKTEST_CHECK_SWAGGER_PUBLIC_APIS: 'https://edutelling-api-develop.openshift.techgap.it/api/v1/api-docs/'
     SMKTEST_SWAGGER_LOGIN_CURL: 'curl -X POST "https://edutelling-api-develop.openshift.techgap.it/api/v1/auth/authentication" -H "accept: application/json" -H "Content-Type: application/json" -d "{ \"email\": \"formazione@edutelling.it\", \"password\": \"Passw0rd\", \"stayLogged\": false }"'
     SMKTEST_CHECK_SWAGGER_APIS: https://edutelling-api-develop.openshift.techgap.it/api/v1/api-docs/
   before_script:
-    # Create cluster remote configuration file. 
-    - echo $KUBERNETES_TOKEN | base64 -d > /etc/deploy/config    
+    # Create cluster remote configuration file.
+    - echo $KUBERNETES_TOKEN | base64 -d > /etc/deploy/config
   script:
     - create-smktest
   only:
     - production
-

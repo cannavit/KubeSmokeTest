@@ -130,3 +130,7 @@ module.exports.kubernetesIngress = async function (options) {
 
   return options;
 };
+
+
+
+// kubectl get ingress -n edutelling-develop  -o=jsonpath='{.items[*].spec.rules[*].host}'

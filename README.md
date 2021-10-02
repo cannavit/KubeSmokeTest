@@ -1,8 +1,8 @@
 # 💨🔥💨 Smoke Master
 
-
 <!-- kubectl  get node | grep -v  "Ready" -->
 <!-- kubectl  get node -o=jsonpath='{.items[*].status.conditions[*].status}' -->
+
 #### ✅ Kubernetes, ✅ Automatic-test, ✅Smoke Test
 
 Smoke Master is a service dedicated to conducting smoke testing on kubernetes pipelines. It does not require any configuration in the cluster. The service accesses the cluster by SSH performs the tests and then is automatically destroyed, which makes it totally secure.
@@ -23,37 +23,38 @@ The smoke tests focus on validating the stability of the cluster. It is highly r
   - [Check publics apis using SWAGGER with Authentication](#check-publics-apis-using-swagger-with-authentication)
   - [Check notwork from services](#check-notwork-from-services)
 
-
 ## Criteria content:
 
-| Criteria name                      | Inputs | Criterial Command                             |  Criteria content |
-| :--------------------------------- | :----- | :-------------------------------------------- |:----------- |
-| Cluster Coverage                   | 🟢     | --cluster-coverage                            | --check-cluster, --check-nodes, --check-certificates, --check-internet-access, --check-main-ingress |
-| Service Coverage                   | 🟢     | --service-coverage                            | --services-up, --check-if-all-pods-are-active |
-| Resources Up                       | 🟢     | --resources-up                                | --volume-conditions, --volume-persistent |
-| Dependencies Coverage              | 🟢     | --dependencies-coverage                       | --images-not-latest |
+| Criteria name         | Inputs | Criterial Command       | Criteria content                                                                                    |
+| :-------------------- | :----- | :---------------------- | :-------------------------------------------------------------------------------------------------- |
+| Cluster Coverage      | 🟢     | --cluster-coverage      | --check-cluster, --check-nodes, --check-cluster-info, --check-internet-access, --check-main-ingress |
+| Service Coverage      | 🟢     | --service-coverage      | --services-up, --check-pods-running                                                                 |
+| Resources Up          | 🟢     | --resources-up          | --volume-conditions, --volume-persistent                                                            |
+| Dependencies Coverage | 🟢     | --dependencies-coverage | --images-not-latest                                                                                 |
 
+##### 🟢 - Inputs not required
 
-##### 🟢   - Inputs not required
-##### 🟠   - Input required
+##### 🟠 - Input required
+
 ## Library status:
 
 | Type of Test                       | Inputs | Command                                       |
 | :--------------------------------- | :----- | :-------------------------------------------- |
 | Check Logs Content                 | 🟢     | --check-pods-logs                             |
-| Check Pods Status                  | 🟢     | --check-if-all-pods-are-active                | 
-| Check if Ingress are active        | 🟢     | --check-ingress                               | 
-| Check endpoint                     | 🟢     | --assert-curl                                 | 
-| Check volume                       | 🟢     | --check-volumes                               | 
-| Check networks                     | 🟢     | --check-networks-from-service                 | 
-| Check Publics Apis with Swagger    | 🟠     | --check-swagger-publics-apis                  | 
-| Check Swagger [GET]/Apis with Auth | 🟠     | --check-swagger-apis and --swagger-login-curl | 
-| Check dependencies                 | 🟠     | pending                                       |  
-| Add Smoke criterial                | 🟠     | pending                                       | 
+| Check Pods Status                  | 🟢     | --check-pods-running                          |
+| Check if Ingress are active        | 🟢     | --check-ingress                               |
+| Check endpoint                     | 🟢     | --assert-curl                                 |
+| Check volume                       | 🟢     | --check-volumes                               |
+| Check networks                     | 🟢     | --check-networks-from-service                 |
+| Check Publics Apis with Swagger    | 🟠     | --check-swagger-publics-apis                  |
+| Check Swagger [GET]/Apis with Auth | 🟠     | --check-swagger-apis and --swagger-login-curl |
+| Check dependencies                 | 🟠     | pending                                       |
+| Add Smoke criterial                | 🟠     | pending                                       |
 
+##### 🟢 - Inputs not required
 
-##### 🟢   - Inputs not required
-##### 🟠   - Input required
+##### 🟠 - Input required
+
 #### Example how to use the smoke-test structure inside of one pipeline:
 
 It is recommended to use a first test to validate the conditions of the cluster as shown in the example with the step "checkCluster" This will check that the cluster is in proper conditions
@@ -78,22 +79,21 @@ It is important to activate the rest of the test.
 
 These are the parameters to enable the different types of smoke tests
 
-| Console command                | Environment Variable                 | Context    | Environment Variable                                                        |
-| :----------------------------- | :----------------------------------- | :--------- | :-------------------------------------------------------------------------- |
-| --check-endpoints              | SMKTEST_CHECK_INGRESS                | Kubernetes | Verify that the income is available and without errors                      |
-| --check-if-all-pods-are-active | SMKTEST_CHECK_IF_ALL_PODS_ARE_ACTIVE | Kubernetes | Check if all pods are active                                                |
-| --check-cluster                | SMKTEST_CHECK_CONDITIONS             | Kubernetes | Check cluster condition (MemoryPressure, PIDPressure)                       |
-| --check-pods-logs              | SMKTEST_CHECK_PODS_LOGS              | Kubernetes | Check if exist logs error inside of Pods                                    |
-| --assert-curl                  | SMKTEST_ASSERT_CURL                  | all        | Check respose using Curl petitions                                          |`
-| --check-ingress                | SMKTEST_CHECK_INGRESS                | Kubernetes | Check ingress and load balancer                                             |
-| --check-volumes                | SMKTEST_CHECK_VOLUMES                | Kubernetes | Check that the available space is less than 80% percent                     |
-| --check-swagger-publics-apis   | SMKTEST_CHECK_SWAGGER_PUBLICS_APIS   | all        | Check if exist 500 status response code in swagger apis                     |
-| --check-swagger-apis           | SMKTEST_CHECK_SWAGGER_APIS           | all        | Check if exist 500 status response code in swagger apis with authentication |
-| --swagger-login-curl           | SMKTEST_SWAGGER_LOGIN_CURL           | all        | Add the configuration parameters                                            |
-| --check-networks-from-service  | SMKTEST_CHECK_NETWORKS_FROM_SERVICES | kubernetes | Check network connection using other service how bridge                     |
+| Console command               | Environment Variable                 | Context    | Environment Variable                                                        |
+| :---------------------------- | :----------------------------------- | :--------- | :-------------------------------------------------------------------------- | --- |
+| --check-endpoints             | SMKTEST_CHECK_INGRESS                | Kubernetes | Verify that the income is available and without errors                      |
+| --check-pods-running          | SMKTEST_CHECK_IF_ALL_PODS_ARE_ACTIVE | Kubernetes | Check if all pods are active                                                |
+| --check-cluster               | SMKTEST_CHECK_CONDITIONS             | Kubernetes | Check cluster condition (MemoryPressure, PIDPressure)                       |
+| --check-pods-logs             | SMKTEST_CHECK_PODS_LOGS              | Kubernetes | Check if exist logs error inside of Pods                                    |
+| --assert-curl                 | SMKTEST_ASSERT_CURL                  | all        | Check respose using Curl petitions                                          | `   |
+| --check-ingress               | SMKTEST_CHECK_INGRESS                | Kubernetes | Check ingress and load balancer                                             |
+| --check-volumes               | SMKTEST_CHECK_VOLUMES                | Kubernetes | Check that the available space is less than 80% percent                     |
+| --check-swagger-publics-apis  | SMKTEST_CHECK_SWAGGER_PUBLICS_APIS   | all        | Check if exist 500 status response code in swagger apis                     |
+| --check-swagger-apis          | SMKTEST_CHECK_SWAGGER_APIS           | all        | Check if exist 500 status response code in swagger apis with authentication |
+| --swagger-login-curl          | SMKTEST_SWAGGER_LOGIN_CURL           | all        | Add the configuration parameters                                            |
+| --check-networks-from-service | SMKTEST_CHECK_NETWORKS_FROM_SERVICES | kubernetes | Check network connection using other service how bridge                     |
 
 ## Connect test remote kubernetes cluster.
-
 
 To connect the test to a remote cluster you must perform the following steps.
 
@@ -204,7 +204,7 @@ Verify if all Pods are running and are active
     script:
         # Create cluster remote configuration file.
         - echo $KUBERNETES_TOKEN | base64 -d > /etc/deploy/config
-        - create-smktest --check-if-all-pods-are-active=true
+        - create-smktest --check-pods-running=true
     only:
         - master
 

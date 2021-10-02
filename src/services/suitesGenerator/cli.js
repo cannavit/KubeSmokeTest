@@ -30,45 +30,36 @@ require('dotenv').config();
 import { curlSingleTest } from './services/assertTest/services/curl';
 
 async function parseArgumentsIntoOptions(rawArgs) {
+    
 
   // Get Arguments list from the configuration file. 
-  let argumentsCli = await suiteGenerator.getConsoleInputs({})
+  let argumentsCli = await getConsoleInputs({})
 
-  // With this is possible add one argument --cluster-coverage  === --cluster-coverage=true 
-
-  let rawArgsL = []
-  for (const r of rawArgs) {
-    if (r.includes('--') & !r.includes('=')){
-      rawArgsL.push(r+'=true')
-    } if (!r.includes('--') | r.includes('=true') | r.includes('=')){
-      rawArgsL.push(r)
-    }
-  }
-
-  let args = arg(
+  const args = arg(
     argumentsCli,
     {
-      argv: rawArgsL.slice(2),
+      argv: rawArgs.slice(2),
     }
   );
 
-  args = await suiteGenerator.argsByCriterial({args: args, argumentsCli: argumentsCli})
-  args = await suiteGenerator.createDictionaryInputs(args)
+  let argumentsData = {};
 
+  argumentsData.args = args
+  let argumentsData = await argsByCriterial(argumentsData)
+  let args = argumentsData.args
 
   const smokeTestVariableList = [];
+
   // Add Configuration Variables from smktest.json
-
-  let smktestConfig = await suiteGenerator.getStandardVariables({});
-
+  let smktestConfig = await getStandardVariables({});
   for (const smktest of smktestConfig['smktestConfig']) {
     smokeTestVariableList.push(smktest);
   }
 
-  let argumentsData = {};
   let listOfJestPath = [];
 
   for (const element of smokeTestVariableList) {
+
     let data = args[element.consoleValue] || element.defaultValue;
     //! If exist parameter inside of the console (* Have priority)
     let useNext = true;
@@ -91,21 +82,14 @@ async function parseArgumentsIntoOptions(rawArgs) {
 
     argumentsData['listOfJestPath'] = listOfJestPath;
     argumentsData[element.variable] = data;
-    // argumentsData.customDictionary = args.customDictionary;
-    argumentsData = {
-      listOfJestPath: listOfJestPath,
-      data: data,
-      ...args
-    }
-
   }
 
   return argumentsData;
 }
 
-//! 1) Option: Criterial
+//! 1) Option: Criterial.
+
 async function promptForContext(options) {
-  
   const defaultSelection = 'localhost';
 
   if (options.skipPrompts) {
@@ -236,7 +220,7 @@ async function promptForScannerAPI(options) {
   }
 
   const answers = await inquirer.prompt(questions);
-  
+
   return {
     ...options,
     swaggerUrl: options.swaggerUrl || answers.swaggerUrl,
@@ -244,14 +228,16 @@ async function promptForScannerAPI(options) {
   };
 }
 
+import promptDocker from './services/dockerService';
 
 export async function cli(args) {
-
-  // let options = {}
   //! Presentation text:
-   let options = await parseArgumentsIntoOptions(args);
 
-  // args = optionss.args
+  let options = await parseArgumentsIntoOptions(args);
+
+
+
+
   // Generate the Test Unic ID.
   const id = generateUniqueId({
     length: 32,
@@ -266,101 +252,90 @@ export async function cli(args) {
 
   //! Run Context test.
   process.env.SMKTEST_OPTIONS = JSON.stringify(options);
+  //
 
+  if (options.context === 'kubernetes' || options.context == undefined) {
+    //! Namespace not required >>>>>
+    //* Check the node cluster conditions:
+    if (options.checkConditions) {
+      options = await checkConditions(options);
+    }
 
-  console.log(">>>>>-1655197647>>>>>")
-console.log(options)
-console.log("<<<<<<<<<<<<<<<<<<<")
+    //* Check nodes cluster status.
+    if (options.checkClusterNodes) {
+      options = await checkClusterNodes(options);
+    }
 
-
-  
-
-  // Generate suites Test
-  // options = await  suiteGenerator.suiteGenerator(options);
-  
-  // if (options.context === 'kubernetes' || options.context == undefined) {
-  //   //! Namespace not required >>>>>
-  //   //* Check the node cluster conditions:
-  //   if (options.checkConditions) {
-  //     options = await checkConditions(options);
-  //   }
-
-  //   //* Check nodes cluster status.
-  //   if (options.checkClusterNodes) {
-  //     options = await checkClusterNodes(options);
-  //   }
-
-    // if (options.checkClusterInfo) {
-    //   // RUN SCRIPT FOR GET CLUSTER INFO
-    //   let grepTestCommand =
-    //     'kubectl cluster-info | grep "Kubernetes" | grep -v  "running"';
-    //   let grepReportCommand = 'kubectl cluster-info';
-    //   let variableEnvResponse = 'SMKTEST_KUBERNETES_CLUSTER_INFO';
-    //   options = await ifGrepHaveOutputIsError(
-    //     options,
-    //     grepTestCommand,
-    //     grepReportCommand,
-    //     variableEnvResponse
-    //   );
-    //   // ADD OF TETS LIST
-    //   options = await checkClusterNodes(options);
-    // }
+    if (options.checkClusterInfo) {
+      // RUN SCRIPT FOR GET CLUSTER INFO
+      let grepTestCommand =
+        'kubectl cluster-info | grep "Kubernetes" | grep -v  "running"';
+      let grepReportCommand = 'kubectl cluster-info';
+      let variableEnvResponse = 'SMKTEST_KUBERNETES_CLUSTER_INFO';
+      options = await ifGrepHaveOutputIsError(
+        options,
+        grepTestCommand,
+        grepReportCommand,
+        variableEnvResponse
+      );
+      // ADD OF TETS LIST
+      options = await checkClusterNodes(options);
+    }
     //! <<<<<<xz
 
-    // if (options.namespace) {
-    //   //* Init kubernetes options
-    //   options.testConfig = {
-    //     kubernetes: {
-    //       namespace: options.namespace,
-    //     },
-    //   };
+    if (options.namespace) {
+      //* Init kubernetes options
+      options.testConfig = {
+        kubernetes: {
+          namespace: options.namespace,
+        },
+      };
 
-    //   //* Check if All Pods Are Active
-    //   if (options.checkIfAllPodsAreActive) {
-    //     options = await smktestCheckIfAllPodsAreActive(options);
-    //   }
+      //* Check if All Pods Are Active
+      if (options.checkIfAllPodsAreActive) {
+        options = await smktestCheckIfAllPodsAreActive(options);
+      }
 
-    //   //* Check the ingress of the cluster
-    //   if (options.checkIngress) {
-    //     options = await kubernetesIngress(options);
-    //   }
+      //* Check the ingress of the cluster
+      if (options.checkIngress) {
+        options = await kubernetesIngress(options);
+      }
 
-    //   //* Check if exist logs inside of the pods logs
-    //   if (options.checkPodsLogs) {
-    //     options = await getPods(options);
-    //     options = await getLogs(options);
-    //   }
+      //* Check if exist logs inside of the pods logs
+      if (options.checkPodsLogs) {
+        options = await getPods(options);
+        options = await getLogs(options);
+      }
 
-    //   //* Check networks from service (Pods)
-    //   if (options.checkNetworksFromService) {
-    //     // Check networks from service
-    //     options = await getPods(options);
-    //     await checkNetworks(options);
-    //   }
+      //* Check networks from service (Pods)
+      if (options.checkNetworksFromService) {
+        // Check networks from service
+        options = await getPods(options);
+        await checkNetworks(options);
+      }
 
-    //   //* Check dependencies
-    //   if (options.curlDependencies && options.checkDependenciesFromService) {
-    //     // Run the test only if exist the last conditions
-    //     options.listOfJestPath.push(
-    //       './src/services/kubernetesApi/test/checkDependencies'
-    //     );
-    //   }
-    // }
+      //* Check dependencies
+      if (options.curlDependencies && options.checkDependenciesFromService) {
+        // Run the test only if exist the last conditions
+        options.listOfJestPath.push(
+          './src/services/kubernetesApi/test/checkDependencies'
+        );
+      }
+    }
+  }
 
-  // }
+  process.env.SMKTEST_OPTIONS = JSON.stringify(options);
 
-  // process.env.SMKTEST_OPTIONS = JSON.stringify(options);
+  //! Run Direct Accerts >>>>
+  if (options.assertCurl) {
+    options = await curlSingleTest(options);
+  }
 
-  // //! Run Direct Accerts >>>>
-  // if (options.assertCurl) {
-  //   options = await curlSingleTest(options);
-  // }
+  process.env.SMKTEST_OPTIONS = JSON.stringify(options);
 
-  // process.env.SMKTEST_OPTIONS = JSON.stringify(options);
-
-  // //! Run Jest Tests.
-  // if (options.listOfJestPath) {
-  //   await runJestTest(options);
-  // }
+  //! Run Jest Tests.
+  if (options.listOfJestPath) {
+    await runJestTest(options);
+  }
 }
 
