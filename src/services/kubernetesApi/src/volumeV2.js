@@ -1,37 +1,35 @@
 const shell = require('shelljs');
-const  {inputMandatory } = require('../utils/inputsMandatories')
+const { inputMandatory } = require('../utils/inputsMandatories');
 
 async function getServicesName(options) {
+  await inputMandatory(options, '--namespace');
 
-    await inputMandatory(options, 'namespace');
+  let command =
+    "kubectl get pods -n $$namespace -o jsonpath='{.items[*].spec.containers[*].volumeMounts[*].mountPath}'";
+  console.log('@1Marker-No:_-1539542204');
 
-    let command = "kubectl get pods -n $$namespace -o jsonpath='{.items[*].spec.containers[*].volumeMounts[*].mountPath}'"
-    console.log('@1Marker-No:_-1539542204');
-    
-    command = command.replace('$$namespace', options.namespace);
+  command = command.replace('$$namespace', options['--namespace']);
 
-    let response = await shell.exec(command, {
-        silent: true,
-      }).stdout;
+  let response = await shell.exec(command, {
+    silent: true,
+  }).stdout;
 
-    response = response.split(' ');
- 
-    // Delete the last element of one list 
+  response = response.split(' ');
 
-    let responseFilter = []
-    for (const r of response){
-        if (!r.includes("kubernetes")){
-            responseFilter.push(r)
-        }
+  // Delete the last element of one list
+
+  let responseFilter = [];
+  for (const r of response) {
+    if (!r.includes('kubernetes')) {
+      responseFilter.push(r);
     }
+  }
 
-    console.log(responseFilter)
+  console.log(responseFilter);
 
-    
-    
-    options.services = response;
+  options.services = response;
 
-	return options
+  return options;
 }
 
 // export module
@@ -117,7 +115,7 @@ async function textToList(response) {
 
 async function getPodsCapacity(options) {
   let response = await shell.exec(
-    `kubectl get pvc --namespace=${options.namespace}`,
+    `kubectl get pvc --namespace=${options.customDictionary.generalOptions['--namespace']}`,
     {
       silent: true,
     }
@@ -185,7 +183,7 @@ async function getPodsCapacity(options) {
 //! Get volumes for
 
 async function getVolumePath(options) {
-  let namespace = options.namespace;
+  let namespace = options.customDictionary.generalOptions['--namespace'];
 
   const shell = require('shelljs');
 
@@ -199,7 +197,7 @@ async function getVolumePath(options) {
   response = response.stdout; //Get outupts
   response = JSON.parse(response);
 
-  volumes = {}
+  volumes = {};
 
   let volumeMounts = [];
   for (const key in response.items) {
@@ -215,31 +213,35 @@ async function getVolumePath(options) {
 
         //! Check Space in path volume.
         if (!element3.name.includes('default-token'))
-        volumes[podName] = {
-            volume: element3.mountPath}
-        }
+          volumes[podName] = {
+            volume: element3.mountPath,
+          };
       }
     }
-  
-  // Replace the pod name by service name> 
-  command = "kubectl get services -n $$namespace -o=custom-columns=NAME:.metadata.name | grep -v 'NAME'"
-  response = await shell.exec(command.replace('$$namespace', options.namespace), {silent: true}).stdout;
-  response = response.split('\n')
+  }
+
+  // Replace the pod name by service name>
+  command =
+    "kubectl get services -n $$namespace -o=custom-columns=NAME:.metadata.name | grep -v 'NAME'";
+  response = await shell.exec(
+    command.replace('$$namespace', options['--namespace']),
+    { silent: true }
+  ).stdout;
+  response = response.split('\n');
   // Delete the last element
-  response.pop()
-  
+  response.pop();
+
   // Get only names of one json object
-  let podsName = Object.keys(volumes)
-  let serviceVolumes = {}
-  for (const service of response) { 
-       console.log(service)
-       for  (pod of podsName ){
-          if (pod.includes(service)){
-            serviceVolumes[service] = {
-              mountPath: volumes[pod].volume,
-            }
-          }
-       }
+  let podsName = Object.keys(volumes);
+  let serviceVolumes = {};
+  for (const service of response) {
+    for (pod of podsName) {
+      if (pod.includes(service)) {
+        serviceVolumes[service] = {
+          mountPath: volumes[pod].volume,
+        };
+      }
+    }
   }
 
   options.mountPath = serviceVolumes;
@@ -248,9 +250,7 @@ async function getVolumePath(options) {
 }
 
 //! Test for check volume spaces.
-module.exports.getMountPath = getVolumePath
-
-
+module.exports.getMountPath = getVolumePath;
 
 // getVolumePath({namespace: "edutelling-develop"})
 // edutelling-develop  exec service/edutelling-orientdb -- df -h --block-size=1GB /orientdb/databases

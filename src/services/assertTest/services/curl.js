@@ -39,7 +39,7 @@ export async function curlSingleTest(options) {
     data: {
       projectName: options.projectName,
       context: options.context,
-      namespace: options.namespace,
+      namespace: options.customDictionary.generalOptions['--namespace'],
       testName: 'curlSingleTest',
       testResult: JSON.stringify(testResult),
       testId: options.testId,

@@ -4,10 +4,10 @@ module.exports.getServices = async function (options) {
   //
   const k8sApi = await getKS();
 
-  if (!options.namespace) {
+  if (!options.customDictionary.generalOptions['--namespace']) {
     options = JSON.parse(process.env.SMKTEST_OPTIONS);
   }
-  let nameSpace = options.namespace; //?
+  let nameSpace = options.customDictionary.generalOptions['--namespace']; //?
 
   let listServices = [];
   let listNamespace;

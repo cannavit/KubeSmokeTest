@@ -8,7 +8,9 @@ const exec = promisify(require('child_process').exec);
 module.exports.getLogs = async function (options) {
   const k8sApi = await getKS();
 
-  let namespace = options.namespace || options.testConfig.kubernetes.namespace;
+  let namespace =
+    options.customDictionary.generalOptions['--namespace'] ||
+    options.testConfig.kubernetes.namespace;
   let pods = options.testConfig.kubernetes.pods;
 
   let logs = [];

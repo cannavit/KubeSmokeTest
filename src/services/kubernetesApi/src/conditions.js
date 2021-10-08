@@ -61,7 +61,7 @@ module.exports.checkConditions = async function (options) {
     data: {
       projectName: options.projectName,
       context: options.context,
-      namespace: options.namespace,
+      namespace: options.customDictionary.generalOptions['--namespace'],
       testName: 'checkConditions',
       testResult: JSON.stringify(responseTest),
       testId: options.testId,

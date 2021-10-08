@@ -12,10 +12,7 @@ RUN apk update \
     &&  mv ./kubectl /usr/local/bin/kubectl 
 
 # Directory by config certify. 
-RUN mkdir -p /etc/deploy
-# Copy Project
-
-RUN mkdir -p /usr/src/app
+RUN mkdir -p /etc/deploy && mkdir -p /usr/src/app
 
 WORKDIR /usr/src/app
 COPY . /usr/src/app

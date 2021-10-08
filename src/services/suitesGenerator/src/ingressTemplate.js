@@ -1,5 +1,5 @@
 // SMOKE TEST WITH JEST >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-test('Smoke Test $$criterial test name: $$consoleValue', async () => {
+test('Smoke Test $${criterial}test name: $$consoleValue', async () => {
   //? Inputs
   let criterial = '$$criterial';
   let consoleValue = '$$consoleValue';
@@ -12,12 +12,17 @@ test('Smoke Test $$criterial test name: $$consoleValue', async () => {
   let passTest = await smktestDep.checkIngress(
     testCommand,
     assertValue,
-    reportCommand,
-    environmentVariableResultTest
+    reportCommand
   );
 
   // Run Command
-  await smktestDep.collectSmokeTestResults(options, dateInit);
+  await smktestDep.collectSmokeTestResults(
+    dateInit,
+    criterial,
+    consoleValue,
+    '',
+    passTest
+  );
 
   expect(passTest).toBe(true);
 });

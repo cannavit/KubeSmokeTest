@@ -168,8 +168,8 @@ async function getDependencies(options) {
       process.env.SMKTEST_CURL_DEPENDENCIES
   );
 
-  let namespace = options.namespace
-    ? options.namespace
+  let namespace = options.customDictionary.generalOptions['--namespace']
+    ? options.customDictionary.generalOptions['--namespace']
     : process.env.SMKTEST_NAMESPACE; //?
 
   options = await installLibraryDependencies(options);

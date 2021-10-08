@@ -80,7 +80,7 @@ async function textToList(response) {
 
 async function getPodsCapacity(options) {
   let response = await shell.exec(
-    `kubectl get pvc --namespace=${options.namespace}`,
+    `kubectl get pvc --namespace=${options.customDictionary.generalOptions['--namespace']}`,
     {
       silent: true,
     }
@@ -148,7 +148,7 @@ async function getPodsCapacity(options) {
 //! Get volumes for
 
 async function getVolumePath(options) {
-  let namespace = options.namespace;
+  let namespace = options.customDictionary.generalOptions['--namespace'];
 
   const shell = require('shelljs');
 

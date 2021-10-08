@@ -8,7 +8,7 @@ import { generateCasesSwagger } from './services/smktestSwagger';
 import { smktestCheckIfAllPodsAreActive } from './services/kubernetesApi/smokeTest/smktestPods';
 
 // Kubernetes:
-import { cliKubernetes } from './services/kubernetesApi/cli.js';
+import { cliKubernetes } from './services/kubernetesApi/cli.ts';
 import { kubernetesIngress } from './services/kubernetesApi/src/ingress';
 import { checkConditions } from './services/kubernetesApi/src/conditions';
 import { getLogs } from './services/kubernetesApi/src/logs';
@@ -30,23 +30,18 @@ require('dotenv').config();
 import { curlSingleTest } from './services/assertTest/services/curl';
 
 async function parseArgumentsIntoOptions(rawArgs) {
-    
+  // Get Arguments list from the configuration file.
+  let argumentsCli = await getConsoleInputs({});
 
-  // Get Arguments list from the configuration file. 
-  let argumentsCli = await getConsoleInputs({})
-
-  const args = arg(
-    argumentsCli,
-    {
-      argv: rawArgs.slice(2),
-    }
-  );
+  const args = arg(argumentsCli, {
+    argv: rawArgs.slice(2),
+  });
 
   let argumentsData = {};
 
-  argumentsData.args = args
-  let argumentsData = await argsByCriterial(argumentsData)
-  let args = argumentsData.args
+  argumentsData.args = args;
+  let argumentsData = await argsByCriterial(argumentsData);
+  let args = argumentsData.args;
 
   const smokeTestVariableList = [];
 
@@ -59,7 +54,6 @@ async function parseArgumentsIntoOptions(rawArgs) {
   let listOfJestPath = [];
 
   for (const element of smokeTestVariableList) {
-
     let data = args[element.consoleValue] || element.defaultValue;
     //! If exist parameter inside of the console (* Have priority)
     let useNext = true;
@@ -235,9 +229,6 @@ export async function cli(args) {
 
   let options = await parseArgumentsIntoOptions(args);
 
-
-
-
   // Generate the Test Unic ID.
   const id = generateUniqueId({
     length: 32,
@@ -283,11 +274,11 @@ export async function cli(args) {
     }
     //! <<<<<<xz
 
-    if (options.namespace) {
+    if (options.customDictionary.generalOptions['--namespace']) {
       //* Init kubernetes options
       options.testConfig = {
         kubernetes: {
-          namespace: options.namespace,
+          namespace: options.customDictionary.generalOptions['--namespace'],
         },
       };
 
@@ -338,4 +329,3 @@ export async function cli(args) {
     await runJestTest(options);
   }
 }
-

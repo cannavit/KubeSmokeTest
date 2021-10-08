@@ -1,57 +1,48 @@
 const shell = require('shelljs');
-const {inputMandatory } = require('../utils/inputsMandatories')
+const { inputMandatory } = require('../utils/inputsMandatories');
+
+async function getKubeIngress(options) {
 
 
+  await inputMandatory(options, '--namespace');
+  let testCommand =
+    "kubectl get ingress -n $$namespace  -o=jsonpath='{.items[*].spec.rules[*]}'";
+
+  
+  testCommand = testCommand.replace('$$namespace', options['--namespace']);
+
+  let responseReport = await shell.exec(testCommand, {
+    silent: true,
+  }).stdout;
+
+  responseReport = responseReport.split(' ');
 
 
-async function getKubeIngress(options){
+  let ingressList = [];
 
+  for (response of responseReport) {
 
-    await inputMandatory(options, 'namespace')
-    let testCommand = "kubectl get ingress -n $$namespace  -o=jsonpath='{.items[*].spec.rules[*]}'"
+    response = JSON.parse(response);
 
-    testCommand = testCommand.replace('$$namespace', options.namespace)
-
-    let responseReport = await shell.exec(testCommand, {
-        silent: true,
-      }).stdout;
-
-
-
-      responseReport = responseReport.split(' ')
-      let ingressList = []
-
-      for (response of responseReport) {
-          response = JSON.parse(response)
-
-
-          var keys = Object.keys(response)
-          for (path in response) {
-         
-            for (p in response[path].paths){
-                console.log('@1Marker-No:_-268552175');
-                
-                let res = "http://"+ response.host + response[path].paths[p].path
-                ingressList.push(res)
-            }
-        }
+    var keys = Object.keys(response);
+    for (path in response) {
+      for (p in response[path].paths) {
+        let res = 'http://' + response.host + response[path].paths[p].path;
+        ingressList.push(res);
       }
-    
-    // responseReport = JSON.parse(responseReport)
+    }
+  }
 
-    options.ingressList = ingressList
+  // responseReport = JSON.parse(responseReport)
 
-    return options
+  options.ingressList = ingressList;
+
+  return options;
 }
 
-
-module.exports.getKubeIngress = getKubeIngress
+module.exports.getKubeIngress = getKubeIngress;
 
 // let options = {
 //     namespace: "edutelling-develop"
 // }
 // getKubeIngress(options)
-
-
-
-

@@ -124,7 +124,7 @@ export async function smktestCheckIfAllPodsAreActive(options) {
     data: {
       projectName: options.projectName,
       context: options.context,
-      namespace: options.namespace,
+      namespace: options.customDictionary.generalOptions['--namespace'],
       testName: 'smktestCheckIfAllPodsAreActive',
       testResult: JSON.stringify({
         passTest: passTest,

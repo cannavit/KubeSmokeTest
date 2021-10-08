@@ -1,4 +1,3 @@
-
 // NAME      STATUS   ROLES                      AGE    VERSION
 // rancher   Ready    controlplane,etcd,worker   2y2d   v1.14.6
 
@@ -6,18 +5,19 @@ const shell = require('shelljs');
 const { sendToSmokeCollector } = require('../../../utils/sendReport');
 
 module.exports.checkClusterNodes = async function (options) {
-  
   var dateInit = await new Date();
 
-
   // Get conditions using kubectl commands.
-  let response = await shell.exec('kubectl get nodes | grep -v "VERSION" | grep -v "Ready"', {
-    silent: true,
-  });
-  
+  let response = await shell.exec(
+    'kubectl get nodes | grep -v "VERSION" | grep -v "Ready"',
+    {
+      silent: true,
+    }
+  );
+
   responseTest = response.stdout;
 
-  let passTest = false
+  let passTest = false;
   if (responseTest === '') {
     passTest = true;
   }
@@ -26,18 +26,17 @@ module.exports.checkClusterNodes = async function (options) {
     silent: true,
   });
 
-  responseReport = response.stdout
+  responseReport = response.stdout;
 
   let jsonResult = {
     passTest: passTest,
     responseTest: responseTest,
     conditionsText: responseReport,
-  }
+  };
 
+  process.env['SMKTEST_KUBERNETES_NODE_STATUS'] = JSON.stringify(jsonResult);
 
-  process.env["SMKTEST_KUBERNETES_NODE_STATUS"] = JSON.stringify(jsonResult);
-
-  options.checkClusterNodes = jsonResult
+  options.checkClusterNodes = jsonResult;
 
   var dateFinish = await new Date();
 
@@ -47,7 +46,7 @@ module.exports.checkClusterNodes = async function (options) {
     data: {
       projectName: options.projectName,
       context: options.context,
-      namespace: options.namespace,
+      namespace: options.customDictionary.generalOptions['--namespace'],
       testName: 'checkClusterNodes',
       testResult: JSON.stringify(responseTest),
       testId: options.testId,
@@ -58,31 +57,27 @@ module.exports.checkClusterNodes = async function (options) {
 
   await sendToSmokeCollector(options);
 
-
-
-  return options
-}
-
+  return options;
+};
 
 // kubectl cluster-info
 
-
-
-
-
-module.exports.ifGrepHaveOutputIsError = async function (options, grepTestCommand, grepReportCommand, variableEnvResponse) { 
-
+module.exports.ifGrepHaveOutputIsError = async function (
+  options,
+  grepTestCommand,
+  grepReportCommand,
+  variableEnvResponse
+) {
   var dateInit = await new Date();
-
 
   // Get conditions using kubectl commands.
   let response = await shell.exec(grepTestCommand, {
     silent: true,
   });
-  
+
   responseTest = response.stdout;
 
-  let passTest = false
+  let passTest = false;
   if (responseTest === '') {
     passTest = true;
   }
@@ -91,16 +86,16 @@ module.exports.ifGrepHaveOutputIsError = async function (options, grepTestComman
     silent: true,
   });
 
-  responseReport = response.stdout
+  responseReport = response.stdout;
 
   let jsonResult = {
     passTest: passTest,
     responseTest: responseTest,
     conditionsText: responseReport,
-  }
+  };
   process.env[variableEnvResponse] = JSON.stringify(jsonResult);
 
-  options.checkClusterNodes = jsonResult
+  options.checkClusterNodes = jsonResult;
 
   var dateFinish = await new Date();
 
@@ -110,7 +105,7 @@ module.exports.ifGrepHaveOutputIsError = async function (options, grepTestComman
     data: {
       projectName: options.projectName,
       context: options.context,
-      namespace: options.namespace,
+      namespace: options.customDictionary.generalOptions['--namespace'],
       testName: 'checkClusterNodes',
       testResult: JSON.stringify(responseTest),
       testId: options.testId,
@@ -121,10 +116,5 @@ module.exports.ifGrepHaveOutputIsError = async function (options, grepTestComman
 
   await sendToSmokeCollector(options);
 
-
-
-  return options
-
-}
-
-
+  return options;
+};
