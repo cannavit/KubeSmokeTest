@@ -1,15 +1,43 @@
 import cli from './cli';
 
+async function removeTestDirectory(){
+
+  const fs = require('fs');
+
+  let testPath =  './smokeTest_kubernetes'  
+  // Remove Old Smoke Test Suite
+  if (fs.existsSync(testPath)) {
+    await fs.rmdirSync(testPath, { recursive: true });
+  }
+
+}
+
 describe('Check console client inputs', () =>{
-    test('Verify the cluster connection', async () => {
+
+    test('Verify --help', async () => {
         
         let client :string[]=  [
             '/Users/ceciliocannavaciuolo/.nvm/versions/node/v15.8.0/bin/node',
             '/Users/ceciliocannavaciuolo/.nvm/versions/node/v15.8.0/bin/create-smktest',
-            '--cluster-coverage',
-            '--curl-assert=curl -v www.google.com'
+            '--help'
           ]
+        
+        let options = await cli(client)
 
+        expect(options).toEqual(undefined)
+
+    }),
+
+    test('Verify the cluster connection', async () => {
+
+        await removeTestDirectory()
+        
+        let client :string[]=  [
+            '/Users/ceciliocannavaciuolo/.nvm/versions/node/v15.8.0/bin/node',
+            '/Users/ceciliocannavaciuolo/.nvm/versions/node/v15.8.0/bin/create-smktest',
+            '--cluster-coverage'
+        ]
+  
         let options = await cli(client)
 
         if (options['cli']['tasksInit']){
@@ -18,6 +46,74 @@ describe('Check console client inputs', () =>{
 
         expect(options['cli']['tasksInit']).toEqual({})
 
-    })
+    }),
+
+    test('Verify the --ingress-coverage', async () => {
+
+      await removeTestDirectory()
+        
+      let client :string[]=  [
+        '/Users/ceciliocannavaciuolo/.nvm/versions/node/v15.8.0/bin/node',
+        '/Users/ceciliocannavaciuolo/.nvm/versions/node/v15.8.0/bin/create-smktest',
+        '--ingress-coverage',
+        '--namespace=edutelling-develop'
+      ]
+
+      let options = await cli(client)
+      if (options['cli']['tasksInit']){
+          console.log(options['cli']['tasksInit'])
+      }
+      expect(options['cli']['tasksInit']).toEqual({})
+  }),
+
+
+  test('Verify the --service-coverage', async () => {
+
+    await removeTestDirectory()
+      
+    let client :string[]=  [
+      '/Users/ceciliocannavaciuolo/.nvm/versions/node/v15.8.0/bin/node',
+      '/Users/ceciliocannavaciuolo/.nvm/versions/node/v15.8.0/bin/create-smktest',
+      '--service-coverage',
+      '--namespace=edutelling-develop'
+    ]
+
+    console.log('@1Marker-No:_-148444379');
+
+    let options = await cli(client)
+
+    console.log('@1Marker-No:_-1881610701');
+
+    if (options['cli']['tasksInit']){
+        console.log(options['cli']['tasksInit'])
+    }
+
+    console.log('@1Marker-No:_-1831461502');
+
+    expect(options['cli']['tasksInit']).toEqual({})
+
+}),
+
+  test('Using All Test Smoke Test cases', async () => {
+
+    await removeTestDirectory()
+      
+    let client :string[]=  [
+      '/Users/ceciliocannavaciuolo/.nvm/versions/node/v15.8.0/bin/node',
+      '/Users/ceciliocannavaciuolo/.nvm/versions/node/v15.8.0/bin/create-smktest',
+      '--cluster-coverage',
+      '--ingress-coverage',
+      '--service-coverage',
+      '--namespace=edutelling-develop'
+    ]
+
+    let options = await cli(client)
+
+    if (options['cli']['tasksInit']){
+        console.log(options['cli']['tasksInit'])
+    }
+
+    expect(options['cli']['tasksInit']).toEqual({})
+})
 
 })

@@ -11,10 +11,7 @@ require('dotenv').config();
 console.log('@1Marker-No:_-886104069');
 
 async function parseArgumentsIntoOptions(rawArgs) {
-
-
   let argumentsCli = await suiteGenerator.getConsoleInputs({});
-
 
   let rawArgsL = [];
   for (const r of rawArgs) {
@@ -29,25 +26,17 @@ async function parseArgumentsIntoOptions(rawArgs) {
   let args = arg(argumentsCli, {
     argv: rawArgsL.slice(2),
   });
-   
+
   args = await suiteGenerator.argsByCriterial({
     args: args,
     argumentsCli: argumentsCli,
   });
-    
-  
+
   args = await suiteGenerator.createDictionaryInputs(args);
 
-
   const smokeTestVariableList = [];
-  // Add Configuration Variables from smktest.json
-  // console.log('@1Marker-No:_-1565193173');
 
-  let smktestConfig = await suiteGenerator.getStandardVariables({});
-
-  console.log(">>>>>1464318171>>>>>")
-  console.log(smktestConfig)
-  console.log("<<<<<<<<<<<<<<<<<<<")
+  let smktestConfig = await suiteGenerator.getStandardVariables({}); //! Disabled in the new version cli.ts
 
   for (const smktest of smktestConfig['smktestConfig']) {
     smokeTestVariableList.push(smktest);
@@ -56,14 +45,7 @@ async function parseArgumentsIntoOptions(rawArgs) {
   let argumentsData = {};
   let listOfJestPath = [];
 
-  console.log('@1Marker-No:_1313149323 >>>>');
-
   for (const element of smokeTestVariableList) {
-
-    console.log(">>>>>1145427079>>>>>")
-console.log(args)
-console.log("<<<<<<<<<<<<<<<<<<<")
-
     let data = args[element.consoleValue] || element.defaultValue;
 
     //! If exist parameter inside of the console (* Have priority)
@@ -75,7 +57,6 @@ console.log("<<<<<<<<<<<<<<<<<<<")
       if (element.jestTestPath !== '') {
         listOfJestPath.push(element.jestTestPath);
       }
-    
     }
 
     //! If exist environment variable get value:
@@ -97,9 +78,9 @@ console.log("<<<<<<<<<<<<<<<<<<<")
   }
   console.log('@1Marker-No:_1313149323 <<<<<');
 
-//   console.log(">>>>>-1892741861>>>>>")
-// console.log(argumentsData)
-// console.log("<<<<<<<<<<<<<<<<<<<")
+  console.log('>>>>>-XXX 1892741861>>>>>');
+  console.log(argumentsData);
+  console.log('<<<<<<<<<<<<<<<<<<<');
 
   return argumentsData;
 }
@@ -245,13 +226,14 @@ async function promptForScannerAPI(options) {
 }
 
 export async function cli(args) {
+
+  console.log(">>>>>729817239>>>>>")
+console.log(args)
+console.log("<<<<<<<<<<<<<<<<<<<")
   // let options = {}
   //! Presentation text:
   // console.log('@1Marker-No:_-886104069');
-
-
   let options = await parseArgumentsIntoOptions(args);
-
 
   // args = optionss.args
   // Generate the Test Unic ID.
@@ -275,13 +257,13 @@ export async function cli(args) {
   // import dependencies.
   await suiteGenerator.suiteGeneratorV2(options);
 
-  let fileJson = './smokeTest_suites/src/SMKTEST_OPTIONS.json';
+  let fileJson = '../smktest.config.json';
 
   // Create one file JSON using fs
   await fs.promises.writeFile(fileJson, JSON.stringify(options), 'utf8');
 
   // Generate suites Test
-  // options = await  suiteGenerator.suiteGenerator(options);
+  // options = await  suiteGecreateSuiteByCriterialV2nerator.suiteGenerator(options);
 
   // if (options.context === 'kubernetes' || options.context == undefined) {
   //   //! Namespace not required >>>>>
@@ -371,6 +353,5 @@ export async function cli(args) {
 
 // create-smktest  --namespace=edutelling-develop --sevices-coverage --cluster-coverage --ingress-coverage --resource-up --endpoint-coverage
 // create-smktest --curl-assert="curl -v https://edutelling-app-develop.openshift.techgap.it/login 2>&1 | grep -E 'HTTP|<title>'"
-
 
 //create-smktest --curl-assert='curl -v https://edutelling-app-develop.openshift.techgap.it/login 2>&1 | grep -E "HTTP|<title>"' --cluster-coverage

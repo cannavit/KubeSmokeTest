@@ -1,4 +1,6 @@
 #!/usr/bin/env node
 
 require = require('esm')(module /*, options */);
-require('../src/cli2').cli(process.argv);
+// require('../src/cli2').cli(process.argv); //TODO only for test
+require('../build/cli').cli(process.argv);
+

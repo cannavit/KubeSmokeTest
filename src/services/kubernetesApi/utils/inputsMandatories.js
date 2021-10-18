@@ -1,25 +1,27 @@
-
 const chalk = require('chalk');
 
+async function inputMandatory(options, variableRequired) {
+  var keys = Object.keys(options);
+  let pass = false;
 
-async function inputMandatory(options, variableRquired){
-
-    var keys = Object.keys(options)
-    let pass = false
-
-    for (const key of keys) {
-        if (key === variableRquired) {
-            pass = true
-        }
+  for (const key of keys) {
+    if (key === variableRequired) {
+      pass = true;
     }
+  }
 
-    if (!pass | options[variableRquired] === "false" | options[variableRquired] === false) {
-        console.log(chalk.red.bold('ERROR: INPUT MANDATORY'));
-        throw new Error(chalk.yellow.bold(` 🛑  The Input: "${variableRquired}" is required`))
-    }
+  if (
+    !pass |
+    (options[variableRequired] === 'false') |
+    (options[variableRequired] === false)
+  ) {
+    console.log(chalk.red.bold('ERROR: INPUT MANDATORY'));
+    throw new Error(
+      chalk.yellow.bold(` 🛑  The Input: "${variableRequired}" is required`)
+    );
+  }
 
-    return options
+  return options;
 }
 
-
-module.exports.inputMandatory = inputMandatory
+module.exports.inputMandatory = inputMandatory;

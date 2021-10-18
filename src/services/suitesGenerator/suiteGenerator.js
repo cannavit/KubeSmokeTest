@@ -211,7 +211,7 @@ export async function createSuiteByCriterialV2(options) {
       //   );
 
       //   // Get List of Ingress.
-      //   options = await getKubeIngress(options);
+        options = await getKubeIngress(options);
 
       //   let ingressList = options.ingressList;
 
@@ -592,9 +592,6 @@ export async function getConsoleInputs(options) {
     commands[inputs] = String;
   }
 
-  console.log(">>>>>1846203916>>>>>")
-console.log(commands)
-console.log("<<<<<<<<<<<<<<<<<<<")
   return commands;
 }
 
@@ -606,8 +603,8 @@ export async function argsByCriterial(options) {
   let standartVariables = await getStandardVariables(options);
 
   console.log(">>>>>-2125235967>>>>>")
-console.log(standartVariables)
-console.log("<<<<<<<<<<<<<<<<<<<")
+  console.log(standartVariables)
+  sconsole.log("<<<<<<<<<<<<<<<<<<<")
 
   let originalArgs = args;
 

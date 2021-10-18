@@ -22,7 +22,6 @@ module.exports.getLogs = async function (options) {
     let name = pod.pod;
 
     //TODO is necessary check how red with --since-time
-    // public async readNamespacedPodLog (name: string, namespace: string, container?: string, follow?: boolean, insecureSkipTLSVerifyBackend?: boolean, limitBytes?: number, pretty?: string, previous?: boolean, sinceSeconds?: number, tailLines?: number, timestamps?: boolean, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: string;  }> {
 
     let dataLogs = await k8sApi.readNamespacedPodLog(
       name,

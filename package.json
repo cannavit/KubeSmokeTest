@@ -16,8 +16,8 @@
     "tdd": "jest --watchAll --testPathPattern=/createSmktest",
     "tdd2": "jest --watchAll --testPathPattern=/smokeTest_suites",
     "tdd3": "jest --watchAll --testPathPattern=/smokeTest_suites",
-    "jest": "jest --watchAll",
-    "build": "tsc --watch"
+    "jest": "jest --bail --watchAll ",
+    "build": "tsc --allowJs"
   },
   "repository": {
     "type": "git",
@@ -83,6 +83,7 @@
     "typescript": "^4.4.3"
   },
   "jest": {
+    "bail": true,
     "preset": "ts-jest",
     "testEnvironment": "node",
     "collectCoverage": true,

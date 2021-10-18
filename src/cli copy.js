@@ -1,35 +1,13 @@
 import arg from 'arg';
 import inquirer from 'inquirer';
-import { createProject, runMultiTasks } from './main';
-import figlet from 'figlet';
-import { runJestTest } from './runJestTest';
-import { generateCasesSwagger } from './services/smktestSwagger';
-// https://www.twilio.com/blog/how-to-build-a-cli-with-node-js
-import { smktestCheckIfAllPodsAreActive } from './services/kubernetesApi/smokeTest/smktestPods';
 // Kubernetes:
 // import fs from 'fs';
 const fs = require('fs');
-
-// import { cliKubernetes } from './services/kubernetesApi/cli.js';
-// import { kubernetesIngress } from './services/kubernetesApi/src/ingress';
-import { checkConditions } from './services/kubernetesApi/src/conditions';
-import { getLogs } from './services/kubernetesApi/src/logs';
-import { getPods } from './services/kubernetesApi/src/pods';
-import { checkNetworks } from './services/kubernetesApi/src/network';
-import {
-  checkClusterNodes,
-  ifGrepHaveOutputIsError,
-} from './services/kubernetesApi/src/checkClusterNodes';
-
-//? Read the standards Variables.
-
 const suiteGenerator = require('./services/suitesGenerator/suiteGenerator');
 
 import generateUniqueId from 'generate-unique-id';
 
 require('dotenv').config();
-//Single  Test.
-import { curlSingleTest } from './services/assertTest/services/curl';
 
 async function parseArgumentsIntoOptions(rawArgs) {
   // Get Arguments list from the configuration file.
@@ -55,11 +33,14 @@ async function parseArgumentsIntoOptions(rawArgs) {
     args: args,
     argumentsCli: argumentsCli,
   });
+
+  // console.log('@1Marker-No:_-1265401230');
   args = await suiteGenerator.createDictionaryInputs(args);
 
   const smokeTestVariableList = [];
   // Add Configuration Variables from smktest.json
 
+  // console.log('@1Marker-No:_-1265401230');
   let smktestConfig = await suiteGenerator.getStandardVariables({});
 
   for (const smktest of smktestConfig['smktestConfig']) {
@@ -268,8 +249,9 @@ export async function cli(args) {
   // Create one file Json with fs
   // import dependencies.
   await suiteGenerator.suiteGeneratorV2(options);
+  
 
-  let fileJson = './smokeTest_suites/src/SMKTEST_OPTIONS.json';
+  let fileJson = '../smktest.config.json';
 
   // Create one file JSON using fs
   await fs.promises.writeFile(fileJson, JSON.stringify(options), 'utf8');
@@ -365,6 +347,5 @@ export async function cli(args) {
 
 // create-smktest  --namespace=edutelling-develop --sevices-coverage --cluster-coverage --ingress-coverage --resource-up --endpoint-coverage
 // create-smktest --curl-assert="curl -v https://edutelling-app-develop.openshift.techgap.it/login 2>&1 | grep -E 'HTTP|<title>'"
-
 
 //create-smktest --curl-assert='curl -v https://edutelling-app-develop.openshift.techgap.it/login 2>&1 | grep -E "HTTP|<title>"' --cluster-coverage

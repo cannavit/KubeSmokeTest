@@ -14,6 +14,26 @@ const options = {
 
 describe('Verify the pushTest work fine', () =>{
 
+    test('Delete old smoke test suites', async () => {
+        
+          // Remove Old Smoke Test Suite
+          let testPath = '../../smokeTest_kubernetes'
+          console.log('@1Marker-No:_1454133605');
+
+          if (fs.existsSync(testPath)) {
+            await fs.rmdirSync(testPath, { recursive: true });
+          }
+
+          let passTest = true
+          if (fs.existsSync(testPath)) {
+            console.log('@1Marker-No:_1203572374');
+            passTest = false
+          }
+
+      expect(passTest).toEqual(true)
+
+    }),   
+    
     test('Check the readTest', async () => {
 
         let file = await pushTest.readTest(options)

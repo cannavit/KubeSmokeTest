@@ -2,30 +2,29 @@ var _ = require('lodash');
 const fs = require('fs');
 const shell = require('shelljs');
 const arg = require('arg');
-const suiteGenerator = require('../serviceV2/suiteGenerator/suiteGenerator')
-
+require('dotenv').config();
+const chalk = require('chalk');
 
 function camelize(str) {
-    return str
-      .replace(/(?:^\w|[A-Z]|\b\w)/g, function (word, index) {
-        return index === 0 ? word.toLowerCase() : word.toUpperCase();
-      })
-      .replace(/\s+/g, '');
-  }
+  return str
+    .replace(/(?:^\w|[A-Z]|\b\w)/g, function (word, index) {
+      return index === 0 ? word.toLowerCase() : word.toUpperCase();
+    })
+    .replace(/\s+/g, '');
+}
 
 async function toCammel(name: string) {
+  let nameCamel = camelize(name);
 
-    let nameCamel =   camelize(name);
+  nameCamel = _.replace(nameCamel, '-', '');
+  nameCamel = _.replace(nameCamel, '-', '');
+  nameCamel = _.replace(nameCamel, '-', '');
+  nameCamel = _.replace(nameCamel, '-', '');
+  nameCamel = _.replace(nameCamel, '-', '');
 
-    nameCamel = _.replace(nameCamel, '-', '');
-    nameCamel = _.replace(nameCamel, '-', '');
-    nameCamel = _.replace(nameCamel, '-', '');
-    nameCamel = _.replace(nameCamel, '-', '');
-    nameCamel = _.replace(nameCamel, '-', '');
+  nameCamel = _.lowerFirst(nameCamel);
 
-    nameCamel = _.lowerFirst(nameCamel);
-
-    return nameCamel
+  return nameCamel;
 }
 
 // Import Standart Variables from smktest.config.json
@@ -33,117 +32,115 @@ async function toCammel(name: string) {
 // Name of the function getStandardVariables
 async function getStandardVariables(options: any) {
 
-   let pathConfigurationFile : string = './smktest.config.json'; 
+  let pathConfigurationFile: string = './smktest.config.json';
 
-   // Verify if the configuration file exist. 
-    // If not, throw an error.
-    let existConfigFile : boolean = await fs.existsSync(pathConfigurationFile);
+  // Verify if the configuration file exist.
+  // If not, throw an error.
+  let existConfigFile: boolean = await fs.existsSync(pathConfigurationFile);
 
-    if (!existConfigFile) {
-        throw new Error(`The configuration file ${pathConfigurationFile} does not exist.`);
-    }
+  if (!existConfigFile) {
+    throw new Error(
+      `The configuration file ${pathConfigurationFile} does not exist.`
+    );
+  }
 
-  // Import Config File 
+  // Import Config File
   const smokeConfig = require('../../smktest.config.json');
 
   // Initialize Lists
-  let withStandardVariables : string[] = [];
-  let config2 : string[] = [];
+  let withStandardVariables: string[] = [];
+  let config2: string[] = [];
 
   for (const smktest of smokeConfig) {
     // Console value associate with the test example (--check-nodes)
-    let consoleValue :string = smktest.consoleValue;
+    let consoleValue: string = smktest.consoleValue;
 
     if (consoleValue !== undefined) {
       // Criterial value associate with the test example ("--cluster-coverage")
-      let criterial :string = smktest.criterial;
-      let variable :string = await this.toCammel(consoleValue);
+      let criterial: string = smktest.criterial;
+      let variable: string = await this.toCammel(consoleValue);
 
-      // Add variables inside of the smktest object. 
+      // Add variables inside of the smktest object.
       smktest.variable = variable;
-      
+
       // Create the next data structure
       // '--check-cluster-info' to  'SMKTEST_CHECK_CLUSTER_INFO',
 
-      let environmentVariable : string = variable.substring(2)
-      .toUpperCase()
+      let environmentVariable: string = variable.substring(2).toUpperCase();
 
       environmentVariable = _.replace(environmentVariable, '-', '');
 
       smktest['environmentVariable'] = 'SMKTEST_' + environmentVariable;
-      smktest['environmentVariableResultTest'] = 'SMKTEST_RESULT_' + environmentVariable;
-      smktest['environmentVariableDisabled'] = 'SMKTEST_DISABLED_' + environmentVariable;
-      
-      withStandardVariables.push(smktest)
+      smktest['environmentVariableResultTest'] =
+        'SMKTEST_RESULT_' + environmentVariable;
+      smktest['environmentVariableDisabled'] =
+        'SMKTEST_DISABLED_' + environmentVariable;
 
+      withStandardVariables.push(smktest);
     } else {
       config2 = Object.keys(smktest);
     }
   }
 
-  options["smktestConfig"] = withStandardVariables;
-  options["smktestConfigInputs"] = config2;
+  options['smktestConfig'] = withStandardVariables;
+  options['smktestConfigInputs'] = config2;
 
-  return options
+  return options;
 }
-
 
 // Verify if the the library have access to culster brefore to run the generator suite
 // Use one eval command for try to get one cluster simple feedback
-async function checkAccessToCluster(options: any){
+async function checkAccessToCluster(options: any) {
+  // Run one command line using the shell
+  let command: string =
+    'kubectl cluster-info | grep -v "diagnose" | grep "running"';
 
-    // Run one command line using the shell 
-    let command : string = 'kubectl cluster-info | grep -v "diagnose" | grep "running"';
-    
-    let result : string =  await shell.exec(command, {
-      silent: true,
-    }).stdout;
+  let result: string = await shell.exec(command, {
+    silent: true,
+  }).stdout;
 
-    // Verify if the command return a feedback
-    let passTest = false
-    if (result !== '') {
-        passTest = true
-    } else {
-      // Create error event
-      throw new Error('Not is possible generate the suite test, loss cluster connection');
-    }
+  // Verify if the command return a feedback
+  let passTest = false;
+  if (result !== '') {
+    passTest = true;
+  } else {
+    // Create error event
+    throw new Error(
+      'Not is possible generate the suite test, loss cluster connection'
+    );
+  }
 
-    // options['checkAccessToCluster'] = {clusterActive: passTest}
+  // options['checkAccessToCluster'] = {clusterActive: passTest}
 
-    return passTest
-
+  return passTest;
 }
-
 
 // Old Name createSuiteByCriterialV2
 async function createSuiteByCriterial(options: any) {
   // console.log('@1Marker-No:_1995650075');
 
+  //   console.log(">>>>>609442077>>>>>")
+  // console.log(options)
+  // console.log("<<<<<<<<<<<<<<<<<<<")
 
-//   console.log(">>>>>609442077>>>>>")
-// console.log(options)
-// console.log("<<<<<<<<<<<<<<<<<<<")
-  
-  return options
+  return options;
 }
 
-// Create the list of criteria and test. 
+// Create the list of criteria and test.
 // Old Name splitCriterials
 async function splitCriterial(options: any) {
-
-  let criterialSplit = options.smokeConfig
+  let criterialSplit = options.smokeConfig;
 
   // console.log(">>>>>-688026535>>>>>")
   // console.log(criterialSplit)
   // console.log("<<<<<<<<<<<<<<<<<<<")
-
 }
 
 // console.log('@1Marker-No:_-1953631800');
-//! Test verify 
+//! Test verify
 async function getConsoleInputs(options: any) {
 
-  let standartVariables :any = await this.getStandardVariables(options);
+  let standartVariables: any = await this.getStandardVariables(options);
 
   // Load namespaces
   let consoleInputs = [];
@@ -175,49 +172,48 @@ async function getConsoleInputs(options: any) {
     commands[inputs] = String;
   }
 
-  return commands;  
+  return commands;
 }
 
-
-
 // console.log('@1Marker-No:_-886104069');
-async function parseArgumentsIntoOptions(args: any){
+async function parseArgumentsIntoOptions(args: any) {
 
   let argumentsCli = await this.getConsoleInputs({});
 
   // With this is possible add one argument --cluster-coverage  === --cluster-coverage=true
   let argsL = [];
   for (const r of args) {
-    let envent2  = r.includes('=')
-    if (r.includes('--') && !envent2 ) {
+    let envent2 = r.includes('=');
+    if (r.includes('--') && !envent2) {
       argsL.push(r + '=true');
     }
 
-    let envent3 :any = !r.includes('--')
+    let envent3: any = !r.includes('--');
     if (envent3 | r.includes('=true') | r.includes('=')) {
       argsL.push(r);
     }
   }
+  
 
+  //! Black list of arguments Delete all arguments 
+  for  (const iterator of Object.keys(argumentsCli)) {
+    if (iterator.includes('async ()')){
+      delete argumentsCli[iterator]
+    } 
+  }
+
+  //! Register arguments
   args = arg(argumentsCli, {
     argv: argsL.slice(2),
   });
 
   let options = {
-     args: args,
-     argumentsCli: argumentsCli
-  }
+    args: args,
+    argumentsCli: argumentsCli,
+  };
 
   args = await this.argsByCriterial(options);
-
-  console.log(">>>>>309498313>>>>>")
-console.log(args)
-console.log("<<<<<<<<<<<<<<<<<<<")
-
-
   args = await this.createDictionaryInputs(args);
-
-
 
   const smokeTestVariableList = [];
   // console.log('@1Marker-No:_-1565193173');
@@ -230,24 +226,8 @@ console.log("<<<<<<<<<<<<<<<<<<<")
 
   let argumentsData = {};
   let listOfJestPath = [];
-
-  console.log(">>>>>1802064956>>>>>")
-  console.log(args)
-  console.log("<<<<<<<<<<<<<<<<<<<")
-  
   for (const element of smokeTestVariableList) {
-    
-    console.log(">>>>>-178136726>>>>>")
-    console.log(element)
-    console.log(">>>>>-912793042>>>>>")
-    console.log(args)
-    console.log("<<<<<<<<<<<<<<<<<<<")
-    console.log("<<<<<<<<<<<<<<<<<<<")
-
-
     let data = args[element.consoleValue] || element.defaultValue;
-
-
     //! If exist parameter inside of the console (* Have priority)
     let useNext = true;
 
@@ -258,7 +238,7 @@ console.log("<<<<<<<<<<<<<<<<<<<")
         listOfJestPath.push(element.jestTestPath);
       }
     }
-  
+
     //! If exist environment variable get value:
     if (process.env[element.environmentVariable] && useNext) {
       data = process.env[element.environmentVariable];
@@ -277,39 +257,26 @@ console.log("<<<<<<<<<<<<<<<<<<<")
       data: data,
       ...args,
     };
-
   }
 
-  console.log(">>>>>-1924094006>>>>>")
-  console.log(argumentsData)
-  console.log("<<<<<<<<<<<<<<<<<<<")
-
   return argumentsData;
-
-
 }
-
 
 // Create Group by Criteria
 async function argsByCriterial(options: any = {}) {
   // console.log('@1Marker-No:_2044119132');
-    
-  let args :any = options.args;  
 
-  let standartVariables :any = await this.getStandardVariables(options);
+  let args: any = options.args;
+
+  let standartVariables: any = await this.getStandardVariables(options);
 
   let originalArgs = args;
   standartVariables = standartVariables.smktestConfig;
 
   let criteriaList = [];
   for (const smktest of standartVariables) {
-
     let criterial = smktest['criterial'];
 
-    console.log(">>>>>831377591>>>>>")
-    console.log(args)
-    console.log("<<<<<<<<<<<<<<<<<<<")
-    
     if (args[criterial]) {
       if (smktest.criterial === criterial) {
         args[smktest.consoleValue] = 'true';
@@ -318,47 +285,42 @@ async function argsByCriterial(options: any = {}) {
     criteriaList.push(smktest.criterial);
   }
 
-   // Get unics criterials from list
-   let unicsCriterials = [...new Set(criteriaList)];
+  // Get unics criterials from list
+  let unicsCriterials = [...new Set(criteriaList)];
 
-   // Create dicctionary of criteria using test
-   let criteriaDictionary = {};
-   for (const criterial of unicsCriterials) {
-     criteriaDictionary[criterial] = [];
-     for (const smktest of standartVariables) {
-       if (smktest.criterial === criterial) {
-         criteriaDictionary[criterial].push(smktest.consoleValue);
-       }
-     }
-   }
-
-    // Build the test set using the inputs and the criteriaDiccionary
-    let criterialSet = {};
-
-
-    // get the keys of json objects originalArgs
-    let originalArgsKeys = Object.keys(originalArgs);
-
-    for (const criterial of originalArgsKeys) {
-      // Verify if criterial is inside of the list of criterials
-      if (unicsCriterials.includes(criterial)) {
-        criterialSet[criterial] = criteriaDictionary[criterial];
+  // Create dicctionary of criteria using test
+  let criteriaDictionary = {};
+  for (const criterial of unicsCriterials) {
+    criteriaDictionary[criterial] = [];
+    for (const smktest of standartVariables) {
+      if (smktest.criterial === criterial) {
+        criteriaDictionary[criterial].push(smktest.consoleValue);
       }
     }
-  
-    // Create dictionary with credentials selected.
-    // input example:
-  
-    options.args = args;
-  
-    return options;
+  }
+
+  // Build the test set using the inputs and the criteriaDiccionary
+  let criterialSet = {};
+
+  // get the keys of json objects originalArgs
+  let originalArgsKeys = Object.keys(originalArgs);
+
+  for (const criterial of originalArgsKeys) {
+    // Verify if criterial is inside of the list of criterials
+    if (unicsCriterials.includes(criterial)) {
+      criterialSet[criterial] = criteriaDictionary[criterial];
+    }
+  }
+
+  // Create dictionary with credentials selected.
+  // input example:
+
+  options.args = args;
+
+  return options;
 }
 
-
-
-
-async function getSuiteTst(options){
-
+async function getSuiteTst(options) {
   options = await this.getStandardVariables(options);
   let smokeTestSuites = {};
 
@@ -383,12 +345,13 @@ async function getSuiteTst(options){
         }
       }
     }
+  }
 
- }
+  options['smokeTestSuites'] = smokeTestSuites;
+  return options;
 }
 
-async function createCriterialDicctionary(options){
-
+async function createCriterialDicctionary(options) {
   options = await this.getStandardVariables(options);
 
   let criteriaDictionary = {};
@@ -405,13 +368,12 @@ async function createCriterialDicctionary(options){
   options.criteriaDictionary = criteriaDictionary;
 
   return options;
-
 }
 
-async function createDictionaryInputs(options){
-  
+async function createDictionaryInputs(options) {
   // CustomDictionary
   options = await this.createCriterialDicctionary(options);
+
   let criteriaDictionary = options.criteriaDictionary;
   let customDictionary = options.criteriaDictionary;
 
@@ -450,17 +412,42 @@ async function createDictionaryInputs(options){
   return options;
 }
 
+async function inputMandatory(options, variableRequired) {
+
+  var keys = Object.keys(options.args);
+  let pass = false;
+
+  for (const key of keys) {
+    if (key === variableRequired) {
+      pass = true;
+    }
+  }
+
+  if (
+    pass !== true ||
+    options[variableRequired] === 'false' ||
+    options[variableRequired] === false
+  ) {
+    console.log(chalk.red.bold('ERROR: INPUT MANDATORY'));
+    throw new Error(
+      chalk.yellow.bold(` 🛑  The Input: ${variableRequired} is required`)
+    );
+  }
+
+  return options;
+}
 
 export default {
-          toCammel,
-          getStandardVariables,
-          createSuiteByCriterial,
-          checkAccessToCluster,
-          splitCriterial,
-          getConsoleInputs,
-          parseArgumentsIntoOptions,
-          argsByCriterial,
-          createDictionaryInputs,
-          createCriterialDicctionary,
-          getSuiteTst
-        }
+  toCammel,
+  getStandardVariables,
+  createSuiteByCriterial,
+  checkAccessToCluster,
+  splitCriterial,
+  getConsoleInputs,
+  parseArgumentsIntoOptions,
+  argsByCriterial,
+  createDictionaryInputs,
+  createCriterialDicctionary,
+  getSuiteTst,
+  inputMandatory,
+};
