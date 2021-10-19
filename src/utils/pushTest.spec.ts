@@ -18,7 +18,6 @@ describe('Verify the pushTest work fine', () =>{
         
           // Remove Old Smoke Test Suite
           let testPath = '../../smokeTest_kubernetes'
-          console.log('@1Marker-No:_1454133605');
 
           if (fs.existsSync(testPath)) {
             await fs.rmdirSync(testPath, { recursive: true });

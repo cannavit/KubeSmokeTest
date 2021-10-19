@@ -270,8 +270,8 @@
   },
   {
     "SMKTEST_ENV": "",
-    "criterial": "--execution-unit-coverage",
-    "consoleValue": "--service-up",
+    "criterial": "--service-up",
+    "consoleValue": "--execution-unit-coverage",
     "jestTestPath": "",
     "defaultValue": null,
     "testType": {

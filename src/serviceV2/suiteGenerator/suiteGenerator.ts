@@ -5,7 +5,31 @@ const fs = require('fs');
 const Listr = require('listr');
 const _ = require('lodash');
 
+import getVolumePath from './src/volumeV2'
 
+async function getServicesName(options: any){
+
+  await smktestUtils.inputMandatory(options, '--namespace');
+
+  let command =
+    'kubectl get services -n $$namespace -o=custom-columns=NAME:.metadata.name | grep -v "NAME"';
+  command = command.replace('$$namespace', options.args['--namespace']);
+
+  let response = await shell.exec(command, {
+    silent: true,
+  }).stdout;
+
+  response = response.split('\n');
+
+  // Delete the last element of one list
+  response.pop();
+
+
+  options.services = response;
+
+  return options;
+
+}
 
 async function getKubeIngress(options :any){
 
@@ -14,6 +38,7 @@ async function getKubeIngress(options :any){
 
   
   testCommand = testCommand.replace('$$namespace', options.args['--namespace']);
+  
 
   let responseReport = await shell.exec(testCommand, {
     silent: true,
@@ -108,6 +133,8 @@ async function addTestCase(options: any) {
   // In this dictionary for correlate the test name with test file.
 
   //TODO add rest of cases
+ 
+  //! List of templates
 
   let listOfTestPath = {
     '--check-cluster': '/src/templates/grepTemplate.js',
@@ -118,17 +145,23 @@ async function addTestCase(options: any) {
     '--check-nodes': '/src/templates/grepTemplate.js',
     '--check-ingress': '/src/templates/ingressTemplate.js',
     '--check-pods-logs': '/src/templates/grepTemplate.js',
-    '--volumes-free-space': '',
-    '--volumes-exist-files': '',
+    '--volumes-free-space': '/src/templates/grepTemplate.js',
+    '--volumes-exist-files': '/src/templates/grepTemplate.js',
     '--curl-url': '',
     '--curl-assert': '',
     '--service-up': '',
   };
 
+
+  console.log('@1Marker-No:_-64731297');
   // // Read the Test Case template
   for (const criterial of Object.keys(options.smokeTestSuites)) {
 
+    console.log('@1Marker-No:_-1498640429');
+
     for (const test of Object.keys(options.smokeTestSuites[criterial])) {
+
+      console.log('@1Marker-No:_62473862');
 
       let smktest = options.smokeTestSuites[criterial][test];
       const testPath: string = __dirname + listOfTestPath[test];
@@ -155,8 +188,11 @@ async function addTestCase(options: any) {
         smktest.consoleValue
       );
       
-      //! Use Grep Template
 
+      console.log('@1Marker-No:_2057593260');
+      
+
+      //! Check Logs 
       if (testType == "checkPodsLogs"){
 
         testContent = await replaceAll(
@@ -177,11 +213,23 @@ async function addTestCase(options: any) {
           smktest.testType.checkPodsLogs.testCommand
         );
 
+        options = await getServicesName(options);
 
+        let testContentOne = ""
+        for (const service of options.services){
+          let testContentTwo = await replaceAll(testContent,
+            '$$serviceName',
+            service
+            )
+            testContentOne = testContentOne + testContentTwo  
+        }
 
+        testContent = testContentOne
       }
-      
+
+      //! Use Grep Template
       if (testType == "grep"){
+
         testContent = await replaceAll(
           testContent,
           '$$reportCommand',
@@ -202,6 +250,8 @@ async function addTestCase(options: any) {
 
       }
 
+
+      //! Check Ingress
       if (testType == "checkIngress"){
 
         let allTest = ""
@@ -239,17 +289,71 @@ async function addTestCase(options: any) {
               '$$assert',
               test.assert
             );
-
           }
 
           allTest =  allTest + initTestContent
-          
-
         }
 
         testContent = allTest
 
       }
+
+      //! Check Volumes
+      console.log('@1Marker-No:_-1881019206');
+      
+      if (testType == "checkVolumes"){
+
+        options = await getVolumePath(options);
+        let mountPath = options.mountPath
+        let service = Object.keys(mountPath);
+
+        console.log(">>>>>-386726181>>>>>  mountPath")
+        console.log(mountPath)
+        console.log("<<<<<<<<<<<<<<<<<<<")
+
+        let grepTemplate02 = ""
+
+        for (const serviceName of service){
+          // $mountPath
+
+         let grepTemplate = await replaceAll(
+            testContent,
+            '$$testCommand',
+            smktest.testType.checkVolumes.testCommand
+          );
+
+          grepTemplate = await replaceAll(grepTemplate,'$$service', serviceName);
+
+          grepTemplate = await replaceAll(
+            grepTemplate,
+            '$$assert',
+            smktest.testType.checkVolumes.assert
+          );
+
+
+          grepTemplate = await replaceAll(
+            grepTemplate,
+            '$$reportCommand',
+            smktest.testType.checkVolumes.reportCommand
+          );
+
+
+
+          grepTemplate = await replaceAll(
+            grepTemplate,
+            '$mountPath',
+            mountPath[serviceName].mountPath
+          );
+
+
+          grepTemplate02 = grepTemplate02 + grepTemplate
+        }
+
+
+        testContent = grepTemplate02
+
+      }
+
 
       try {
         testContent = await replaceAll(
