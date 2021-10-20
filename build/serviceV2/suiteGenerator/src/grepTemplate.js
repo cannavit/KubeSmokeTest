@@ -1,4 +1,6 @@
 
+
+
 test('Smoke Test criterial $$criterial test name: $$consoleValue', async () => {
   // Declarative
   let criterial = '$$criterial';
@@ -18,18 +20,19 @@ test('Smoke Test criterial $$criterial test name: $$consoleValue', async () => {
     consoleValue
   );
 
-  // Send results sfor collect the data.
-  // await smktestDep.collectSmokeTestResults(
-  //   dateInit,
-  //   criterial,
-  //   consoleValue,
-  //   '',
-  //   passTest
-  // );
+  // Send results for collect the data.
+  await smktestDep.collectSmokeTestResults(
+    dateInit,
+    criterial,
+    consoleValue,
+    '',
+    passTest
+  );
 
   expect(passTest).toBe(true);
-}, 5000);
+});
 
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> NEXT TEST
 //
+
 

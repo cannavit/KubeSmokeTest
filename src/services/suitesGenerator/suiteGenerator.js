@@ -295,6 +295,7 @@ export async function createSuiteByCriterialV2(options) {
       //   let service = Object.keys(mountPath);
 
       //   for (const serviceName of service) {
+        
       //     grepTemplate = grepTemplate.replaceAll(
       //       '$$criterial',
       //       smktest.criterial

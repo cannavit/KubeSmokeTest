@@ -1,10 +1,13 @@
 const shell = require('shelljs');
 const { inputMandatory } = require('../utils/inputsMandatories');
+const chalk = require('chalk');
 
 async function getKubeIngress(options) {
 
 
   await inputMandatory(options, '--namespace');
+
+
   let testCommand =
     "kubectl get ingress -n $$namespace  -o=jsonpath='{.items[*].spec.rules[*]}'";
 

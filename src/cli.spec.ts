@@ -115,27 +115,27 @@ test('Verify the--resource-up', async () => {
 })
 
 
-  test('Using All Test Smoke Test cases', async () => {
+//   test('Using All Test Smoke Test cases', async () => {
 
-    await removeTestDirectory()
+//     await removeTestDirectory()
       
-    let client :string[]=  [
-      '/Users/ceciliocannavaciuolo/.nvm/versions/node/v15.8.0/bin/node',
-      '/Users/ceciliocannavaciuolo/.nvm/versions/node/v15.8.0/bin/create-smktest',
-      '--cluster-coverage',
-      '--ingress-coverage',
-      '--service-coverage',
-      '--resource-up',
-      '--namespace=edutelling-develop'
-    ]
+//     let client :string[]=  [
+//       '/Users/ceciliocannavaciuolo/.nvm/versions/node/v15.8.0/bin/node',
+//       '/Users/ceciliocannavaciuolo/.nvm/versions/node/v15.8.0/bin/create-smktest',
+//       '--cluster-coverage',
+//       '--ingress-coverage',
+//       '--service-coverage',
+//       '--resource-up',
+//       '--namespace=edutelling-develop'
+//     ]
 
-    let options = await cli(client)
+//     let options = await cli(client)
 
-    if (options['cli']['tasksInit']){
-        console.log(options['cli']['tasksInit'])
-    }
+//     if (options['cli']['tasksInit']){
+//         console.log(options['cli']['tasksInit'])
+//     }
 
-    expect(options['cli']['tasksInit']).toEqual({})
-})
+//     expect(options['cli']['tasksInit']).toEqual({})
+// })
 
 })

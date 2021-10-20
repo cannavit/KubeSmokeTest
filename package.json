@@ -17,7 +17,8 @@
     "tdd2": "jest --watchAll --testPathPattern=/smokeTest_suites",
     "tdd3": "jest --watchAll --testPathPattern=/smokeTest_suites",
     "jest": "jest --bail --watchAll ",
-    "build": "tsc --allowJs"
+    "build": "tsc && cp -r ./src/serviceV2/suiteGenerator/src/templates ./build/serviceV2/suiteGenerator/src",
+    "smoke-test": "jest --testPathPattern=/smokeTest_kubernetes --coverage=false"
   },
   "repository": {
     "type": "git",

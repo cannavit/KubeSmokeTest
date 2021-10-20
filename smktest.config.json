@@ -39,7 +39,7 @@
       "not": {}
     }
   },
-  
+
   {
     "SMKTEST_ENV": "",
     "criterial": "--general-options",
@@ -238,7 +238,7 @@
   },
   {
     "SMKTEST_ENV": "",
-    "criterial": "--endpoint-coverage",
+    "criterial": "--endpoint-up",
     "consoleValue": "--curl-url",
     "mandatoryVariableValue": "--assert",
     "defaultValue": null,
@@ -254,7 +254,7 @@
   },
   {
     "SMKTEST_ENV": "",
-    "criterial": "--endpoint-coverage",
+    "criterial": "--endpoint-up",
     "consoleValue": "--curl-assert",
     "mandatoryVariableValue": true,
     "defaultValue": null,
@@ -270,7 +270,7 @@
   },
   {
     "SMKTEST_ENV": "",
-    "criterial": "--service-up",
+    "criterial": "--service-coverage",
     "consoleValue": "--execution-unit-coverage",
     "jestTestPath": "",
     "defaultValue": null,
@@ -283,4 +283,3 @@
     }
   }
 ]
-

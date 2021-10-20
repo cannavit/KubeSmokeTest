@@ -4,8 +4,6 @@ const chalk = require('chalk');
 const smktestDep = require('./src/smokeTestDependencies');
 
 
-
-
 test('Smoke Test criterial --resource-up test name: --volumes-free-space', async () => {
   // Declarative
   let criterial = '--resource-up';
@@ -25,23 +23,20 @@ test('Smoke Test criterial --resource-up test name: --volumes-free-space', async
     consoleValue
   );
 
-  // Send results for collect the data.
-  await smktestDep.collectSmokeTestResults(
-    dateInit,
-    criterial,
-    consoleValue,
-    '',
-    passTest
-  );
+  // Send results sfor collect the data.
+  // await smktestDep.collectSmokeTestResults(
+  //   dateInit,
+  //   criterial,
+  //   consoleValue,
+  //   '',
+  //   passTest
+  // );
 
   expect(passTest).toBe(true);
-});
+}, 5000);
 
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> NEXT TEST
 //
-
-
-
 
 
 test('Smoke Test criterial --resource-up test name: --volumes-free-space', async () => {
@@ -63,23 +58,20 @@ test('Smoke Test criterial --resource-up test name: --volumes-free-space', async
     consoleValue
   );
 
-  // Send results for collect the data.
-  await smktestDep.collectSmokeTestResults(
-    dateInit,
-    criterial,
-    consoleValue,
-    '',
-    passTest
-  );
+  // Send results sfor collect the data.
+  // await smktestDep.collectSmokeTestResults(
+  //   dateInit,
+  //   criterial,
+  //   consoleValue,
+  //   '',
+  //   passTest
+  // );
 
   expect(passTest).toBe(true);
-});
+}, 5000);
 
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> NEXT TEST
 //
-
-
-
 
 
 test('Smoke Test criterial --resource-up test name: --volumes-free-space', async () => {
@@ -101,23 +93,20 @@ test('Smoke Test criterial --resource-up test name: --volumes-free-space', async
     consoleValue
   );
 
-  // Send results for collect the data.
-  await smktestDep.collectSmokeTestResults(
-    dateInit,
-    criterial,
-    consoleValue,
-    '',
-    passTest
-  );
+  // Send results sfor collect the data.
+  // await smktestDep.collectSmokeTestResults(
+  //   dateInit,
+  //   criterial,
+  //   consoleValue,
+  //   '',
+  //   passTest
+  // );
 
   expect(passTest).toBe(true);
-});
+}, 5000);
 
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> NEXT TEST
 //
-
-
-
 
 
 test('Smoke Test criterial --resource-up test name: --volumes-exist-files', async () => {
@@ -139,23 +128,20 @@ test('Smoke Test criterial --resource-up test name: --volumes-exist-files', asyn
     consoleValue
   );
 
-  // Send results for collect the data.
-  await smktestDep.collectSmokeTestResults(
-    dateInit,
-    criterial,
-    consoleValue,
-    '',
-    passTest
-  );
+  // Send results sfor collect the data.
+  // await smktestDep.collectSmokeTestResults(
+  //   dateInit,
+  //   criterial,
+  //   consoleValue,
+  //   '',
+  //   passTest
+  // );
 
   expect(passTest).toBe(true);
-});
+}, 5000);
 
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> NEXT TEST
 //
-
-
-
 
 
 test('Smoke Test criterial --resource-up test name: --volumes-exist-files', async () => {
@@ -177,23 +163,20 @@ test('Smoke Test criterial --resource-up test name: --volumes-exist-files', asyn
     consoleValue
   );
 
-  // Send results for collect the data.
-  await smktestDep.collectSmokeTestResults(
-    dateInit,
-    criterial,
-    consoleValue,
-    '',
-    passTest
-  );
+  // Send results sfor collect the data.
+  // await smktestDep.collectSmokeTestResults(
+  //   dateInit,
+  //   criterial,
+  //   consoleValue,
+  //   '',
+  //   passTest
+  // );
 
   expect(passTest).toBe(true);
-});
+}, 5000);
 
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> NEXT TEST
 //
-
-
-
 
 
 test('Smoke Test criterial --resource-up test name: --volumes-exist-files', async () => {
@@ -215,19 +198,18 @@ test('Smoke Test criterial --resource-up test name: --volumes-exist-files', asyn
     consoleValue
   );
 
-  // Send results for collect the data.
-  await smktestDep.collectSmokeTestResults(
-    dateInit,
-    criterial,
-    consoleValue,
-    '',
-    passTest
-  );
+  // Send results sfor collect the data.
+  // await smktestDep.collectSmokeTestResults(
+  //   dateInit,
+  //   criterial,
+  //   consoleValue,
+  //   '',
+  //   passTest
+  // );
 
   expect(passTest).toBe(true);
-});
+}, 5000);
 
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> NEXT TEST
 //
-
 

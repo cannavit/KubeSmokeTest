@@ -153,15 +153,12 @@ async function addTestCase(options: any) {
   };
 
 
-  console.log('@1Marker-No:_-64731297');
   // // Read the Test Case template
   for (const criterial of Object.keys(options.smokeTestSuites)) {
 
-    console.log('@1Marker-No:_-1498640429');
 
     for (const test of Object.keys(options.smokeTestSuites[criterial])) {
 
-      console.log('@1Marker-No:_62473862');
 
       let smktest = options.smokeTestSuites[criterial][test];
       const testPath: string = __dirname + listOfTestPath[test];
@@ -189,7 +186,6 @@ async function addTestCase(options: any) {
       );
       
 
-      console.log('@1Marker-No:_2057593260');
       
 
       //! Check Logs 
@@ -239,7 +235,7 @@ async function addTestCase(options: any) {
         testContent = await replaceAll(
           testContent,
           '$$testCommand',
-          smktest.testType.grep.reportCommand
+          smktest.testType.grep.testCommand
         );
   
         testContent = await replaceAll(
@@ -299,17 +295,14 @@ async function addTestCase(options: any) {
       }
 
       //! Check Volumes
-      console.log('@1Marker-No:_-1881019206');
       
       if (testType == "checkVolumes"){
+
+        console.log('@1Marker-No:_1228477446');
 
         options = await getVolumePath(options);
         let mountPath = options.mountPath
         let service = Object.keys(mountPath);
-
-        console.log(">>>>>-386726181>>>>>  mountPath")
-        console.log(mountPath)
-        console.log("<<<<<<<<<<<<<<<<<<<")
 
         let grepTemplate02 = ""
 
@@ -336,8 +329,6 @@ async function addTestCase(options: any) {
             '$$reportCommand',
             smktest.testType.checkVolumes.reportCommand
           );
-
-
 
           grepTemplate = await replaceAll(
             grepTemplate,
@@ -384,7 +375,6 @@ async function pushTestV2(options: {
   testPath: string
 }){
 
-  console.log('@1Marker-No:_985773087');
 
 
 }

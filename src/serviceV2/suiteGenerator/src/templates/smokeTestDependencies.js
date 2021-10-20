@@ -67,7 +67,7 @@ async function checkIngress(
   // SAVE RESULT IN ENVIRONMENT VARIABLE
   process.env[environmentVariableResultTest] = response;
 
-  if (!passTest) {
+  if (passTest == false) {
     console.log(
       chalk.red.bold(`👎 SMOKE TEST ERROR ${criterial}/ ${consoleValue}`)
     );
@@ -108,7 +108,8 @@ async function simpleCurlAssert(
 
   responseReport = responseReport.stdout.includes(assertValue);
 
-  if (responseReport) {
+  
+  if (responseReport == true) {
     passTest = true;
     console.log(
       chalk.green.bold(

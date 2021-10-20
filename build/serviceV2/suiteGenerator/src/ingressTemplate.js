@@ -17,14 +17,14 @@ test('Smoke Test $${criterial}test name: $$consoleValue', async () => {
     reportCommand
   );
 
-  // // Run Command
-  // await smktestDep.collectSmokeTestResults(
-  //   dateInit,
-  //   criterial,
-  //   consoleValue,
-  //   '',
-  //   passTest
-  // );
+  // Run Command
+  await smktestDep.collectSmokeTestResults(
+    dateInit,
+    criterial,
+    consoleValue,
+    '',
+    passTest
+  );
 
   expect(passTest).toBe(true);
 });

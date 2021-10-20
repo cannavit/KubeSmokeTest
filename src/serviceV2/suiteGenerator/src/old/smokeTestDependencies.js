@@ -18,7 +18,7 @@ async function collectSmokeTestResults(
   let timeTestSeconds = (dateFinish.getTime() - dateInit.getTime()) / 1000;
 
   // Print current folder content
-  let options = await fs.promises.readFile('../../smktest.config.json', 'utf-8');
+  let options = await fs.promises.readFile('./smktest.config.json', 'utf-8');
 
   options = JSON.parse(options);
 
