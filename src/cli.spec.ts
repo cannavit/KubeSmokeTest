@@ -88,17 +88,43 @@ describe('Check console client inputs', () =>{
 
 // }),
 
-test('Verify the--resource-up', async () => {
+// test('Verify the--resource-up', async () => {
+
+//   console.log('@1Marker-No:_956628332');
+//   await removeTestDirectory()
+    
+//   console.log('@1Marker-No:_2028145097');
+//   let client :string[]=  [
+//     '/Users/ceciliocannavaciuolo/.nvm/versions/node/v15.8.0/bin/node',
+//     '/Users/ceciliocannavaciuolo/.nvm/versions/node/v15.8.0/bin/create-smktest',
+//     '--resource-up',
+//     '--namespace=edutelling-develop'
+//   ]
+
+//   console.log('@1Marker-No:_1381512308');
+//   let options = await cli(client)
+
+//   console.log('@1Marker-No:_2124408663');
+//   if (options['cli']['tasksInit']){
+//       console.log(options['cli']['tasksInit'])
+//   }
+
+
+//   expect(options['cli']['tasksInit']).toEqual({})
+
+// }),
+
+test('Verify the --endpoint-up', async () => {
 
   console.log('@1Marker-No:_956628332');
   await removeTestDirectory()
     
   console.log('@1Marker-No:_2028145097');
+
   let client :string[]=  [
     '/Users/ceciliocannavaciuolo/.nvm/versions/node/v15.8.0/bin/node',
     '/Users/ceciliocannavaciuolo/.nvm/versions/node/v15.8.0/bin/create-smktest',
-    '--resource-up',
-    '--namespace=edutelling-develop'
+    '--curl-assert=[\"curl -v www.google.com\", \"curl -v www.googleFalse.com\"]"'
   ]
 
   console.log('@1Marker-No:_1381512308');

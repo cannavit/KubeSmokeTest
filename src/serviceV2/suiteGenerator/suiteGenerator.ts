@@ -148,7 +148,7 @@ async function addTestCase(options: any) {
     '--volumes-free-space': '/src/templates/grepTemplate.js',
     '--volumes-exist-files': '/src/templates/grepTemplate.js',
     '--curl-url': '',
-    '--curl-assert': '',
+    '--curl-assert': '/src/templates/grepTemplate.js',
     '--service-up': '',
   };
 
@@ -157,8 +157,12 @@ async function addTestCase(options: any) {
   for (const criterial of Object.keys(options.smokeTestSuites)) {
 
 
+    console.log('@1Marker-No:_-662328844');
+
+
     for (const test of Object.keys(options.smokeTestSuites[criterial])) {
 
+      console.log('@1Marker-No:_-1640662508');
 
       let smktest = options.smokeTestSuites[criterial][test];
       const testPath: string = __dirname + listOfTestPath[test];
@@ -342,6 +346,18 @@ async function addTestCase(options: any) {
 
 
         testContent = grepTemplate02
+
+      }
+
+      //! Check simpleCurlAssert --endpoint-up
+      console.log('@1Marker-No:_-1728498060');
+
+      if(testType == "simpleCurlAssert"){
+
+        console.log('@1Marker-No:_2014331922');
+        console.log(">>>>>-723521312>>>>>")
+        console.log(smktest)
+        console.log("<<<<<<<<<<<<<<<<<<<")
 
       }
 
