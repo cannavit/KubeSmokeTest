@@ -4,6 +4,7 @@ const shell = require('shelljs');
 const fs = require('fs');
 const Listr = require('listr');
 const _ = require('lodash');
+const chalk = require('chalk');
 
 import getVolumePath from './src/volumeV2'
 
@@ -150,19 +151,15 @@ async function addTestCase(options: any) {
     '--curl-url': '',
     '--curl-assert': '/src/templates/grepTemplate.js',
     '--service-up': '',
+    '--swagger-docs': '/src/templates/swaggerRequest.js'
   };
 
 
   // // Read the Test Case template
   for (const criterial of Object.keys(options.smokeTestSuites)) {
 
-
-    console.log('@1Marker-No:_-662328844');
-
-
     for (const test of Object.keys(options.smokeTestSuites[criterial])) {
 
-      console.log('@1Marker-No:_-1640662508');
 
       let smktest = options.smokeTestSuites[criterial][test];
       const testPath: string = __dirname + listOfTestPath[test];
@@ -188,8 +185,6 @@ async function addTestCase(options: any) {
         '$$consoleValue',
         smktest.consoleValue
       );
-      
-
       
 
       //! Check Logs 
@@ -302,8 +297,6 @@ async function addTestCase(options: any) {
       
       if (testType == "checkVolumes"){
 
-        console.log('@1Marker-No:_1228477446');
-
         options = await getVolumePath(options);
         let mountPath = options.mountPath
         let service = Object.keys(mountPath);
@@ -350,15 +343,110 @@ async function addTestCase(options: any) {
       }
 
       //! Check simpleCurlAssert --endpoint-up
-      console.log('@1Marker-No:_-1728498060');
 
       if(testType == "simpleCurlAssert"){
 
-        console.log('@1Marker-No:_2014331922');
-        console.log(">>>>>-723521312>>>>>")
-        console.log(smktest)
-        console.log("<<<<<<<<<<<<<<<<<<<")
+        let curlList = smktest.defaultValue
+        
+        try {
+          curlList = eval(eval(curlList))
+        } catch (error) {
+          // Print error message
+          console.log(error);
+          throw new Error(
+            chalk.yellow.bold(` 🛑  The Input: ${curlList} not is possible eval it. `)
+          );
+        }
+        
 
+        let curlGeneralGTemplate = ""
+        
+        for (const curl of curlList){       
+          
+          let curlTemplate = testContent
+
+          curlTemplate = await replaceAll(
+            curlTemplate,
+            '$$testCommand',
+            curl
+          );
+
+          curlTemplate = await replaceAll(
+            curlTemplate,
+            '$$assert',
+            smktest.testType.simpleCurlAssert.assert
+          );
+
+          curlTemplate = await replaceAll(
+            curlTemplate,
+            '$$reportCommand',
+            curl
+          );
+
+          curlGeneralGTemplate = curlGeneralGTemplate + curlTemplate
+        }
+
+        testContent = curlGeneralGTemplate
+      }
+
+
+      //! Check Swagger Urls 
+      if (testType == "swaggerDocs"){
+
+        const swaggerSmktest = require('swagger-smktest')
+
+        let {
+          responseOfRequest,
+          coverage,
+          successSmokeTest,
+          report,
+          abstractReport,
+        } = await swaggerSmktest.smokeTest(smktest.defaultValue);
+
+        
+        let swaggerAll = ""
+        for ( const swagger of responseOfRequest){
+          let swaggerTemplate = testContent
+
+          swaggerTemplate = await replaceAll(
+            swaggerTemplate,
+            '$$testCommand',
+            swagger.curlRequest
+          );
+
+          swaggerTemplate = await replaceAll(
+            swaggerTemplate,
+            '$$reportCommand',
+            swagger.curlRequest
+          );
+       
+          swaggerTemplate = await replaceAll(
+            swaggerTemplate,
+            '$$assert',
+            swagger.status
+          );
+
+          swaggerTemplate = await replaceAll(
+            swaggerTemplate,
+            '$$requestUrl',
+            swagger.status
+          );
+
+          swaggerTemplate = await replaceAll(
+            swaggerTemplate,
+            '$$URL_SWAGGER',
+            swagger.requestUrl
+          );
+
+          swaggerAll = swaggerAll + swaggerTemplate
+
+          // break
+
+
+        }
+
+        testContent = swaggerAll
+        console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
       }
 
 
@@ -421,8 +509,6 @@ async function createTestSuite(options: any) {
     await fs.rmdirSync(testPath, { recursive: true });
   }
 
-  
-
   // Create Folder if not exit
   if (!fs.existsSync(testPath)) {
     await fs.mkdirSync(testPath);
@@ -431,14 +517,14 @@ async function createTestSuite(options: any) {
 
   // Copy Dependencies file inside of the folder /src
 
-  try {
-    await fs.promises.copyFile(
-      __dirname+'/src/templates/smokeTestDependencies.js',
-      testPath+'/src/smokeTestDependencies.js'
-    );
-  } catch (error) {
-    console.log(error.message);
-  }
+  // try {
+  //   await fs.promises.copyFile(
+  //     __dirname+'/src/templates/smokeTestDependencies.js',
+  //     testPath+'/src/smokeTestDependencies.js'
+  //   );
+  // } catch (error) {
+  //   console.log(error.message);
+  // }
   
   // Copy Dependencies file inside of the folder smktest.config.json
   try {

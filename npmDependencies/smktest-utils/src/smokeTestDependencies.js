@@ -3,6 +3,7 @@ const shell = require('shelljs');
 const chalk = require('chalk');
 require('dotenv').config();
 const fs = require('fs');
+const axios = require('axios');
 
 // Send data to Smoke Test collector.
 
@@ -51,13 +52,15 @@ async function checkIngress(
   criterial,
   consoleValue
 ) {
-  let passTest = false;
-  let response = await shell.exec(testCommand, { silent: true }).stdout;
 
-  // Check assert variables.
-  if (response === assertValue) {
-    passTest = true;
+  let passTest = true;
+
+  let response = await shell.exec(testCommand, { silent: true });
+
+  if (response.stderr.code !== 0 && response.stdout === ""){
+    passTest = false
   }
+
 
   // Eval command for print report
   let responseReport = await shell.exec(reportCommand, {
@@ -136,6 +139,32 @@ async function preCommandTest(command) {
   await shell.exec(command, { silent: false }).stdout;
 }
 
-// module.exports.simpleCurlAssert = simpleCurlAssert;
+module.exports.simpleCurlAssert = simpleCurlAssert;
 
-simpleCurlAssert('curl -v www.google.com', '200');
+
+
+async function getStatusCode(curl){
+
+  let response
+
+  try {
+    response = await axios.get(curl)    
+
+  } catch (error) {
+
+    try {
+      response = error.response
+    } catch (error) {
+      response = {
+        status: "600"
+      }
+      console.log(error.message)
+    }
+  } 
+  
+
+  return response.status;
+}
+
+module.exports.getStatusCode = getStatusCode;
+

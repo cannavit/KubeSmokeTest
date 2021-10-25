@@ -1,5 +1,4 @@
-
-test('Smoke Test criterial $$criterial test name: $$consoleValue', async () => {
+test('Smoke Test criterial $${criterial}test name: $$consoleValue', async () => {
   // Declarative
   let criterial = '$$criterial';
   let consoleValue = '$$consoleValue';
@@ -10,17 +9,24 @@ test('Smoke Test criterial $$criterial test name: $$consoleValue', async () => {
 
   // Get record of init test
   var dateInit = await new Date();
-  let passTest = await smktestDep.checkIngress(
+  
+  let passTest = await smktestDep.simpleCurlAssert(
     testCommand,
     assertValue,
-    reportCommand,
     criterial,
-    consoleValue
+    consoleValue,
+    reportCommand
+  );
+  // Send results for collect the data.
+  await smktestDep.collectSmokeTestResults(
+    dateInit,
+    criterial,
+    consoleValue,
+    '',
+    passTest
   );
 
   expect(passTest).toBe(true);
-}, 5000);
+});
 
-// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> NEXT TEST
-//
-
+// NEXT TEXT >>>>>>>>>>>>>>>>>>>>>>>>

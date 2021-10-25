@@ -114,32 +114,75 @@ describe('Check console client inputs', () =>{
 
 // }),
 
-test('Verify the --endpoint-up', async () => {
+// test('Verify the --endpoint-up', async () => {
 
-  console.log('@1Marker-No:_956628332');
+//   await removeTestDirectory()
+
+//   let client :string[]=  [
+//     '/Users/ceciliocannavaciuolo/.nvm/versions/node/v15.8.0/bin/node',
+//     '/Users/ceciliocannavaciuolo/.nvm/versions/node/v15.8.0/bin/create-smktest',
+//     '--curl-assert="[\'curl -v www.google.com\', \'curl -v https://www.facebook.com/\']"'
+//   ]
+
+
+//   let options = await cli(client)
+//   if (options['cli']['tasksInit']){
+//       console.log(options['cli']['tasksInit'])
+//   }
+
+//   expect(options['cli']['tasksInit']).toEqual({})
+// }),
+
+test('Create Publics Access', async () => {
+  
   await removeTestDirectory()
-    
-  console.log('@1Marker-No:_2028145097');
 
   let client :string[]=  [
     '/Users/ceciliocannavaciuolo/.nvm/versions/node/v15.8.0/bin/node',
     '/Users/ceciliocannavaciuolo/.nvm/versions/node/v15.8.0/bin/create-smktest',
-    '--curl-assert=[\"curl -v www.google.com\", \"curl -v www.googleFalse.com\"]"'
+    '--swagger-docs=https://edutelling-api-develop.openshift.techgap.it/api/v1/api-docs/'
   ]
 
-  console.log('@1Marker-No:_1381512308');
-  let options = await cli(client)
 
-  console.log('@1Marker-No:_2124408663');
+  let options = await cli(client)
   if (options['cli']['tasksInit']){
       console.log(options['cli']['tasksInit'])
   }
 
-
   expect(options['cli']['tasksInit']).toEqual({})
+},100000)
 
-})
 
+
+// test('Verify Fail of the test the --endpoint-up', async () => {
+
+//   console.log('@1Marker-No:_956628332');
+//   await removeTestDirectory()
+    
+//   console.log('@1Marker-No:_2028145097');
+
+//   let client :string[]=  [
+//     '/Users/ceciliocannavaciuolo/.nvm/versions/node/v15.8.0/bin/node',
+//     '/Users/ceciliocannavaciuolo/.nvm/versions/node/v15.8.0/bin/create-smktest',
+//     '--curl-assert="[\'curl -v www.googdasdasdle.com\', \'curl -v https://www.facebadadadsasdook.com/\']"'
+//   ]
+
+
+//   let options = await cli(client)
+
+//   if (options['cli']['tasksInit']){
+//       console.log(options['cli']['tasksInit'])
+//   }
+
+
+//   console.log(">>>>>505954351>>>>>")
+//   console.log(options['cli'])
+//   console.log("<<<<<<<<<<<<<<<<<<<")
+
+
+//   expect(options['cli']['tasksInit']).toEqual({})
+
+// })
 
 //   test('Using All Test Smoke Test cases', async () => {
 

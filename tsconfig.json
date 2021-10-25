@@ -6,7 +6,7 @@
       "removeComments": true,
       "preserveConstEnums": true,
       "sourceRoot": "./src/",
-      "rootDir": "./src/",
+      "rootDir": "src3",
       "outDir": "./build"
     },
     "include": [

@@ -238,7 +238,7 @@
   },
   {
     "SMKTEST_ENV": "",
-    "criterial": "--endpoint-up",
+    "criterial": "--endpoint-coverage",
     "consoleValue": "--curl-url",
     "mandatoryVariableValue": "--assert",
     "defaultValue": null,
@@ -254,7 +254,23 @@
   },
   {
     "SMKTEST_ENV": "",
-    "criterial": "--endpoint-up",
+    "criterial": "--endpoint-coverage",
+    "consoleValue": "--swagger-docs",
+    "mandatoryVariableValue": "--swagger-docs",
+    "defaultValue": null,
+    "jestTestPath": "",
+    "testType": {
+      "swaggerDocs": {
+        "testCommand": "kubectl --namespace=$$namespace  exec service/$$service  -- ls  $mountPath | grep -i -c ''",
+        "assert": "",
+        "reportCommand": "kubectl --namespace=$$namespace  exec service/$$service  -- ls $mountPath",
+        "failMessage": "The volume not have any files inside of the mountPath"
+      }
+    }
+  },
+  {
+    "SMKTEST_ENV": "",
+    "criterial": "--endpoint-coverage",
     "consoleValue": "--curl-assert",
     "mandatoryVariableValue": true,
     "defaultValue": null,
