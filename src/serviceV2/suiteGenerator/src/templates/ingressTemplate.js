@@ -10,12 +10,21 @@ test('Smoke Test $${criterial}test name: $$consoleValue', async () => {
   let reportCommand = '$$reportCommand';
 
   // Get record of init test
-
+  var dateInit = await new Date();
   let passTest = await smktestDep.checkIngress(
     testCommand,
     assertValue,
     reportCommand
   );
+
+  // // Run Command
+  // await smktestDep.collectSmokeTestResults(
+  //   dateInit,
+  //   criterial,
+  //   consoleValue,
+  //   '',
+  //   passTest
+  // );
 
   expect(passTest).toBe(true);
 });

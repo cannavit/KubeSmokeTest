@@ -4,7 +4,7 @@ const chalk = require('chalk');
 require('dotenv').config();
 const fs = require('fs');
 const axios = require('axios');
-
+const swaggerSmktest = require('swagger-smktest')
 // Send data to Smoke Test collector.
 
 async function collectSmokeTestResults(
@@ -168,3 +168,51 @@ async function getStatusCode(curl){
 
 module.exports.getStatusCode = getStatusCode;
 
+
+async function getNewToken(swaggerLoginCurlURL){
+
+  let options2 = await swaggerSmktest.getToken({
+    tokenConfig: {
+      curlRequest: swaggerLoginCurlURL,
+    },
+  });
+
+  return options2.tokenObj.tokenValue
+
+}
+
+module.exports.getNewToken = getNewToken;
+
+
+async function getStatusCodeToken(options){
+
+  let response
+
+  try {
+    response = await axios(options)    
+  } catch (error) {
+    try {
+      response = error.response
+    } catch (error) {
+      response = {
+        status: "600"
+      }
+    }
+  } 
+  
+  return response.status;
+}
+
+module.exports.getStatusCodeToken = getStatusCodeToken;
+
+
+async function replaceAll(str, search, replacement) {
+  var newStr = '';
+  if (_.isString(str)) {
+    // maybe add a lodash test? Will not handle numbers now.
+    newStr = await str.split(search).join(replacement);
+  }
+  return newStr;
+}
+
+module.exports.replaceAll = replaceAll;

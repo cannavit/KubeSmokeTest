@@ -5,6 +5,9 @@ const fs = require('fs');
 const Listr = require('listr');
 const _ = require('lodash');
 const chalk = require('chalk');
+const swaggerSmktest = require('swagger-smktest')
+const smktestDep = require('smktest-utils');
+
 
 import getVolumePath from './src/volumeV2'
 
@@ -151,7 +154,8 @@ async function addTestCase(options: any) {
     '--curl-url': '',
     '--curl-assert': '/src/templates/grepTemplate.js',
     '--service-up': '',
-    '--swagger-docs': '/src/templates/swaggerRequest.js'
+    '--swagger-docs': '/src/templates/swaggerRequest.js',
+    '--swagger-login-curl': '/src/templates/swaggerRequest.js'
   };
 
 
@@ -160,6 +164,14 @@ async function addTestCase(options: any) {
 
     for (const test of Object.keys(options.smokeTestSuites[criterial])) {
 
+      let swaggerLoginCurl
+      try {
+        swaggerLoginCurl = options.smokeTestSuites['--endpoint-coverage']['--swagger-login-curl']
+      } catch (error) {}
+
+      if(swaggerLoginCurl){
+        listOfTestPath[test] = '/src/templates/simpleCurlAssertLogin.js'
+      }
 
       let smktest = options.smokeTestSuites[criterial][test];
       const testPath: string = __dirname + listOfTestPath[test];
@@ -389,66 +401,167 @@ async function addTestCase(options: any) {
         testContent = curlGeneralGTemplate
       }
 
-
       //! Check Swagger Urls 
       if (testType == "swaggerDocs"){
+        // Check if exist the curlSwaggerLogin
+        let swaggerAll = ""
+        //? If not exist login swagger curl
+        if (!swaggerLoginCurl){
+          
+          console.log('@1Marker-No:_-1175368663');
 
-        const swaggerSmktest = require('swagger-smktest')
+          let {
+            responseOfRequest,
+            coverage,
+            successSmokeTest,
+            report,
+            abstractReport,
+          } = await swaggerSmktest.smokeTest(smktest.defaultValue);
+        
+          for ( const swagger of responseOfRequest){
 
+            let swaggerTemplate = testContent
+
+            swaggerTemplate = await replaceAll(
+              swaggerTemplate,
+              '$$testCommand',
+              swagger.curlRequest
+            );
+
+            swaggerTemplate = await replaceAll(
+              swaggerTemplate,
+              '$$reportCommand',
+              swagger.curlRequest
+            );
+            
+            swaggerTemplate = await replaceAll(
+              swaggerTemplate,
+              '$$assert',
+              swagger.status
+            );
+
+            swaggerTemplate = await replaceAll(
+              swaggerTemplate,
+              '$$requestUrl',
+              swagger.status
+            );
+
+            swaggerTemplate = await replaceAll(
+              swaggerTemplate,
+              '$$URL_SWAGGER',
+              swagger.requestUrl
+            );
+
+            swaggerAll = swaggerAll + swaggerTemplate
+
+          }
+
+          testContent = swaggerAll
+      }
+
+      //? If exist login swagger curl
+      if (swaggerLoginCurl){
+
+        let swaggerLoginCurlURL = swaggerLoginCurl.defaultValue
+  
         let {
           responseOfRequest,
           coverage,
           successSmokeTest,
           report,
-          abstractReport,
-        } = await swaggerSmktest.smokeTest(smktest.defaultValue);
-
+          abstractReport
+        } = await swaggerSmktest.smokeTest(
+          smktest.defaultValue,
+          {
+            tokenConfig: {
+              curlRequest: swaggerLoginCurlURL,
+            },
+          }
+        );
         
-        let swaggerAll = ""
-        for ( const swagger of responseOfRequest){
-          let swaggerTemplate = testContent
 
-          swaggerTemplate = await replaceAll(
-            swaggerTemplate,
-            '$$testCommand',
-            swagger.curlRequest
+        let testContentSwaggerLogin = ""
+        //* Get Header Token >>>>>>>>>>>>>>>>>>>>>>>> 
+        for (const swagger of responseOfRequest){
+           
+          let testContentElement = testContent
+
+          // header = swagger.header
+          let objectHeader = JSON.parse(swagger.headers)
+          let header = {}
+          
+          //? Get Header >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+          for (const headerName of Object.keys(objectHeader)){
+            let content = objectHeader[headerName]
+            if (content.length > 100){
+              if (content.includes('Bearer')){
+                header[headerName] = 'Bearer $$TOKEN'
+              } else {
+                header[headerName] = '$$TOKEN'
+              }
+            } else {
+              header[headerName] = content
+            }
+          }
+
+          //? Get Url Login Authentication >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+          let urlCurl 
+          for (const urlG of swaggerLoginCurl.defaultValue.split(' ')){
+            if (urlG.includes('http')){
+              urlCurl = urlG
+            }
+          }
+
+          testContentElement = await replaceAll(
+            testContentElement,
+            '$$curlLogin',
+            swaggerLoginCurl.defaultValue
           );
 
-          swaggerTemplate = await replaceAll(
-            swaggerTemplate,
-            '$$reportCommand',
-            swagger.curlRequest
-          );
-       
-          swaggerTemplate = await replaceAll(
-            swaggerTemplate,
-            '$$assert',
-            swagger.status
-          );
-
-          swaggerTemplate = await replaceAll(
-            swaggerTemplate,
-            '$$requestUrl',
-            swagger.status
-          );
-
-          swaggerTemplate = await replaceAll(
-            swaggerTemplate,
-            '$$URL_SWAGGER',
+          testContentElement = await replaceAll(
+            testContentElement,
+            '$$URL',
             swagger.requestUrl
           );
 
-          swaggerAll = swaggerAll + swaggerTemplate
+          testContentElement = await replaceAll(
+            testContentElement,
+            '$$header',
+            JSON.stringify(header)
+          );
 
-          // break
+          //? Get Assert 
+          const options = {
+            method: 'GET',
+            headers: objectHeader,
+            url: swagger.requestUrl
+          };
 
+          let statusCode = await smktestDep.getStatusCodeToken(options);
+          
+          testContentElement = await replaceAll(
+            testContentElement,
+            '$$assert',
+            JSON.stringify(statusCode)
+          );
 
+          testContentSwaggerLogin = testContentSwaggerLogin + testContentElement
         }
 
-        testContent = swaggerAll
-        console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
+        testContent = testContentSwaggerLogin
+
+
+      //   //* Get Token 
+      //  let options2 = await swaggerSmktest.getToken({
+      //     tokenConfig: {
+      //       curlRequest: swaggerLoginCurlURL,
+      //     },
+      //   });
+
+
       }
 
+    }
 
       try {
         testContent = await replaceAll(
@@ -458,8 +571,11 @@ async function addTestCase(options: any) {
         );
       } catch (error) {}
 
+
       options.smokeTestSuites[criterial][test]['testText'] = testContent;
     }
+
+
   }
 
   return options;
@@ -548,16 +664,13 @@ async function createTestSuite(options: any) {
     criterialFile = await replaceAll(criterialFile, '-', '');
     criterialFile = criterialFile + '.test.js';
 
-    // Add Dependencies File. 
-
-
+    // Add Dependencies File.
     let count = -1
     for (const test of Object.keys(options.smokeTestSuites[criterial])) {
 
       let pathTestOne = `smokeTest_kubernetes/${criterialFile}`
 
       let smktest = options.smokeTestSuites[criterial][test];
-
       
       count = count + 1;
       var tasksInit 

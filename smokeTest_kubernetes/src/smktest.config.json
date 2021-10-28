@@ -286,6 +286,22 @@
   },
   {
     "SMKTEST_ENV": "",
+    "criterial": "--endpoint-coverage",
+    "consoleValue": "--swagger-login-curl",
+    "mandatoryVariableValue": true,
+    "defaultValue": null,
+    "jestTestPath": "",
+    "testType": {
+      "swaggerDocs2": {
+        "testCommand": "eval",
+        "assert": "200",
+        "reportCommand": "eval",
+        "failMessage": "The request have one value 500 or internal server error"
+      }
+    }
+  },
+  {
+    "SMKTEST_ENV": "",
     "criterial": "--service-coverage",
     "consoleValue": "--execution-unit-coverage",
     "jestTestPath": "",

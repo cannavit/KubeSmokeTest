@@ -133,26 +133,50 @@ describe('Check console client inputs', () =>{
 //   expect(options['cli']['tasksInit']).toEqual({})
 // }),
 
-test('Create Publics Access', async () => {
+// test('Create Publics Access', async () => {
+  
+//   await removeTestDirectory()
+
+//   let client :string[]=  [
+//     '/Users/ceciliocannavaciuolo/.nvm/versions/node/v15.8.0/bin/node',
+//     '/Users/ceciliocannavaciuolo/.nvm/versions/node/v15.8.0/bin/create-smktest',
+//     '--swagger-docs=https://edutelling-api-develop.openshift.techgap.it/api/v1/api-docs/'
+//   ]
+
+
+//   let options = await cli(client)
+//   if (options['cli']['tasksInit']){
+//       console.log(options['cli']['tasksInit'])
+//   }
+
+//   expect(options['cli']['tasksInit']).toEqual({})
+// },100000),
+
+
+test('Create test using swagger and login api', async () => {
   
   await removeTestDirectory()
 
   let client :string[]=  [
     '/Users/ceciliocannavaciuolo/.nvm/versions/node/v15.8.0/bin/node',
     '/Users/ceciliocannavaciuolo/.nvm/versions/node/v15.8.0/bin/create-smktest',
-    '--swagger-docs=https://edutelling-api-develop.openshift.techgap.it/api/v1/api-docs/'
+    '--swagger-docs=https://edutelling-api-develop.openshift.techgap.it/api/v1/api-docs/',
+    '--swagger-login-curl=curl -X POST "https://edutelling-api-develop.openshift.techgap.it/api/v1/auth/authentication" -H "accept: application/json" -H "Content-Type: application/json" -d "{ \\\"email\\\": \\\"formazione@edutelling.it\\\", \\\"password\\\": \\\"Passw0rd\\\", \\\"stayLogged\\\": false }"'
   ]
 
+  // curl -X POST "https://edutelling-api-develop.openshift.techgap.it/api/v1/auth/authentication" -H "accept: application/json" -H "Content-Type: application/json" -d "{ \"email\": \"formazione@edutelling.it\", \"password\": \"Passw0rd\", \"stayLogged\": false }"
+  // curl -X POST "https://edutelling-api-develop.openshift.techgap.it/api/v1/auth/authentication" -H "accept: application/json" -H "Content-Type: application/json" -d "{ \"email\": \"formazione@edutelling.it\", \"password\": \"Passw0rd", \"stayLogged\": false }"
 
+
+  // curl -X POST "https://edutelling-api-develop.openshift.techgap.it/api/v1/auth/authentication" -H "accept: application/json" -H "Content-Type: application/json"  -d "{ "email": "formazione@edutelling.it", "password": "Passw0rd", "stayLogged": false }"
+  // curl -X POST "https://edutelling-api-develop.openshift.techgap.it/api/v1/auth/authentication" -H "accept: application/json" -H "Content-Type: application/json" -d "{ 'email': 'formazione@edutelling.it', 'password': 'Passw0rd', 'stayLogged': false }"
   let options = await cli(client)
   if (options['cli']['tasksInit']){
       console.log(options['cli']['tasksInit'])
   }
 
   expect(options['cli']['tasksInit']).toEqual({})
-},100000)
-
-
+},1000000)
 
 // test('Verify Fail of the test the --endpoint-up', async () => {
 
