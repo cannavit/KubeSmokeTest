@@ -25,6 +25,10 @@ async function getKubeIngress(options) {
 
   for (response of responseReport) {
 
+    console.log(">>>>>-1763903911>>>>>")
+    console.log(response) 
+    console.log("<<<<<<<<<<<<<<<<<<<")
+    
     response = JSON.parse(response);
 
     var keys = Object.keys(response);

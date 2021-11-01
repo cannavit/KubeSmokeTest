@@ -3,10 +3,8 @@ const shell = require('shelljs');
 const chalk = require('chalk');
 require('dotenv').config();
 const fs = require('fs');
-const axios = require('axios');
-const swaggerSmktest = require('swagger-smktest')
+
 // Send data to Smoke Test collector.
-const _ = require('lodash');
 
 async function collectSmokeTestResults(
   dateInit,
@@ -53,15 +51,13 @@ async function checkIngress(
   criterial,
   consoleValue
 ) {
+  let passTest = false;
+  let response = await shell.exec(testCommand, { silent: true }).stdout;
 
-  let passTest = true;
-
-  let response = await shell.exec(testCommand, { silent: true });
-
-  if (response.stderr.code !== 0 && response.stdout === ""){
-    passTest = false
+  // Check assert variables.
+  if (response === assertValue) {
+    passTest = true;
   }
-
 
   // Eval command for print report
   let responseReport = await shell.exec(reportCommand, {
@@ -140,80 +136,6 @@ async function preCommandTest(command) {
   await shell.exec(command, { silent: false }).stdout;
 }
 
-module.exports.simpleCurlAssert = simpleCurlAssert;
+// module.exports.simpleCurlAssert = simpleCurlAssert;
 
-
-
-async function getStatusCode(curl){
-
-  let response
-
-  try {
-    response = await axios.get(curl)    
-
-  } catch (error) {
-
-    try {
-      response = error.response
-    } catch (error) {
-      response = {
-        status: "600"
-      }
-      console.log(error.message)
-    }
-  } 
-  
-
-  return response.status;
-}
-
-module.exports.getStatusCode = getStatusCode;
-
-
-async function getNewToken(swaggerLoginCurlURL){
-
-  let options2 = await swaggerSmktest.getToken({
-    tokenConfig: {
-      curlRequest: swaggerLoginCurlURL,
-    },
-  });
-
-  return options2.tokenObj.tokenValue
-
-}
-
-module.exports.getNewToken = getNewToken;
-
-
-async function getStatusCodeToken(options){
-
-  let response
-
-  try {
-    response = await axios(options)    
-  } catch (error) {
-    try {
-      response = error.response
-    } catch (error) {
-      response = {
-        status: "600"
-      }
-    }
-  } 
-  
-  return response.status;
-}
-
-module.exports.getStatusCodeToken = getStatusCodeToken;
-
-
-async function replaceAll(str, search, replacement) {
-  var newStr = '';
-  if (_.isString(str)) {
-    // maybe add a lodash test? Will not handle numbers now.
-    newStr = await str.split(search).join(replacement);
-  }
-  return newStr;
-}
-
-module.exports.replaceAll = replaceAll;
+simpleCurlAssert('curl -v www.google.com', '200');

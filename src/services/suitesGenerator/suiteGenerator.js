@@ -126,7 +126,6 @@ export async function cleanCriterialsNotUsed(options) {
 
 export async function createSuiteByCriterialV2(options) {
 
-  console.log('@1Marker-No:_1995650075');
   let printList = [
     {
       title: 'Verify Cluster Connection',
@@ -512,7 +511,6 @@ export async function suiteGenerator(options) {
 
 // Create Suites Test.
 export async function suiteGeneratorV2(options) {
-  console.log('@1Marker-No:_-1161686263');
   // Import dependencies.
   let suiteSmokeTest = '';
 
@@ -527,7 +525,6 @@ export async function suiteGeneratorV2(options) {
   // Separate by criterials
   // options = await splitCriterialsV2(options);
   // // Create Test Suite by Criterial
-  console.log('@1Marker-No:_1995650075');
   options = await createSuiteByCriterialV2(options);
 
   // Delete folder if exist
@@ -604,10 +601,6 @@ export async function argsByCriterial(options) {
 
   let args = options.args;
   let standartVariables = await getStandardVariables(options);
-
-  console.log(">>>>>-2125235967>>>>>")
-  console.log(standartVariables)
-  sconsole.log("<<<<<<<<<<<<<<<<<<<")
 
   let originalArgs = args;
 

@@ -175,7 +175,6 @@ async function getConsoleInputs(options: any) {
   return commands;
 }
 
-// console.log('@1Marker-No:_-886104069');
 async function parseArgumentsIntoOptions(args: any) {
 
   let argumentsCli = await this.getConsoleInputs({});

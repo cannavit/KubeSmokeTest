@@ -8,7 +8,6 @@ const suiteGenerator = require('./services/suitesGenerator/suiteGenerator');
 import generateUniqueId from 'generate-unique-id';
 
 require('dotenv').config();
-console.log('@1Marker-No:_-886104069');
 
 async function parseArgumentsIntoOptions(rawArgs) {
   let argumentsCli = await suiteGenerator.getConsoleInputs({});
@@ -76,11 +75,7 @@ async function parseArgumentsIntoOptions(rawArgs) {
       ...args,
     };
   }
-  console.log('@1Marker-No:_1313149323 <<<<<');
 
-  console.log('>>>>>-XXX 1892741861>>>>>');
-  console.log(argumentsData);
-  console.log('<<<<<<<<<<<<<<<<<<<');
 
   return argumentsData;
 }
@@ -227,12 +222,8 @@ async function promptForScannerAPI(options) {
 
 export async function cli(args) {
 
-  console.log(">>>>>729817239>>>>>")
-console.log(args)
-console.log("<<<<<<<<<<<<<<<<<<<")
   // let options = {}
   //! Presentation text:
-  // console.log('@1Marker-No:_-886104069');
   let options = await parseArgumentsIntoOptions(args);
 
   // args = optionss.args
