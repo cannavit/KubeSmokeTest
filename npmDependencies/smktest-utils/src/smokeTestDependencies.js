@@ -49,7 +49,6 @@ async function checkIngress(
   testCommand,
   assertValue,
   reportCommand,
-  environmentVariableResultTest,
   criterial,
   consoleValue
 ) {
@@ -68,8 +67,7 @@ async function checkIngress(
     silent: true,
   }).stdout;
 
-  // SAVE RESULT IN ENVIRONMENT VARIABLE
-  process.env[environmentVariableResultTest] = response;
+
 
   if (passTest == false) {
     console.log(
