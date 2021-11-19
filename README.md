@@ -1,13 +1,11 @@
 # 💨🔥💨  KubeSmokeTest (create-smktest)
 
-https://www.youtube.com/watch?v=wStqZmIPJM4
+<a href="https://www.youtube.com/watch?v=wStqZmIPJM4">
+    <img alt="YouTube Video Views" src="https://img.shields.io/youtube/views/wStqZmIPJM4?label=Youtube%20Video&style=social">
+</a>
 
 
 ![Docker Image Size (latest by date)](https://img.shields.io/docker/image-size/ananto30/cap-em?logo=docker)
-
-<a href="https://www.youtube.com/watch?v=wStqZmIPJM4">
-<img alt="YouTube Video Views" src="https://img.shields.io/youtube/views/wStqZmIPJM4?label=Youtube%20Video&style=social">
-</a>
 #### ✅ Kubernetes, ✅ Automatic test generator, ✅ Smoke Test, ✅  Ephemeral service
 
 This library can be used to generate automated smoke tests using Kubernetes. It is an excellent option to avoid spurious failures and avoid wasting time debugging errors in your projects instead of looking for the error in the cluster.
