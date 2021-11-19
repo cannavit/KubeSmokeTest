@@ -5,6 +5,8 @@
 </a>
 
 
+https://img.shields.io/docker/image-size/ananto30/cap-em?logo=docker
+
 ![Docker Image Size (latest by date)](https://img.shields.io/docker/image-size/ananto30/cap-em?logo=docker)
 #### ✅ Kubernetes, ✅ Automatic test generator, ✅ Smoke Test, ✅  Ephemeral service
 
@@ -15,9 +17,12 @@ The characteristics of the smoke tests are to be fast and require no maintenance
 Click on the image to see the video:
 
 <a href="https://www.youtube.com/watch?v=wStqZmIPJM4">
-<img src="https://raw.githubusercontent.com/cannavit/KubeSmokeTest/master/documentation/Screen%20Shot%202021-11-18%20at%2019.39.10.png" width="100%" align="center" />
+    <img src="https://raw.githubusercontent.com/cannavit/KubeSmokeTest/master/documentation/Screen%20Shot%202021-11-18%20at%2019.39.10.png" width="100%" align="center" />
 </a>
 
+<a href="https://github.com/cannavit/KubeSmokeTest/tree/master">
+    <img src="https://img.shields.io/github/watchers/cannavit/KubeSmokeTest?label=GitHub%20Link&style=social" width="100%" align="center" />
+</a>
 
 ## Table of Contents
 
