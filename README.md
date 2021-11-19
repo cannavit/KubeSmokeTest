@@ -2,6 +2,16 @@
 
 https://www.youtube.com/watch?v=wStqZmIPJM4
 
+
+[I'm an inline-style link](https://www.google.com)
+
+[I'm an inline-style link with title](https://www.google.com "Google's Homepage")
+
+[I'm a reference-style link][Arbitrary case-insensitive reference text]
+
+[I'm a relative reference to a repository file](../blob/master/LICENSE)
+
+
 #### ✅ Kubernetes, ✅ Automatic test generator, ✅ Smoke Test, ✅  Ephemeral service
 
 This library can be used to generate automated smoke tests using Kubernetes. It is an excellent option to avoid spurious failures and avoid wasting time debugging errors in your projects instead of looking for the error in the cluster.
@@ -68,7 +78,7 @@ The tests can be run using the JEST library
       let testCommand = 'kubectl cluster-info | grep "Kubernetes" | grep -v "running"';
 
 
-      // Get record of init test
+      // Execute the test
       var dateInit = await new Date();
       let passTest = await smktestDep.checkIngress(
         testCommand,
