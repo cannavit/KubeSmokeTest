@@ -18,7 +18,10 @@ Click on the image to see the video:
 ## Table of Contents
 
 - [Criteria use](#criteria-use)
-- [ Cluster Coverage](#cluster-coverage)
+    - [Cluster Coverage](#cluster-coverage)
+        - [Generated files](#generated-files)
+        - [Example of Test Content](#example-of-test-content)
+
 
 
 
@@ -45,10 +48,36 @@ The --cluster-coverage criterion automatically creates a test to verify the cond
     create-smktest --cluster-coverage
 
 
-Generated files
+#### Generated files
 
     | -smokeTest_kubernetes
-       | --clusterCoverage.test 
+       | --clusterCoverage.test.js
+
+
+#### Example of Test Content:
+
+The tests can be run using the JEST library
+
+
+    test('Smoke Test --cluster-coverage', async () => {
+
+      // command for generate report information
+      let reportCommand = 'kubectl cluster-info';
+
+      // command for generate the smoke test
+      let testCommand = 'kubectl cluster-info | grep "Kubernetes" | grep -v "running"';
+
+
+      // Get record of init test
+      var dateInit = await new Date();
+      let passTest = await smktestDep.checkIngress(
+        testCommand,
+        reportCommand
+      );
+
+      expect(passTest).toBe(true);
+    
+    }, 5000);
 
 
 ### Example how to use the smoke-test structure inside of one pipeline:
