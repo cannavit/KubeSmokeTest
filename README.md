@@ -6,6 +6,8 @@ https://www.youtube.com/watch?v=wStqZmIPJM4
 ![Docker Image Size (latest by date)](https://img.shields.io/docker/image-size/ananto30/cap-em?logo=docker)
 ![Video Presentation Library](https://img.shields.io/youtube/views/wStqZmIPJM4?label=Youtube%20Video&style=social)
 
+<img alt="YouTube Video Views" src="https://img.shields.io/youtube/views/wStqZmIPJM4?label=Youtube%20Video&style=social" href="https://www.youtube.com/watch?v=wStqZmIPJM4">
+
 #### ✅ Kubernetes, ✅ Automatic test generator, ✅ Smoke Test, ✅  Ephemeral service
 
 This library can be used to generate automated smoke tests using Kubernetes. It is an excellent option to avoid spurious failures and avoid wasting time debugging errors in your projects instead of looking for the error in the cluster.
