@@ -3,7 +3,7 @@
 https://www.youtube.com/watch?v=wStqZmIPJM4
 
 
-![Docker Image Size (latest by date)](https://img.shields.io/docker/image-size/ananto30/cap-em?logo=docker)
+![Video Link (latest by date)](https://img.shields.io/youtube/channel/views/wStqZmIPJM4?label=Youtube%20Video%20Link&style=social)
 
 
 #### ✅ Kubernetes, ✅ Automatic test generator, ✅ Smoke Test, ✅  Ephemeral service
