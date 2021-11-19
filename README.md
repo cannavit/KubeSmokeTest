@@ -5,7 +5,7 @@
 </a>
 
 <a href="https://github.com/cannavit/KubeSmokeTest/tree/master">
-    <img src="https://img.shields.io/github/watchers/cannavit/KubeSmokeTest?label=GitHub%20Link&style=social" width="100%" align="center" />
+    <img alt="GitHub Project Link" src="https://img.shields.io/github/watchers/cannavit/KubeSmokeTest?label=GitHub%20Link&style=social">
 </a>
 
 https://img.shields.io/docker/image-size/ananto30/cap-em?logo=docker
