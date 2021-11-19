@@ -15,24 +15,16 @@ Click on the image to see the video:
 </a>
 
 
-
-
 ## Table of Contents
 
 - [Smoke Master configuration options](#smoke-master-configuration-options)
 - [Table of Commands Smoke-Master](#table-of-commands-smoke-master)
 - [Connect test remote kubernetes cluster](#connect-test-remote-kubernetes-cluster)
-- [Available smoke test types](#available-smoke-test-types)
-  - [Check Ingress](#check-ingress)
-  - [Check Conditions](#check-conditions)
-  - [Check Logs Inside of the Pods](#check-logs-inside-of-the-pods)
-  - [Assert with CURL petitions](#assert-with-curl-petitions)
-  - [Check Volumes](#check-volumes)
-  - [Check publics apis using SWAGGER](#check-publics-apis-using-swagger)
-  - [Check publics apis using SWAGGER with Authentication](#check-publics-apis-using-swagger-with-authentication)
-  - [Check notwork from services](#check-notwork-from-services)
+
 
 ## Criteria use:
+
+This library is designed to generate a test suite automatically. For that, we propose the use of criteria. Each criterion is related to a specific part of Kubernetes. For example --ingress-coverage verifies that the inputs to the cluster are exposed and without errors.
 
 
 | Criteria name         | Inputs       | Criterial Command       | Criteria content                                                                     |
@@ -44,24 +36,7 @@ Click on the image to see the video:
 | Endpoint Coverage     | curl command | --endpoint-coverage     | --curl-assert, --swagger-docs, --swagger-login-curl, --check-pods-logs               |
 
 
-## Library status:
-
-| Type of Test                       | Inputs | Command                                       |
-| :--------------------------------- | :----- | :-------------------------------------------- |
-| Check Logs Content                 | 🟢     | --check-pods-logs                             |
-| Check Pods Status                  | 🟢     | --check-pods-running                          |
-| Check if Ingress are active        | 🟢     | --check-ingress                               |
-| Check endpoint                     | 🟢     | --assert-curl                                 |
-| Check volume                       | 🟢     | --check-volumes                               |
-| Check networks                     | 🟢     | --check-networks-from-service                 |
-| Check Publics Apis with Swagger    | 🟠     | --check-swagger-publics-apis                  |
-| Check Swagger [GET]/Apis with Auth | 🟠     | --check-swagger-apis and --swagger-login-curl |
-| Check dependencies                 | 🟠     | pending                                       |
-| Add Smoke criterial                | 🟠     | pending                                       |
-
-##### 🟢 - Inputs not required
-
-##### 🟠 - Input required
+## How create one suite the test
 
 #### Example how to use the smoke-test structure inside of one pipeline:
 
