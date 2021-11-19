@@ -3,7 +3,7 @@
 
 ### Eclipse ###
 .metadata
-# bin/
+bin/
 tmp/
 *.tmp
 *.bak
@@ -13,12 +13,14 @@ local.properties
 .settings/
 .loadpath
 .recommenders
-.passTest.txt
-.npmrc
-./docker-compose.yml
+.
+
+.exampleTrust.js
+.examplePOT.js
+.exampleEdutelling.js
 # External tool builders
 .externalToolBuilders/
-.env
+
 # Locally stored "Eclipse launch configurations"
 *.launch
 
@@ -276,3 +278,29 @@ pme_backup
 
 # Sonar. 
 .scannerwork
+
+.npmrc
+
+/test
+
+docker-compose.yml
+
+gitlab-config
+gitlab-data
+gitlab-logs
+gitlab-runner1-config
+
+gitlablogin.sh
+./src 
+./template 
+./docs
+./bin 
+./coverage 
+./npmDependencies 
+.env 
+.env.example 
+docker-compose.yml 
+Dockerfile 
+testCommandPrint copy.js
+testCommandPrint.js 
+testcurl.js

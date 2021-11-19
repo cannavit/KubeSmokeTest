@@ -207,7 +207,6 @@ function addTestCase(options) {
                 if (testType == "swaggerDocs") {
                     let swaggerAll = "";
                     if (!swaggerLoginCurl) {
-                        console.log('@1Marker-No:_-1175368663');
                         let { responseOfRequest, coverage, successSmokeTest, report, abstractReport, } = yield swaggerSmktest.smokeTest(smktest.defaultValue);
                         for (const swagger of responseOfRequest) {
                             let swaggerTemplate = testContent;

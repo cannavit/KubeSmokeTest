@@ -32,20 +32,10 @@ async function toCammel(name: string) {
 // Name of the function getStandardVariables
 async function getStandardVariables(options: any) {
 
-  let pathConfigurationFile: string = './smktest.config.json';
-
-  // Verify if the configuration file exist.
-  // If not, throw an error.
-  let existConfigFile: boolean = await fs.existsSync(pathConfigurationFile);
-
-  if (!existConfigFile) {
-    throw new Error(
-      `The configuration file ${pathConfigurationFile} does not exist.`
-    );
-  }
-
   // Import Config File
-  const smokeConfig = require('../../smktest.config.json');
+  // const smokeConfig = require('../smktest.config.json');
+  const smokeConfig = require('../smktest.config.json');
+
 
   // Initialize Lists
   let withStandardVariables: string[] = [];

@@ -349,7 +349,6 @@ async function addTestCase(options: any) {
           grepTemplate02 = grepTemplate02 + grepTemplate
         }
 
-
         testContent = grepTemplate02
 
       }
@@ -408,7 +407,6 @@ async function addTestCase(options: any) {
         //? If not exist login swagger curl
         if (!swaggerLoginCurl){
           
-          console.log('@1Marker-No:_-1175368663');
 
           let {
             responseOfRequest,
@@ -549,14 +547,6 @@ async function addTestCase(options: any) {
         }
 
         testContent = testContentSwaggerLogin
-
-
-      //   //* Get Token 
-      //  let options2 = await swaggerSmktest.getToken({
-      //     tokenConfig: {
-      //       curlRequest: swaggerLoginCurlURL,
-      //     },
-      //   });
 
 
       }

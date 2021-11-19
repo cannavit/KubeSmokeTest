@@ -36,12 +36,7 @@ function toCammel(name) {
 }
 function getStandardVariables(options) {
     return __awaiter(this, void 0, void 0, function* () {
-        let pathConfigurationFile = './smktest.config.json';
-        let existConfigFile = yield fs.existsSync(pathConfigurationFile);
-        if (!existConfigFile) {
-            throw new Error(`The configuration file ${pathConfigurationFile} does not exist.`);
-        }
-        const smokeConfig = require('../../smktest.config.json');
+        const smokeConfig = require('../smktest.config.json');
         let withStandardVariables = [];
         let config2 = [];
         for (const smktest of smokeConfig) {

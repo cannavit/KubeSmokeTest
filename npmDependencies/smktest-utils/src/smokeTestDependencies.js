@@ -53,12 +53,12 @@ async function checkIngress(
   consoleValue
 ) {
 
-  let passTest = true;
+  let passTest = false;
 
   let response = await shell.exec(testCommand, { silent: true });
 
   if (response.stderr.code !== 0 && response.stdout === ""){
-    passTest = false
+    passTest = true
   }
 
 
@@ -79,7 +79,6 @@ async function checkIngress(
       )
     );
     console.log(chalk.red.bold('Your cluster is unstable.'));
-    console.log('@1Marker-No:_1403960922');
     console.log(chalk.red.bold(responseReport));
   } else {
     console.log(

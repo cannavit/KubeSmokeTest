@@ -77,7 +77,6 @@ async function checkIngress(
       )
     );
     console.log(chalk.red.bold('Your cluster is unstable.'));
-    console.log('@1Marker-No:_1403960922');
     console.log(chalk.red.bold(responseReport));
   } else {
     console.log(

@@ -23,14 +23,14 @@ function camelize(str) {
   return str
     .replace(/(?:^\w|[A-Z]|\b\w)/g, function (word, index) {
       return index === 0 ? word.toLowerCase() : word.toUpperCase();
-    }) 
+    })
     .replace(/\s+/g, '');
 }
 
 export async function getStandardVariables(options) {
   // Load the smktest.json
 
-  const smokeConfig = require('../../../smktest.config.json');
+  const smokeConfig = require('../../smktest.config.json');
   let withStandardVariables = [];
 
   let config2 = [];
@@ -125,7 +125,6 @@ export async function cleanCriterialsNotUsed(options) {
 }
 
 export async function createSuiteByCriterialV2(options) {
-
   let printList = [
     {
       title: 'Verify Cluster Connection',
@@ -210,7 +209,7 @@ export async function createSuiteByCriterialV2(options) {
       //   );
 
       //   // Get List of Ingress.
-        options = await getKubeIngress(options);
+      options = await getKubeIngress(options);
 
       //   let ingressList = options.ingressList;
 
@@ -294,7 +293,7 @@ export async function createSuiteByCriterialV2(options) {
       //   let service = Object.keys(mountPath);
 
       //   for (const serviceName of service) {
-        
+
       //     grepTemplate = grepTemplate.replaceAll(
       //       '$$criterial',
       //       smktest.criterial
@@ -372,7 +371,6 @@ export async function createSuiteByCriterialV2(options) {
 
       // if (testName === testNameAndFileName) {
 
-      
       //   let grepTemplate = await fs.promises.readFile(
       //     './src/services/suitesGenerator/src/' + testNameAndFileName + '.js',
       //     'utf-8'
@@ -471,7 +469,6 @@ export async function suiteGenerator(options) {
     function (err, data) {}
   );
 
-  
   suiteSmokeTest = suiteSmokeTest + dependencies;
 
   // Separate by criterials
@@ -555,9 +552,6 @@ export async function suiteGeneratorV2(options) {
 }
 
 export async function getConsoleInputs(options) {
-
-
-  
   // console.log('@1Marker-No:_-1953631800');
 
   let standartVariables = await getStandardVariables(options);
@@ -598,7 +592,6 @@ export async function getConsoleInputs(options) {
 export async function argsByCriterial(options) {
   // console.log('@1Marker-No:_2044119132');
 
-
   let args = options.args;
   let standartVariables = await getStandardVariables(options);
 
@@ -606,7 +599,6 @@ export async function argsByCriterial(options) {
 
   standartVariables = standartVariables.smktestConfig;
   let criteriaList = [];
-
 
   for (const smktest of standartVariables) {
     let criterial = smktest['criterial'];
@@ -655,7 +647,6 @@ export async function argsByCriterial(options) {
 }
 
 export async function createCriterialDicctionary(options) {
-
   options = await getStandardVariables(options);
 
   let criteriaDictionary = {};

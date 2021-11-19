@@ -1,7 +1,7 @@
 {
-  "name": "create-smktest",
-  "version": "0.0.0",
-  "description": "Smoketest suites gerentator in jest format",
+  "name": "kube-smoke-test",
+  "version": "1.0.2",
+  "description": "This library can be used to generate automated smoke tests using Kubernetes. It is an excellent option to avoid spurious failures and avoid wasting time debugging errors in your projects instead of looking for the error in the cluster. The characteristics of the smoke tests are to be fast and require no maintenance",
   "main": "src/index.js",
   "bin": {
     "create-smktest": "bin/create-smktest"
@@ -25,18 +25,16 @@
     "url": "."
   },
   "keywords": [
-    "smoketest",
-    "smoke",
-    "test",
-    "smktest",
+    "kubeSmokeTest",
+    "kubernetes",
+    "smoke test",
     "jest",
-    "automation",
+    "generation",
     "suites",
-    "apis",
-    "backend",
-    "nodejs"
+    "test",
+    "backend"
   ],
-  "author": "Cannavit",
+  "author": "CannavIT",
   "license": "MIT",
   "dependencies": {
     "@kubernetes/client-node": "^0.13.0",
@@ -73,7 +71,7 @@
     "readline": "^1.3.0",
     "shelljs": "^0.8.4",
     "slashes": "^2.0.2",
-    "smktest-utils": "^1.1.2",
+    "smktest-utils": "^1.1.4",
     "swagger-smktest": "^0.2.5",
     "util.promisify": "^1.1.1",
     "valid-url": "^1.0.9"
@@ -87,7 +85,6 @@
   },
   "jest": {
     "bail": true,
-    "preset": "ts-jest",
     "testEnvironment": "node",
     "collectCoverage": true,
     "coveragePathIgnorePatterns": [

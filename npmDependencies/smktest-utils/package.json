@@ -1,6 +1,6 @@
 {
   "name": "smktest-utils",
-  "version": "1.1.4",
+  "version": "1.1.6",
   "description": "External dependencies for use the library for generate the smoke test suite for kubernetes",
   "main": "index.js",
   "scripts": {
