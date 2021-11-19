@@ -31,7 +31,9 @@ Click on the image to see the video:
     - [Cluster Coverage](#cluster-coverage)
         - [Generated files](#generated-files)
         - [Example of Test Content](#example-of-test-content)
-
+    - [Ingress Coverage](#ingress-coverage)
+        - [Generated files](#generated-files)
+        - [Example of Test Content](#example-of-test-content)
 
 
 
@@ -51,7 +53,8 @@ This library is designed to generate a test suite automatically. For that, we pr
 
 ## How create one suite the test
 
-### Cluster Coverage. 
+### Cluster Coverage
+
 The --cluster-coverage criterion automatically creates a test to verify the conditions of the nodes. Verify that there are no CPU, CPU or Disk alerts in the cluster.
 
     # Command for generate the test
@@ -88,6 +91,40 @@ The tests can be run using the JEST library
       expect(passTest).toBe(true);
     
     }, 5000);
+
+### Ingress Coverage
+
+It is possible to create a smoke test suite to verify kubernetes income. It is necessary to add the namespace as input
+
+    # Command for generate the test
+    create-smktest --ingress-coverage --namespace=$NAMESPACE
+
+#### Generated files
+
+    | -smokeTest_kubernetes
+       | --ingressCoverage.test.js
+
+#### Example of Test Content:
+
+    test('Smoke Test Ingressname: --check-ingress', async () => {
+      //? Inputs
+      let testCommand = 'curl -v AUTOMATIC_URL_INGRESS_DETECTED_BY_TOOL  2>&1 | grep "ERROR"'; // curl -v $$ingress  2>&1 | grep 'ERROR'
+      let assertValue = '';
+      let reportCommand = 'curl -v $ingress  2>&1';
+
+      // Create 
+      let passTest = await smktestDep.checkIngress(
+        testCommand,
+        assertValue,
+        reportCommand
+      );
+
+      expect(passTest).toBe(true);
+    });
+
+
+
+
 
 
 ### Example how to use the smoke-test structure inside of one pipeline:
