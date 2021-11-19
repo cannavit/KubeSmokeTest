@@ -40,15 +40,9 @@ Click on the image to see the video:
 | Cluster Coverage      | not required | --cluster-coverage      | --check-disc, --check-memory, --check-disc, --check-cluster, --check-nodes           |
 | Ingress Coverage      | not required | --ingress-coverage      | --check-ingress                                                                      |
 | Service Coverage      | namespace    | --service-coverage      | --check-pods-logs, --check-pods-running, --execution-unit-coverage                   |
-| Resource Up           | not required | --resource-up           | --volumes-free-space, --volumes-exist-files                                          |
+| Resource Up           | namespace    | --resource-up           | --volumes-free-space, --volumes-exist-files                                          |
 | Endpoint Coverage     | curl command | --endpoint-coverage     | --curl-assert, --swagger-docs, --swagger-login-curl, --check-pods-logs               |
 
-
-
-
-##### 🟢 - Inputs not required
-
-##### 🟠 - Input required
 
 ## Library status:
 
