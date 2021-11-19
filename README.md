@@ -17,9 +17,9 @@ Click on the image to see the video:
 
 ## Table of Contents
 
-- [Smoke Master configuration options](#smoke-master-configuration-options)
-- [Table of Commands Smoke-Master](#table-of-commands-smoke-master)
-- [Connect test remote kubernetes cluster](#connect-test-remote-kubernetes-cluster)
+- [Criteria use](#criteria-use)
+- [ Cluster Coverage](#cluster-coverage)
+
 
 
 ## Criteria use:
@@ -38,7 +38,15 @@ This library is designed to generate a test suite automatically. For that, we pr
 
 ## How create one suite the test
 
-#### Example how to use the smoke-test structure inside of one pipeline:
+### Cluster Coverage. 
+The --cluster-coverage criterion automatically creates a test to verify the conditions of the nodes. Verify that there are no CPU, CPU or Disk alerts in the cluster.
+
+
+
+
+
+
+### Example how to use the smoke-test structure inside of one pipeline:
 
 It is recommended to use a first test to validate the conditions of the cluster as shown in the example with the step "checkCluster" This will check that the cluster is in proper conditions
 
