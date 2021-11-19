@@ -4,6 +4,9 @@
     <img alt="YouTube Video Views" src="https://img.shields.io/youtube/views/wStqZmIPJM4?label=Youtube%20Video&style=social">
 </a>
 
+<a href="https://github.com/cannavit/KubeSmokeTest/tree/master">
+    <img src="https://img.shields.io/github/watchers/cannavit/KubeSmokeTest?label=GitHub%20Link&style=social" width="100%" align="center" />
+</a>
 
 https://img.shields.io/docker/image-size/ananto30/cap-em?logo=docker
 
@@ -20,9 +23,7 @@ Click on the image to see the video:
     <img src="https://raw.githubusercontent.com/cannavit/KubeSmokeTest/master/documentation/Screen%20Shot%202021-11-18%20at%2019.39.10.png" width="100%" align="center" />
 </a>
 
-<a href="https://github.com/cannavit/KubeSmokeTest/tree/master">
-    <img src="https://img.shields.io/github/watchers/cannavit/KubeSmokeTest?label=GitHub%20Link&style=social" width="100%" align="center" />
-</a>
+
 
 ## Table of Contents
 
