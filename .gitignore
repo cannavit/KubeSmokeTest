@@ -14,9 +14,11 @@ local.properties
 .loadpath
 .recommenders
 .passTest.txt
+.npmrc
+./docker-compose.yml
 # External tool builders
 .externalToolBuilders/
-
+.env
 # Locally stored "Eclipse launch configurations"
 *.launch
 

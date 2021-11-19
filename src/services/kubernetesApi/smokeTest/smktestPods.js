@@ -34,7 +34,6 @@ async function getLatestPods(options) {
     let existPodByService = false;
 
     for (const key2 in options.testConfig.kubernetes.pods) {
-      //   console.log('@1Marker-No:_887020282');
       existPodByService = false;
       let pod = options.testConfig.kubernetes.pods[key2];
       let namePod = pod.pod;
@@ -125,7 +124,7 @@ export async function smktestCheckIfAllPodsAreActive(options) {
     data: {
       projectName: options.projectName,
       context: options.context,
-      namespace: options.namespace,
+      namespace: options.customDictionary.generalOptions['--namespace'],
       testName: 'smktestCheckIfAllPodsAreActive',
       testResult: JSON.stringify({
         passTest: passTest,

@@ -4,10 +4,19 @@ const { getLogs } = require('./logs');
 
 module.exports.getPods = async function (options) {
   //
-  const k8sApi = await getKS();
+  const k8sApi = await getKS(); //?
 
-  let nameSpace = options.testConfig.kubernetes.namespace;
-  let listNamespace = await k8sApi.listNamespacedPod(nameSpace);
+  if (!options.customDictionary.generalOptions['--namespace']) {
+    options = JSON.parse(process.env.SMKTEST_OPTIONS); //?
+  }
+
+  let nameSpace = options.customDictionary.generalOptions['--namespace']; //?
+
+  if (!nameSpace) {
+    nameSpace = process.env.SMKTEST_NAMESPACE;
+  }
+
+  let listNamespace = await k8sApi.listNamespacedPod(nameSpace); //?
 
   let dataPods = [];
 
@@ -32,7 +41,11 @@ module.exports.getPods = async function (options) {
     });
   });
 
-  options.testConfig.kubernetes.pods = dataPods;
+  if (options.testConfig) {
+    options.testConfig.kubernetes.pods = dataPods;
+  } else {
+    options.testConfig = { kubernetes: { pods: dataPods } };
+  }
 
   listService = await k8sApi.listNamespacedService(nameSpace);
 

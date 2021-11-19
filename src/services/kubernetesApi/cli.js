@@ -3,7 +3,7 @@ import inquirer from 'inquirer';
 async function prompt(options) {
   const questions = [];
 
-  if (!options.namespace) {
+  if (!options.customDictionary.generalOptions['--namespace']) {
     questions.push({
       type: 'input',
       name: 'namespace',
@@ -15,7 +15,9 @@ async function prompt(options) {
 
   return {
     ...options,
-    namespace: options.namespace || answers.namespace,
+    namespace:
+      options.customDictionary.generalOptions['--namespace'] ||
+      answers.namespace,
   };
 }
 

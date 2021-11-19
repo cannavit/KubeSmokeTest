@@ -57,7 +57,7 @@ test('Check Logs errors', async () => {
     data: {
       projectName: options.projectName,
       context: options.context,
-      namespace: options.namespace,
+      namespace: options.customDictionary.generalOptions['--namespace'],
       testName: 'logsCheck.test',
       testResult: JSON.stringify(logs),
       testId: options.testId,

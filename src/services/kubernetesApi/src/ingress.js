@@ -6,7 +6,7 @@ const shell = require('shelljs');
 const { sendToSmokeCollector } = require('../../../utils/sendReport');
 
 async function getIngress(options) {
-  let namespace = options.namespace;
+  let namespace = options.customDictionary.generalOptions['--namespace'];
 
   let response = await shell.exec(
     `kubectl get ingress --namespace=${namespace} -o=jsonpath='{@}'`,
@@ -117,7 +117,7 @@ module.exports.kubernetesIngress = async function (options) {
     data: {
       projectName: options.projectName,
       context: options.context,
-      namespace: options.namespace,
+      namespace: options.customDictionary.generalOptions['--namespace'],
       testName: 'kubernetesIngress',
       testResult: JSON.stringify(results),
       testId: options.testId,
@@ -130,3 +130,5 @@ module.exports.kubernetesIngress = async function (options) {
 
   return options;
 };
+
+// kubectl get ingress -n edutelling-develop  -o=jsonpath='{.items[*].spec.rules[*].host}'

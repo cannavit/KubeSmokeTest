@@ -1,0 +1,27 @@
+{
+  "name": "smktest-utils",
+  "version": "1.1.6",
+  "description": "External dependencies for use the library for generate the smoke test suite for kubernetes",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ls"
+  },
+  "keywords": [
+    "smoke",
+    "test",
+    "kubernetes",
+    "utils",
+    "dependencies"
+  ],
+  "author": "Cann",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.24.0",
+    "lodash": "^4.17.21",
+    "swagger-smktest": "^0.2.5"
+  }
+}

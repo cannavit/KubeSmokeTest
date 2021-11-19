@@ -11,6 +11,8 @@ const shell = require('shelljs');
 // kubectl top pod   --namespace=edutelling-develop --containers
 //  kubectl get storageclasses
 // kubectl --namespace=edutelling-develop exec edutelling-api-68f5bfbbbd-wtg2g -- df -h --block-size=1GB /usr/src/app/uploads
+// kubectl -n edutelling-develop get --raw /apis/metrics.k8s.io/v1beta1/namespaces/default/pods/edutelling-api-68f5bfbbbd-wtg2g | jq
+
 async function convertToMi(unit) {
   //   unit = '8Gi';
 
@@ -78,7 +80,7 @@ async function textToList(response) {
 
 async function getPodsCapacity(options) {
   let response = await shell.exec(
-    `kubectl get pvc --namespace=${options.namespace}`,
+    `kubectl get pvc --namespace=${options.customDictionary.generalOptions['--namespace']}`,
     {
       silent: true,
     }
@@ -146,7 +148,7 @@ async function getPodsCapacity(options) {
 //! Get volumes for
 
 async function getVolumePath(options) {
-  let namespace = options.namespace;
+  let namespace = options.customDictionary.generalOptions['--namespace'];
 
   const shell = require('shelljs');
 

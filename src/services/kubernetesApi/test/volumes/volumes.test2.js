@@ -28,7 +28,6 @@ test('Check space free inside of volumes', async () => {
           )
       );
 
-      console.log();
       console.log(chalk.red.bold(element.responseTestOriginal));
     } else {
       console.log(
@@ -46,7 +45,7 @@ test('Check space free inside of volumes', async () => {
     data: {
       projectName: options.projectName,
       context: options.context,
-      namespace: options.namespace,
+      namespace: options.customDictionary.generalOptions['--namespace'],
       testName: 'checkVolumeSpace',
       testResult: JSON.stringify(options.volumeMounts),
       testId: options.testId,

@@ -8,8 +8,6 @@ const {
 //? Check if is possible
 
 async function test(options) {
-  console.log('@1Marker-No:_354467327');
-
   options = {
     testConfig: {
       kubernetes: {
@@ -22,13 +20,7 @@ async function test(options) {
   options = await getServices(options); // Get Pods Name
   options = await getLogs(options); // Get Pods Name
 
-  console.log('>>>>>-571666021>>>>>');
-  console.log(options.testConfig.kubernetes);
-  console.log('<<<<<<<<<<<<<<<<<<<');
-
-  console.log('>>>>> Services DATA checkCurl>>>>>');
   console.log(options.testConfig.kubernetes.services[0].checkCurl);
-  console.log('<<<<<<<<<<<<<<<<<<<');
 
   return options;
 }

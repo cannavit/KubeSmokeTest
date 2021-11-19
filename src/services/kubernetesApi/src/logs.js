@@ -8,7 +8,9 @@ const exec = promisify(require('child_process').exec);
 module.exports.getLogs = async function (options) {
   const k8sApi = await getKS();
 
-  let namespace = options.testConfig.kubernetes.namespace;
+  let namespace =
+    options.customDictionary.generalOptions['--namespace'] ||
+    options.testConfig.kubernetes.namespace;
   let pods = options.testConfig.kubernetes.pods;
 
   let logs = [];
@@ -20,7 +22,6 @@ module.exports.getLogs = async function (options) {
     let name = pod.pod;
 
     //TODO is necessary check how red with --since-time
-    // public async readNamespacedPodLog (name: string, namespace: string, container?: string, follow?: boolean, insecureSkipTLSVerifyBackend?: boolean, limitBytes?: number, pretty?: string, previous?: boolean, sinceSeconds?: number, tailLines?: number, timestamps?: boolean, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: string;  }> {
 
     let dataLogs = await k8sApi.readNamespacedPodLog(
       name,
@@ -90,7 +91,6 @@ module.exports.getLogs = async function (options) {
       wordError: wordError,
     });
   }
-  // console.log(body);
 
   options.testConfig.kubernetes.logs = logs;
   options.testConfig.kubernetes.logs.reportText = logsReportText;
@@ -101,8 +101,6 @@ module.exports.getLogs = async function (options) {
 
   return options;
 };
-
-const { getPods } = require('./pods');
 
 //Using Shell Commands
 // async function getLogsV2(options) {
@@ -116,8 +114,6 @@ module.exports.getLogsV2 = async function (options) {
   // };
 
   // options = await getPods(options);
-
-  //>>>>>>>>>
 
   const k8sApi = await getKS();
 
@@ -178,7 +174,6 @@ module.exports.getLogsV2 = async function (options) {
       logsShort: logsShort ? logsShort : '',
     });
   }
-  // console.log(body);
 
   options.testConfig.kubernetes.logs = logs;
   options.testConfig.kubernetes.logs.reportText = logsReportText;

@@ -63,7 +63,9 @@ module.exports.evalCurl = async function (options) {
     response = await shell.exec(options.assertCurl, {
       silent: true,
     });
-  } catch (error) {}
+  } catch (error) {
+    console.log(error.message);
+  }
 
   options.assertResponse = {
     curl: response,

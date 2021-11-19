@@ -24,6 +24,7 @@ test(`Check Swagger [GET-PUBLICS-APIS]/${docsSwagger}`, async () => {
 
   //Get test fail for send the report
   let failTestList = [];
+
   let shortReport = {
     status400: 0,
     status500: 0,
@@ -33,6 +34,7 @@ test(`Check Swagger [GET-PUBLICS-APIS]/${docsSwagger}`, async () => {
 
   for (const key in responseOfRequest) {
     let element = responseOfRequest[key];
+
     let codeString = String(element.status).substr(0, 1);
 
     if (codeString === '5') {
@@ -59,7 +61,7 @@ test(`Check Swagger [GET-PUBLICS-APIS]/${docsSwagger}`, async () => {
 
   let passTest = successSmokeTest;
 
-  if (!successSmokeTest) {
+  if (passTest === false || passTest === 'false') {
     console.log(
       report.render() +
         '\n \n' +
@@ -84,13 +86,14 @@ test(`Check Swagger [GET-PUBLICS-APIS]/${docsSwagger}`, async () => {
   }
 
   var dateFinish = await new Date();
+
   let timeTestSeconds = (dateFinish.getTime() - dateInit.getTime()) / 1000;
 
   options.smokeCollector = {
     data: {
       projectName: options.projectName,
       context: options.context,
-      namespace: options.namespace,
+      namespace: options.customDictionary.generalOptions['--namespace'],
       testName: 'swaggerGetPublics',
       testResult: JSON.stringify(sendReport),
       testId: options.testId,
@@ -102,4 +105,4 @@ test(`Check Swagger [GET-PUBLICS-APIS]/${docsSwagger}`, async () => {
   await sendToSmokeCollector(options);
 
   expect(passTest).toBe(true);
-}, 100000);
+}, 100000000);

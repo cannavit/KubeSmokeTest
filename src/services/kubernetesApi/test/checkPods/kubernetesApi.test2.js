@@ -7,16 +7,12 @@ const {
 } = require('../../index');
 //? Check if is possible
 
+require('dotenv').config();
+
 test('Kubernetes smokeTest check if can read PODS', async () => {
   //! Is possible use /api-docs
 
-  let options = {
-    testConfig: {
-      kubernetes: {
-        namespace: 'edutelling-develop',
-      },
-    },
-  };
+  options = JSON.parse(process.env.SMKTEST_OPTIONS);
 
   options = await getPods(options); // Get Pods Name
 
@@ -38,24 +34,16 @@ test('Kubernetes smokeTest check if can read PODS', async () => {
 test('Kubernetes smokeTest check if can read SERVICES', async () => {
   //! Is possible use /api-docs
 
-  let options = {
-    testConfig: {
-      kubernetes: {
-        namespace: 'edutelling-develop',
-      },
-    },
-  };
+  options = JSON.parse(process.env.SMKTEST_OPTIONS);
 
-  options = await getServices(options); // Get Pods Name
+  options = await getServices(options); //?
 
-  services = options.testConfig.kubernetes.services;
+  services = options.testConfig.kubernetes.services; //?
 
   let existPod = false;
   for (const key in services) {
     let service = services[key];
-
     let port = service.port;
-
     if (port) {
       existPod = true;
     }
@@ -67,13 +55,7 @@ test('Kubernetes smokeTest check if can read SERVICES', async () => {
 test('Kubernetes smokeTest check if can read LOGS', async () => {
   //! Is possible use /api-docs
 
-  let options = {
-    testConfig: {
-      kubernetes: {
-        namespace: 'edutelling-develop',
-      },
-    },
-  };
+  options = JSON.parse(process.env.SMKTEST_OPTIONS);
 
   options = await getPods(options); // Get Pods Name
   options = await getServices(options); // Get Pods Name
