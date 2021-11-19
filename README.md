@@ -41,9 +41,14 @@ This library is designed to generate a test suite automatically. For that, we pr
 ### Cluster Coverage. 
 The --cluster-coverage criterion automatically creates a test to verify the conditions of the nodes. Verify that there are no CPU, CPU or Disk alerts in the cluster.
 
+    # Command for generate the test
+    create-smktest --cluster-coverage
 
 
+Generated files
 
+    | -smokeTest_kubernetes
+       | --clusterCoverage.test 
 
 
 ### Example how to use the smoke-test structure inside of one pipeline:
