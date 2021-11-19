@@ -32,8 +32,8 @@ Click on the image to see the video:
         - [Generated files](#generated-files)
         - [Example of Test Content](#example-of-test-content)
     - [Ingress Coverage](#ingress-coverage)
-        - [Generated files](#generated-files)
-        - [Example of Test Content](#example-of-test-content)
+        - [Generated files](#generated-files-ingress-coverage)
+        - [Example of Test Content](#example-of-test-content-ingress-coverage)
 
 
 
@@ -99,12 +99,12 @@ It is possible to create a smoke test suite to verify kubernetes income. It is n
     # Command for generate the test
     create-smktest --ingress-coverage --namespace=$NAMESPACE
 
-#### Generated files
+#### Generated files ingress coverage
 
     | -smokeTest_kubernetes
        | --ingressCoverage.test.js
 
-#### Example of Test Content:
+#### Example of Test Content ingress coverage:
 
     test('Smoke Test Ingressname: --check-ingress', async () => {
       //? Inputs
