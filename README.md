@@ -35,12 +35,16 @@ Click on the image to see the video:
 ## Criteria use:
 
 
-| Criteria name         | Inputs | Criterial Command       | Criteria content                                                                                    |
-| :-------------------- | :----- | :---------------------- | :-------------------------------------------------------------------------------------------------- |
-| Cluster Coverage      | 🟢     | --cluster-coverage      | --check-cluster, --check-nodes, --check-cluster-info, --check-internet-access, --check-main-ingress |
-| Service Coverage      | 🟢     | --service-coverage      | --services-up, --check-pods-running                                                                 |
-| Resources Up          | 🟢     | --resources-up          | --volume-conditions, --volume-persistent                                                            |
-| Dependencies Coverage | 🟢     | --dependencies-coverage | --images-not-latest                                                                                 |
+| Criteria name         | Inputs       | Criterial Command       | Criteria content                                                                     |
+| :-------------------- | :----------- | :---------------------- | :------------------------------------------------------------------------------------|
+| Cluster Coverage      | not required | --cluster-coverage      | --check-disc, --check-memory, --check-disc, --check-cluster, --check-nodes           |
+| Ingress Coverage      | not required | --ingress-coverage      | --check-ingress                                                                      |
+| Service Coverage      | namespace    | --service-coverage      | --check-pods-logs, --check-pods-running, --execution-unit-coverage                   |
+| Resource Up           | not required | --resource-up           | --volumes-free-space, --volumes-exist-files                                          |
+| Endpoint Coverage     | curl command | --endpoint-coverage     | --curl-assert, --swagger-docs, --swagger-login-curl, --check-pods-logs               |
+
+
+
 
 ##### 🟢 - Inputs not required
 
