@@ -8,7 +8,7 @@
     <img alt="GitHub Project Link" src="https://img.shields.io/github/watchers/cannavit/KubeSmokeTest?label=GitHub%20Link&style=social">
 </a>
 
-https://img.shields.io/docker/image-size/ananto30/cap-em?logo=docker
+
 
 ![Docker Image Size (latest by date)](https://img.shields.io/docker/image-size/ananto30/cap-em?logo=docker)
 #### ✅ Kubernetes, ✅ Automatic test generator, ✅ Smoke Test, ✅  Ephemeral service
