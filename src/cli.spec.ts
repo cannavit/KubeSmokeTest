@@ -16,9 +16,9 @@ describe('Check console client inputs', () =>{
 
     test('Verify --help', async () => {
         
-        let client :string[]=  [
+        let client =  [
             '/Users/ceciliocannavaciuolo/.nvm/versions/node/v15.8.0/bin/node',
-            '/Users/ceciliocannavaciuolo/.nvm/versions/node/v15.8.0/bin/create-smktest',
+            '/Users/ceciliocannavaciuolo/.nvm/versions/node/v14.17.0/bin/create-smktest',
             '--help'
           ]
         
@@ -67,33 +67,31 @@ describe('Check console client inputs', () =>{
   // }),
 
 
-//   test('Verify the --service-coverage', async () => {
+  // test('Verify the --service-coverage', async () => {
 
-//     await removeTestDirectory()
+  //   await removeTestDirectory()
       
-//     let client :string[]=  [
-//       '/Users/ceciliocannavaciuolo/.nvm/versions/node/v15.8.0/bin/node',
-//       '/Users/ceciliocannavaciuolo/.nvm/versions/node/v15.8.0/bin/create-smktest',
-//       '--service-coverage',
-//       '--namespace=edutelling-develop'
-//     ]
+  //   let client :string[]=  [
+  //     '/Users/ceciliocannavaciuolo/.nvm/versions/node/v15.8.0/bin/node',
+  //     '/Users/ceciliocannavaciuolo/.nvm/versions/node/v15.8.0/bin/create-smktest',
+  //     '--service-coverage',
+  //     '--namespace=edutelling-develop'
+  //   ]
 
-//     let options = await cli(client)
+  //   let options = await cli(client)
 
-//     if (options['cli']['tasksInit']){
-//         console.log(options['cli']['tasksInit'])
-//     }
+  //   if (options['cli']['tasksInit']){
+  //       console.log(options['cli']['tasksInit'])
+  //   }
 
-//     expect(options['cli']['tasksInit']).toEqual({})
+  //   expect(options['cli']['tasksInit']).toEqual({})
 
-// }),
+  // })
 
 // test('Verify the--resource-up', async () => {
 
-//   console.log('@1Marker-No:_956628332');
 //   await removeTestDirectory()
     
-//   console.log('@1Marker-No:_2028145097');
 //   let client :string[]=  [
 //     '/Users/ceciliocannavaciuolo/.nvm/versions/node/v15.8.0/bin/node',
 //     '/Users/ceciliocannavaciuolo/.nvm/versions/node/v15.8.0/bin/create-smktest',
@@ -101,10 +99,8 @@ describe('Check console client inputs', () =>{
 //     '--namespace=edutelling-develop'
 //   ]
 
-//   console.log('@1Marker-No:_1381512308');
-//   let options = await cli(client)
+35//   let options = await cli(client)
 
-//   console.log('@1Marker-No:_2124408663');
 //   if (options['cli']['tasksInit']){
 //       console.log(options['cli']['tasksInit'])
 //   }
@@ -180,10 +176,8 @@ describe('Check console client inputs', () =>{
 
 // test('Verify Fail of the test the --endpoint-up', async () => {
 
-//   console.log('@1Marker-No:_956628332');
 //   await removeTestDirectory()
     
-//   console.log('@1Marker-No:_2028145097');
 
 //   let client :string[]=  [
 //     '/Users/ceciliocannavaciuolo/.nvm/versions/node/v15.8.0/bin/node',

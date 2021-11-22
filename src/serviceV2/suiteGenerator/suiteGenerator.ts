@@ -78,7 +78,7 @@ async function getKubeIngress(options :any){
 //? Old Name of the function parseArgumentsIntoOptions
 // Create Suites Test.
 
-async function cleanCriterialsNotUsed(options) {
+async function cleanCriterialsNotUsed(options: any) {
   let smokeTestSuitesActive = options.smokeTestSuites;
   for (const criterial of Object.keys(options.smokeTestSuites)) {
     for (const test of Object.keys(options.smokeTestSuites[criterial])) {
@@ -107,6 +107,7 @@ async function addDependencies(options: any) {
   let dependencies = await fs.promises.readFile(
     dependenciesFile,
     'utf8',
+    // @ts-ignore
     function (err, data) {}
   );
 
@@ -121,7 +122,7 @@ async function addDependencies(options: any) {
   return options;
 }
 
-async function replaceAll(str, search, replacement) {
+async function replaceAll(str: string, search:string, replacement:string) {
   var newStr = '';
   if (_.isString(str)) {
     // maybe add a lodash test? Will not handle numbers now.
@@ -132,15 +133,10 @@ async function replaceAll(str, search, replacement) {
 
 // TODO Add test case
 async function addTestCase(options: any) {
-  // Creasync function addTestCase(options: any){
 
-  // In this dictionary for correlate the test name with test file.
+  // Create function addTestCase(options: any){
 
-  //TODO add rest of cases
- 
-  //! List of templates
-
-  let listOfTestPath = {
+  let listOfTestPath: any = {
     '--check-cluster': '/src/templates/grepTemplate.js',
     '--check-disc': '/src/templates/grepTemplate.js',
     '--check-memory': '/src/templates/grepTemplate.js',
@@ -155,15 +151,13 @@ async function addTestCase(options: any) {
     '--curl-assert': '/src/templates/grepTemplate.js',
     '--service-up': '',
     '--swagger-docs': '/src/templates/swaggerRequest.js',
-    '--swagger-login-curl': '/src/templates/swaggerRequest.js'
+    '--swagger-login-curl': '/src/templates/swaggerRequest.js',
+    '--execution-unit-coverage': '/src/templates/grepTemplate.js'
   };
-
 
   // // Read the Test Case template
   for (const criterial of Object.keys(options.smokeTestSuites)) {
-
     for (const test of Object.keys(options.smokeTestSuites[criterial])) {
-
       let swaggerLoginCurl
       try {
         swaggerLoginCurl = options.smokeTestSuites['--endpoint-coverage']['--swagger-login-curl']
@@ -173,15 +167,26 @@ async function addTestCase(options: any) {
         listOfTestPath[test] = '/src/templates/simpleCurlAssertLogin.js'
       }
 
+
       let smktest = options.smokeTestSuites[criterial][test];
+
+      if (listOfTestPath[test] === undefined) {
+        throw new Error(
+          chalk.red.bold(` 🛑  The Input: ${test} is required inside of the list listOfTestPath`)
+        );
+      }
+
       const testPath: string = __dirname + listOfTestPath[test];
+
 
       // $$criterial
       let testType = Object.keys(smktest.testType)[0]
 
+      // @ts-ignore
       let testContent = await fs.promises.readFile(
         testPath,
         'utf8',
+        // @ts-ignore
         function (err, data) {}
       );
 
@@ -486,7 +491,7 @@ async function addTestCase(options: any) {
 
           // header = swagger.header
           let objectHeader = JSON.parse(swagger.headers)
-          let header = {}
+          let header: any = {}
           
           //? Get Header >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
           for (const headerName of Object.keys(objectHeader)){
@@ -589,7 +594,7 @@ async function pushTestV2(options: {
 
 }
 
-function camelize(str) {
+function camelize(str: string) {
   return str
     .replace(/(?:^\w|[A-Z]|\b\w)/g, function (word, index) {
       return index === 0 ? word.toLowerCase() : word.toUpperCase();
@@ -633,14 +638,15 @@ async function createTestSuite(options: any) {
   // }
   
   // Copy Dependencies file inside of the folder smktest.config.json
-  try {
-    await fs.promises.copyFile(
-      'smktest.config.json',
-      testPath+'/src/smktest.config.json'
-    );
-  } catch (error) {
-    console.log(error.message);
-  }
+  // try {
+  //   await fs.promises.copyFile(
+  //     'smktest.config.json',
+  //     testPath+'/src/smktest.config.json'
+  //   );
+  // } catch (error) {
+  //   // @ts-ignore
+  //   console.log(error.message);
+  // }
   
 
   // Push Suite
@@ -684,6 +690,7 @@ async function createTestSuite(options: any) {
                   await fs.promises.writeFile(
                     pathTestOne,
                     smktest.textDependencies,
+                    // @ts-ignore
                     function (err) {}
                   );
 
@@ -691,6 +698,7 @@ async function createTestSuite(options: any) {
           }
         ]);
 
+        // @ts-ignore
         await tasksInit.run().catch(err => {
               console.error(err);
               return err.message
@@ -713,6 +721,7 @@ async function createTestSuite(options: any) {
         }
       ]);
 
+      // @ts-ignore
       await testOne.run().catch(err => {
             console.error(err);
             return err.message
@@ -725,12 +734,11 @@ async function createTestSuite(options: any) {
   return options;
 }
 
-export async function createSuiteByCriterialV2(options) {
+export async function createSuiteByCriterialV2(options: any) {
 
 
   options = await cleanCriterialsNotUsed(options);
   // Add fragment dependencies:
-
   options = await addDependencies(options);
   // Add fragment of test
   options = await addTestCase(options);
@@ -744,21 +752,21 @@ export async function createSuiteByCriterialV2(options) {
 
 //! Load test check Ingress ------------
 
-export async function suiteGenerator(options) {
+export async function suiteGenerator(options: any) {
 
   // Import dependencies.
-
   // Import Config File
+
   const dependenciesFile: string =
     __dirname + '/src/templates/initDependencies.js';
-
 
   let suiteSmokeTest: string = '';
   let dependencies = await fs.promises.readFile(
     dependenciesFile,
     'utf8',
-    function (err, data) {}
+    function (err: any, data: any) {}
   );
+
 
   suiteSmokeTest = suiteSmokeTest + dependencies;
 

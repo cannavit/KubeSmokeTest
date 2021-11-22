@@ -14,7 +14,7 @@ async function readTest(options: {testPath: string, dependenciesPath: string}) {
     let testFileExist = await fs.existsSync(options.testPath)
 
     let fileContent: string
-    let dependencies: string
+    let dependencies: string = ""
 
     if (fs.existsSync(options.dependenciesPath)) {
         // Read dependencie file 
@@ -23,7 +23,7 @@ async function readTest(options: {testPath: string, dependenciesPath: string}) {
     
 
     //Check if exist one file using fs. 
-    let test: string
+    let test: string = ""
     if (fs.existsSync(options.testPath)) {
         // Read the file 
         test = await fs.promises.readFile(options.testPath, 'utf8');    
@@ -49,13 +49,7 @@ module.exports.getDependencies = getDependencies;
 
 // Push One string inside of the test file
 // Inputs Object {testPath: string, dependenciesPath: string}
-async function pushTest(options: {
-                                  testPath: string, 
-                                  dependenciesPath: string, 
-                                  testNewName: string,
-                                  testNewPath:string,
-                                  newTextTest: string
-                                }) {
+async function pushTest(options: any) {
     // Read the file 
     
     // Create test name Cammel format
@@ -64,7 +58,7 @@ async function pushTest(options: {
     let newTest = options.testNewPath + fileName
     
     // Read the file if exist 
-    let test = await this.readTest(options)
+    let test = await readTest(options)
 
     //! If not exist the file test. 
     let oldTestExist = await fs.existsSync(newTest)

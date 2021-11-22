@@ -34,7 +34,9 @@ Click on the image to see the video:
     - [Ingress Coverage](#ingress-coverage)
         - [Generated files](#generated-files-ingress-coverage)
         - [Example of Test Content](#example-of-test-content-ingress-coverage)
-
+    - [Service Coverage](#service-coverage)
+        - [Generated files](#generated-files-service-coverage)
+        - [Example of Test Content](#example-of-test-content-service-coverage)
 
 
 ## Criteria use:
@@ -122,10 +124,33 @@ It is possible to create a smoke test suite to verify kubernetes income. It is n
       expect(passTest).toBe(true);
     });
 
+### Service Coverage
 
+This test verifies that all services and pods are active, accessible and without errors
 
+#### Generated files service coverage
 
+    | -smokeTest_kubernetes
+       | --serviceCoverage.test.js
+#### Example of Test Content service coverage:
 
+    test('Smoke Test criterial --service-coverage test name: --check-pods-running', async () => {
+      // Declarative
+      let reportCommand = 'kubectl get nodes --namespace=$NAMESPACE';
+      let testCommand = 'kubectl get pods --namespace=$NAMESPACE| grep -v "NAME" | grep -v "Running"';
+
+      // Get record of init test
+      let passTest = await smktestDep.checkIngress(
+        testCommand,
+        assertValue,
+        reportCommand,
+        criterial,
+        consoleValue
+      );
+
+  expect(passTest).toBe(true);
+  
+}, 5000);
 
 ### Example how to use the smoke-test structure inside of one pipeline:
 

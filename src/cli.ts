@@ -12,8 +12,8 @@ const Listr = require('listr');
 const execa = require('execa');
 const fs = require('fs');
 
-async function printHelp(args: string[]) {
-  console.log();
+async function printHelp(args: any) {
+
 
   let continueCli = true;
   for (const arg of args) {
@@ -159,7 +159,8 @@ async function printHelp(args: string[]) {
   return continueCli;
 }
 //? Read the standards Variables
-export async function cli(args) {
+export async function cli(args: any) {
+
   let options;
   let continueCli = await printHelp(args);
 
@@ -185,12 +186,16 @@ export async function cli(args) {
       },
     ]);
 
+
+    // @ts-ignore
     let result = await tasksInit.run().catch((err) => {
       console.error(err);
       return err.message;
     });
 
+
     options = await smktestUtils.parseArgumentsIntoOptions(args);
+
     options['projectDir'] = __dirname; // SmokeTest route
     options['smktestFolder'] = 'smktest'; // SmokeTet base directory
     options['testId'] = '00120102301230123'; //TODO PENDING TO ADD IF IS NECESSARY
@@ -205,16 +210,8 @@ export async function cli(args) {
     options['cli'] = {
       tasksInit: result,
     };
+
   }
-
-
-  // console.log(">>>>>-1769419500>>>>>")
-  // console.log(continueCli)
-  // console.log("<<<<<<<<<<<<<<<<<<<")
-  // if (options.listOfJestPath) { //TODO active
-  //   await runJestTest(options);
-  // }
-
 
   return options;
 }

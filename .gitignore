@@ -19,6 +19,7 @@ local.properties
 # External tool builders
 .externalToolBuilders/
 .env
+.npmrc
 # Locally stored "Eclipse launch configurations"
 *.launch
 

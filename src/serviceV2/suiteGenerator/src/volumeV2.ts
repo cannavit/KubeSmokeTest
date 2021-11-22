@@ -4,7 +4,6 @@ async function getServicesName(options: any) {
 
   let command =
     "kubectl get pods -n $$namespace -o jsonpath='{.items[*].spec.containers[*].volumeMounts[*].mountPath}'";
-  console.log('@1Marker-No:_-1539542204');
 
   command = command.replace('$$namespace', options['--namespace']);
 
@@ -46,7 +45,7 @@ const { response } = require('express');
 // kubectl --namespace=edutelling-develop exec edutelling-api-68f5bfbbbd-wtg2g -- df -h --block-size=1GB /usr/src/app/uploads
 // kubectl -n edutelling-develop get --raw /apis/metrics.k8s.io/v1beta1/namespaces/default/pods/edutelling-api-68f5bfbbbd-wtg2g | jq
 
-async function convertToMi(unit) {
+async function convertToMi(unit: any) {
   //   unit = '8Gi';
 
   let changeUnit = [
@@ -71,7 +70,7 @@ async function convertToMi(unit) {
   return unitMi;
 }
 
-async function textToList(response) {
+async function textToList(response: any) {
   // Inputs Example
   // Filesystem     1GB-blocks  Used Available Use% Mounted on
   // tmpfs                  34     1        34   1% /run/secrets/kubernetes.io/serviceaccount
@@ -86,7 +85,7 @@ async function textToList(response) {
   //   on: undefined }
 
   response = response.trim().split(/\r?\n/);
-  let elementList = [];
+  let elementList: any = [];
   for (const key in response) {
     let element = response[key];
     element = element.split(' ');
@@ -105,13 +104,14 @@ async function textToList(response) {
 
   let output = {};
   for (const key in elementList[0]) {
+    // @ts-ignore
     output[elementList[0][key]] = elementList[1][key];
   }
 
   return output;
 }
 
-async function getPodsCapacity(options) {
+async function getPodsCapacity(options: any) {
   let response = await shell.exec(
     `kubectl get pvc --namespace=${options.customDictionary.generalOptions['--namespace']}`,
     {
@@ -125,7 +125,16 @@ async function getPodsCapacity(options) {
   response = response.trim().split(/\r?\n/);
   //   response[0] = '';
 
-  let capacityKey, unitMi, name, status, volume, access, modes, storageclass;
+  // @ts-ignore
+  let capacityKey: any
+  let unitMi: any
+  let name: any
+  let status: any
+  let volume: any
+  let access: any
+  let modes: any
+  let storageclass: any
+  
   let dataOutput = [];
 
   for (const key in response) {
@@ -141,7 +150,7 @@ async function getPodsCapacity(options) {
     }
 
     // Get Position inside of the array
-    let age
+    let age: any
     if (data.indexOf('CAPACITY') !== -1) {
 
       capacityKey = data.indexOf('CAPACITY');
@@ -158,7 +167,7 @@ async function getPodsCapacity(options) {
       let capacity = data[capacityKey];
       unitMi = await convertToMi(capacity);
 
-      let capacityList = {
+      let capacityList: any = {
         NAME: data[name],
         STATUS: data[status],
         VOLUME: data[volume],
@@ -184,7 +193,7 @@ async function getPodsCapacity(options) {
 
 //! Get volumes for
 
-async function getVolumePath(options) {
+async function getVolumePath(options: any) {
 
   let namespace = options.args['--namespace'];
   const shell = require('shelljs');
@@ -200,7 +209,7 @@ async function getVolumePath(options) {
   response = response.stdout; //Get outupts
   response = JSON.parse(response);
 
-  let volumes = {};
+  let volumes: any = {};
   let volumeMounts = [];
 
   for (const key in response.items) {
@@ -242,7 +251,7 @@ async function getVolumePath(options) {
 
   // Get only names of one json object
   let podsName = Object.keys(volumes);
-  let serviceVolumes = {};
+  let serviceVolumes: any = {};
   for (const service of response) {
     for (const pod of podsName) {
       if (pod.includes(service)) {

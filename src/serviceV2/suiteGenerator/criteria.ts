@@ -1,9 +1,9 @@
+
+// @ts-ignore
 import inquirer from 'inquirer';
 
-
-
 //! 1) Option: Criterial
-async function promptForContext(options) {
+async function promptForContext(options: any) {
     const defaultSelection = 'localhost';
   
     if (options.skipPrompts) {

@@ -5,9 +5,9 @@ const arg = require('arg');
 require('dotenv').config();
 const chalk = require('chalk');
 
-function camelize(str) {
+function camelize(str: string) {
   return str
-    .replace(/(?:^\w|[A-Z]|\b\w)/g, function (word, index) {
+    .replace(/(?:^\w|[A-Z]|\b\w)/g, function (word: string, index: number) {
       return index === 0 ? word.toLowerCase() : word.toUpperCase();
     })
     .replace(/\s+/g, '');
@@ -33,9 +33,7 @@ async function toCammel(name: string) {
 async function getStandardVariables(options: any) {
 
   // Import Config File
-  // const smokeConfig = require('../smktest.config.json');
   const smokeConfig = require('../smktest.config.json');
-
 
   // Initialize Lists
   let withStandardVariables: string[] = [];
@@ -48,7 +46,7 @@ async function getStandardVariables(options: any) {
     if (consoleValue !== undefined) {
       // Criterial value associate with the test example ("--cluster-coverage")
       let criterial: string = smktest.criterial;
-      let variable: string = await this.toCammel(consoleValue);
+      let variable: string = await toCammel(consoleValue);
 
       // Add variables inside of the smktest object.
       smktest.variable = variable;
@@ -82,6 +80,7 @@ async function getStandardVariables(options: any) {
 // Use one eval command for try to get one cluster simple feedback
 async function checkAccessToCluster(options: any) {
   // Run one command line using the shell
+
   let command: string =
     'kubectl cluster-info | grep -v "diagnose" | grep "running"';
 
@@ -107,12 +106,6 @@ async function checkAccessToCluster(options: any) {
 
 // Old Name createSuiteByCriterialV2
 async function createSuiteByCriterial(options: any) {
-  // console.log('@1Marker-No:_1995650075');
-
-  //   console.log(">>>>>609442077>>>>>")
-  // console.log(options)
-  // console.log("<<<<<<<<<<<<<<<<<<<")
-
   return options;
 }
 
@@ -120,17 +113,12 @@ async function createSuiteByCriterial(options: any) {
 // Old Name splitCriterials
 async function splitCriterial(options: any) {
   let criterialSplit = options.smokeConfig;
-
-  // console.log(">>>>>-688026535>>>>>")
-  // console.log(criterialSplit)
-  // console.log("<<<<<<<<<<<<<<<<<<<")
 }
 
-// console.log('@1Marker-No:_-1953631800');
 //! Test verify
 async function getConsoleInputs(options: any) {
 
-  let standartVariables: any = await this.getStandardVariables(options);
+  let standartVariables: any = await getStandardVariables(options);
 
   // Load namespaces
   let consoleInputs = [];
@@ -155,9 +143,11 @@ async function getConsoleInputs(options: any) {
   }
 
   // Remove duplicate data from string list
-  consoleInputs = [...new Set(consoleInputs)];
+  // consoleInputs = [...new Set(consoleInputs)];
+  consoleInputs =  Array.from(new Set(consoleInputs));
+ 
 
-  let commands = {};
+  let commands: any = {};
   for (const inputs of consoleInputs) {
     commands[inputs] = String;
   }
@@ -167,7 +157,7 @@ async function getConsoleInputs(options: any) {
 
 async function parseArgumentsIntoOptions(args: any) {
 
-  let argumentsCli = await this.getConsoleInputs({});
+  let argumentsCli = await getConsoleInputs({});
 
   // With this is possible add one argument --cluster-coverage  === --cluster-coverage=true
   let argsL = [];
@@ -201,19 +191,18 @@ async function parseArgumentsIntoOptions(args: any) {
     argumentsCli: argumentsCli,
   };
 
-  args = await this.argsByCriterial(options);
-  args = await this.createDictionaryInputs(args);
+  args = await argsByCriterial(options);
+  args = await createDictionaryInputs(args);
 
   const smokeTestVariableList = [];
-  // console.log('@1Marker-No:_-1565193173');
 
-  let smktestConfig = await this.getStandardVariables({}); //!OK
+  let smktestConfig = await getStandardVariables({}); //!OK
 
   for (const smktest of smktestConfig['smktestConfig']) {
     smokeTestVariableList.push(smktest);
   }
 
-  let argumentsData = {};
+  let argumentsData: any = {};
   let listOfJestPath = [];
   for (const element of smokeTestVariableList) {
     let data = args[element.consoleValue] || element.defaultValue;
@@ -253,16 +242,15 @@ async function parseArgumentsIntoOptions(args: any) {
 
 // Create Group by Criteria
 async function argsByCriterial(options: any = {}) {
-  // console.log('@1Marker-No:_2044119132');
 
   let args: any = options.args;
 
-  let standartVariables: any = await this.getStandardVariables(options);
+  let standartVariables: any = await getStandardVariables(options);
 
   let originalArgs = args;
   standartVariables = standartVariables.smktestConfig;
 
-  let criteriaList = [];
+  let criteriaList: any = [];
   for (const smktest of standartVariables) {
     let criterial = smktest['criterial'];
 
@@ -275,10 +263,12 @@ async function argsByCriterial(options: any = {}) {
   }
 
   // Get unics criterials from list
-  let unicsCriterials = [...new Set(criteriaList)];
+  // let unicsCriterials: any  = [...new Set(criteriaList)]; //TODO test Deprecied
+  let unicsCriterials: any  = Array.from(new Set(criteriaList));
 
   // Create dicctionary of criteria using test
-  let criteriaDictionary = {};
+  let criteriaDictionary: any = {};
+
   for (const criterial of unicsCriterials) {
     criteriaDictionary[criterial] = [];
     for (const smktest of standartVariables) {
@@ -289,16 +279,18 @@ async function argsByCriterial(options: any = {}) {
   }
 
   // Build the test set using the inputs and the criteriaDiccionary
-  let criterialSet = {};
+  let criterialSet: any = {};
 
   // get the keys of json objects originalArgs
   let originalArgsKeys = Object.keys(originalArgs);
 
   for (const criterial of originalArgsKeys) {
+
     // Verify if criterial is inside of the list of criterials
     if (unicsCriterials.includes(criterial)) {
       criterialSet[criterial] = criteriaDictionary[criterial];
     }
+
   }
 
   // Create dictionary with credentials selected.
@@ -309,9 +301,9 @@ async function argsByCriterial(options: any = {}) {
   return options;
 }
 
-async function getSuiteTst(options) {
-  options = await this.getStandardVariables(options);
-  let smokeTestSuites = {};
+async function getSuiteTst(options: any) {
+  options = await getStandardVariables(options);
+  let smokeTestSuites: any = {};
 
   for (const criterial of Object.keys(options.customDictionary.suites)) {
     for (const suite of Object.keys(
@@ -340,14 +332,15 @@ async function getSuiteTst(options) {
   return options;
 }
 
-async function createCriterialDicctionary(options) {
-  options = await this.getStandardVariables(options);
+async function createCriterialDicctionary(options: any) {
 
-  let criteriaDictionary = {};
+  options = await getStandardVariables(options);
+
+  let criteriaDictionary: any = {};
 
   for (const smktest of options.smktestConfig) {
     try {
-      criteriaDictionary[smktest.criterial][smktest.consoleValue] = 'false';
+      criteriaDictionary[smktest.criterial][smktest.consoleValue] ='false';
     } catch (error) {
       criteriaDictionary[smktest.criterial] = {};
       criteriaDictionary[smktest.criterial][smktest.consoleValue] = 'false';
@@ -359,9 +352,9 @@ async function createCriterialDicctionary(options) {
   return options;
 }
 
-async function createDictionaryInputs(options) {
+async function createDictionaryInputs(options: any) {
   // CustomDictionary
-  options = await this.createCriterialDicctionary(options);
+  options = await createCriterialDicctionary(options);
 
   let criteriaDictionary = options.criteriaDictionary;
   let customDictionary = options.criteriaDictionary;
@@ -396,12 +389,12 @@ async function createDictionaryInputs(options) {
   };
 
   // Load test suite of smktest.json.
-  options = await this.getSuiteTst(options);
+  options = await getSuiteTst(options);
 
   return options;
 }
 
-async function inputMandatory(options, variableRequired) {
+async function inputMandatory(options: any, variableRequired: any) {
 
   var keys = Object.keys(options.args);
   let pass = false;
