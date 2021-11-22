@@ -37,6 +37,9 @@ Click on the image to see the video:
     - [Service Coverage](#service-coverage)
         - [Generated files](#generated-files-service-coverage)
         - [Example of Test Content](#example-of-test-content-service-coverage)
+    - [Resource Up](#resource-up)
+        - [Generated files](#generated-files-resource-up)
+        - [Example of Test Content](#example-of-test-content-resource-up)
 
 
 ## Criteria use:
@@ -152,9 +155,67 @@ This test verifies that all services and pods are active, accessible and without
   
 }, 5000);
 
-### Example how to use the smoke-test structure inside of one pipeline:
+
+### Resource Up
+
+This criterion verifies that files exist within the persistent volumes. For example, if this test is created and the volume associated with a database contains files. The smoke test verifies that files exist within the volume.
+
+#### Generated files service coverage
+
+    | -smokeTest_kubernetes
+       | --resourceUp.test.js
+#### Example of Test Content resource Up:
+
+    test('Smoke Test criterial --resource-up test name: --volumes-free-space', async () => {
+      // Declarative
+      let criterial = '--resource-up';
+      let consoleValue = '--volumes-free-space';
+      let reportCommand = 'kubectl --namespace=$NAMESPACE exec service/$NAMES-orientdb -- df -h --block-size=1GB /orientdb/databases';
+      let testCommand = 'kubectl --namespace=$NAMESPACE exec service/$NAMES-api -- df -h --block-size=1GB /usr/src/app/uploads | awk "{print $5}" | grep -v "Use%"| sed "s/%//" | awk -F: "$1>=90"';
+      let assertValue = '';
+
+      // Get record of init test
+      let passTest = await smktestDep.checkIngress(
+        testCommand,
+        assertValue,
+        reportCommand,
+        criterial,
+        consoleValue
+      );
+
+      expect(passTest).toBe(true);
+    
+    }, 5000);
+
+
+----------------------------------------------
 
 It is recommended to use a first test to validate the conditions of the cluster as shown in the example with the step "checkCluster" This will check that the cluster is in proper conditions
+
+#### Example of Test Content service coverage:
+
+test('Smoke Test criterial --resource-up test name: --volumes-free-space', async () => {
+  // Declarative
+  let criterial = '--resource-up';
+  let consoleValue = '--volumes-free-space';
+  let reportCommand = 'kubectl --namespace=$NAMESPACE exec service/$NAMES-orientdb -- df -h --block-size=1GB /orientdb/databases';
+  let testCommand = 'kubectl --namespace=$NAMESPACE exec service/$NAMES-api -- df -h --block-size=1GB /usr/src/app/uploads | awk "{print $5}" | grep -v "Use%"| sed "s/%//" | awk -F: "$1>=90"';
+  let assertValue = '';
+
+  // Get record of init test
+  let passTest = await smktestDep.checkIngress(
+    testCommand,
+    assertValue,
+    reportCommand,
+    criterial,
+    consoleValue
+  );
+
+  expect(passTest).toBe(true);
+  
+}, 5000);
+
+
 
 ![toolss_500px](docs/examplePipeline.png)
 
@@ -371,7 +432,7 @@ This command checks that those that do not exist alert in the cluster. These ale
         SMKTEST_PROJECT_NAME: 'SmokeMaster'
         SMKTEST_ENVIRONMENT: 'master'
         SMKTEST_CONTEXT: 'kubernetes'
-        SMKTEST_NAMESPACE: 'edutelling-develop'
+        SMKTEST_NAMESPACE: '$NAMESPACE'
         SMKTEST_MODE_AUTO: 'true'
     script:
         # Create cluster remote configuration file.
@@ -399,7 +460,7 @@ This test is based on CURL requests. They can be used to check if an api is avai
     checkLogin:
     <<: *smoke-test-curl
     variables:
-        SMKTEST_ASSERT_CURL: 'curl -X POST "https://edutelling-api-develop.openshift.techgap.it/api/v1/auth/authentication" -H "accept: application/json" -H "Content-Type: application/json" -d "{ \"email\": \"formazione@edutelling.it\", \"password\": \"Passw0rd\", \"stayLogged\": false }"'
+        SMKTEST_ASSERT_CURL: 'curl -X POST "https://$NAMES-api-develop.openshift.techgap.it/api/v1/auth/authentication" -H "accept: application/json" -H "Content-Type: application/json" -d "{ \"email\": \"formazione@$NAMES.it\", \"password\": \"Passw0rd\", \"stayLogged\": false }"'
     script:
         - create-smktest --context=remote-server
 
