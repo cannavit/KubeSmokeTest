@@ -1,6 +1,6 @@
 {
   "name": "kube-smoke-test",
-  "version": "1.0.4",
+  "version": "1.0.6",
   "description": "This library can be used to generate automated smoke tests using Kubernetes. It is an excellent option to avoid spurious failures and avoid wasting time debugging errors in your projects instead of looking for the error in the cluster. The characteristics of the smoke tests are to be fast and require no maintenance",
   "main": "src/index.js",
   "bin": {

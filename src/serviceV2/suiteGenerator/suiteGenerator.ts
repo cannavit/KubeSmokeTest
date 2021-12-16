@@ -53,13 +53,11 @@ async function getKubeIngress(options :any){
   let ingressList = [];
   for (var response of responseReport) {
 
-    response = JSON.parse(response);
+    let resp = JSON.parse(response);
 
-    var keys = Object.keys(response);
-
-    for (var path in response) {
-      for (var p in response[path].paths) {
-        let res = 'http://' + response.host + response[path].paths[p].path;
+    for (var path in resp) {
+      for (var p in resp[path].paths) {
+        let res = 'http://' + resp.host + resp[path].paths[p].path;
         ingressList.push(res);
       }
     }
@@ -282,24 +280,24 @@ async function addTestCase(options: any) {
 
           let initTestContent = testContent
 
-          for (const test of smktest.testType.checkIngress.testCommand) {
+          for (let testOne of smktest.testType.checkIngress.testCommand) {
 
-            let testCommand = test.test.replace('$$ingress', ingress);
+            let testCommand = testOne.test.replace('$$ingress', ingress);
             initTestContent = initTestContent.replaceAll(
               '$$testCommand',
               testCommand
             );
 
-            initTestContent = initTestContent.replaceAll('$$assert', test.assert);
+            initTestContent = initTestContent.replaceAll('$$assert', testOne.assert);
             initTestContent = initTestContent.replaceAll(
               '$$reportCommand',
-              test.reportCommand
+              testOne.reportCommand
             );
 
             initTestContent = await replaceAll(
               initTestContent,
               '$$assert',
-              test.assert
+              testOne.assert
             );
           }
 
@@ -365,10 +363,15 @@ async function addTestCase(options: any) {
         let curlList = smktest.defaultValue
         
         try {
+
           curlList = eval(eval(curlList))
+          // curlList = eval(curlList) 
+
         } catch (error) {
           // Print error message
           console.log(error);
+          console.log()
+          console.log(chalk.red.bold(curlList))
           throw new Error(
             chalk.yellow.bold(` 🛑  The Input: ${curlList} not is possible eval it. `)
           );
@@ -414,11 +417,7 @@ async function addTestCase(options: any) {
           
 
           let {
-            responseOfRequest,
-            coverage,
-            successSmokeTest,
-            report,
-            abstractReport,
+            responseOfRequest
           } = await swaggerSmktest.smokeTest(smktest.defaultValue);
         
           for ( const swagger of responseOfRequest){
@@ -705,7 +704,6 @@ async function createTestSuite(options: any) {
         });
       }
 
-    
       //!  Push test inside of the folder. 
       var testOne = new Listr([
         {

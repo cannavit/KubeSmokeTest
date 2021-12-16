@@ -47,11 +47,10 @@ function getKubeIngress(options) {
         responseReport = responseReport.split(' ');
         let ingressList = [];
         for (var response of responseReport) {
-            response = JSON.parse(response);
-            var keys = Object.keys(response);
-            for (var path in response) {
-                for (var p in response[path].paths) {
-                    let res = 'http://' + response.host + response[path].paths[p].path;
+            let resp = JSON.parse(response);
+            for (var path in resp) {
+                for (var p in resp[path].paths) {
+                    let res = 'http://' + resp.host + resp[path].paths[p].path;
                     ingressList.push(res);
                 }
             }
@@ -186,12 +185,12 @@ function addTestCase(options) {
                     for (const ingress of ingressList) {
                         count2 = count2 + 1;
                         let initTestContent = testContent;
-                        for (const test of smktest.testType.checkIngress.testCommand) {
-                            let testCommand = test.test.replace('$$ingress', ingress);
+                        for (let testOne of smktest.testType.checkIngress.testCommand) {
+                            let testCommand = testOne.test.replace('$$ingress', ingress);
                             initTestContent = initTestContent.replaceAll('$$testCommand', testCommand);
-                            initTestContent = initTestContent.replaceAll('$$assert', test.assert);
-                            initTestContent = initTestContent.replaceAll('$$reportCommand', test.reportCommand);
-                            initTestContent = yield replaceAll(initTestContent, '$$assert', test.assert);
+                            initTestContent = initTestContent.replaceAll('$$assert', testOne.assert);
+                            initTestContent = initTestContent.replaceAll('$$reportCommand', testOne.reportCommand);
+                            initTestContent = yield replaceAll(initTestContent, '$$assert', testOne.assert);
                         }
                         allTest = allTest + initTestContent;
                     }
@@ -219,10 +218,13 @@ function addTestCase(options) {
                     let curlList = smktest.defaultValue;
                     try {
                         curlList = eval(eval(curlList));
+                        // curlList = eval(curlList) 
                     }
                     catch (error) {
                         // Print error message
                         console.log(error);
+                        console.log();
+                        console.log(chalk.red.bold(curlList));
                         throw new Error(chalk.yellow.bold(` 🛑  The Input: ${curlList} not is possible eval it. `));
                     }
                     let curlGeneralGTemplate = "";
@@ -241,7 +243,7 @@ function addTestCase(options) {
                     let swaggerAll = "";
                     //? If not exist login swagger curl
                     if (!swaggerLoginCurl) {
-                        let { responseOfRequest, coverage, successSmokeTest, report, abstractReport, } = yield swaggerSmktest.smokeTest(smktest.defaultValue);
+                        let { responseOfRequest } = yield swaggerSmktest.smokeTest(smktest.defaultValue);
                         for (const swagger of responseOfRequest) {
                             let swaggerTemplate = testContent;
                             swaggerTemplate = yield replaceAll(swaggerTemplate, '$$testCommand', swagger.curlRequest);
