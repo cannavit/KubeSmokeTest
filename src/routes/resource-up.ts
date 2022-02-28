@@ -12,11 +12,11 @@ const {
 
 /**
  * @swagger
- *  /cluster-coverage/all:
+ *  /resource-up/all:
  *    get:
  *      tags:
- *      - "cluster-coverage"
- *      summary: "Apply the smoke-test using all test with the criteria cluster-coverage"
+ *      - "resource-up"
+ *      summary: "Apply the smoke-test using all test with the criteria resource-up"
  *      parameters:
  *      - in: query
  *        name: "namespace"
@@ -60,7 +60,7 @@ router.get(
     let args = [
       "",
       "",
-      "--cluster-coverage",
+      "--resource-up",
       "--namespace=" + request.query.namespace
     ];
 
@@ -100,11 +100,11 @@ router.get(
 
 /**
  * @swagger
- *  /cluster-coverage/check-memory:
+ *  /resource-up/volumes-free-space:
  *    get:
  *      tags:
- *      - "cluster-coverage"
- *      summary: "Apply the smoke-test using all test with the criteria cluster-coverage"
+ *      - "resource-up"
+ *      summary: "Apply the smoke-test using all test with the criteria resource-up"
  *      parameters:
  *      - in: query
  *        name: "namespace"
@@ -122,7 +122,7 @@ router.get(
  */
 
  router.get(
-  "/check-memory",
+  "/volumes-free-space",
   async function (
     request: { query: { namespace: string; runTests: string } },
     response: {
@@ -148,7 +148,7 @@ router.get(
     let args = [
       "",
       "",
-      "--check-memory",
+      "--volumes-free-space",
       "--namespace=" + request.query.namespace
     ];
 
@@ -188,11 +188,11 @@ router.get(
 
 /**
  * @swagger
- *  /cluster-coverage/check-disk:
+ *  /resource-up/volumes-exist-files:
  *    get:
  *      tags:
- *      - "cluster-coverage"
- *      summary: "Apply the smoke-test using all test with the criteria cluster-coverage"
+ *      - "resource-up"
+ *      summary: "Apply the smoke-test using all test with the criteria resource-up"
  *      parameters:
  *      - in: query
  *        name: "namespace"
@@ -210,7 +210,7 @@ router.get(
  */
 
  router.get(
-  "/check-disk",
+  "/volumes-exist-files",
   async function (
     request: { query: { namespace: string; runTests: string } },
     response: {
@@ -236,7 +236,7 @@ router.get(
     let args = [
       "",
       "",
-      "--check-disk",
+      "--volumes-exist-files",
       "--namespace=" + request.query.namespace
     ];
 
@@ -272,98 +272,6 @@ router.get(
     }
   }
 );
-
-
-/**
- * @swagger
- *  /cluster-coverage/check-nodes:
- *    get:
- *      tags:
- *      - "cluster-coverage"
- *      summary: "Apply the smoke-test using all test with the criteria cluster-coverage"
- *      parameters:
- *      - in: query
- *        name: "namespace"
- *        description: "The namespace of the cluster"
- *        x-example: "test"
- *      - in: query
- *        name: "runTests"
- *        description: "Run the smoke-test generated and get results"
- *        x-example: true
- *      security:
- *      - bearerAuth: []
- *      responses:
- *        200:
- *          description: "successful operation"
- */
-
- router.get(
-  "/check-nodes",
-  async function (
-    request: { query: { namespace: string; runTests: string } },
-    response: {
-      status: (arg0: number) => {
-        (): any;
-        new (): any;
-        send: {
-          (arg0: {
-            message: string;
-            testId: string;
-            criteriaDictionary: any;
-            testSuccess?: boolean;
-            numPassedTests?: number;
-            numFailedTestSuites?: number;
-            testResults?: any;
-          }): any;
-          new (): any;
-        };
-      };
-    },
-    next: any
-  ) {
-    let args = [
-      "",
-      "",
-      "--check-nodes",
-      "--namespace=" + request.query.namespace
-    ];
-
-    let respTest = await smoketestClient.cli(args);
-
-    if (request.query.runTests == "false") {
-      return response.status(200).send({
-        message: "Welcome to KubeSomkeTest API",
-        testId: respTest.testId,
-        criteriaDictionary: respTest.criteriaDictionary,
-      });
-
-    } else {
-
-      let dataResultTest = await executeJestTest();
-      let testResultsElements = dataResultTest.testResultsElements;
-      let testResult = dataResultTest.testResult;
-      
-      let statusCode=200
-      if (!testResult.results.success){
-        statusCode=600
-      }
-
-      return response.status(statusCode).send({
-        message: "This is one smoke-test",
-        testId: respTest.testId,
-        criteriaDictionary: respTest.criteriaDictionary,
-        testSuccess: testResult.results.success,
-        numPassedTests: testResult.results.numPassedTests,
-        numFailedTestSuites: testResult.results.numFailedTestSuites,
-        testResults: testResultsElements
-      });
-    }
-  }
-);
-
-
-
-
 
 module.exports = router;
 

@@ -78,10 +78,10 @@ test('Smoke Test criterial --cluster-coverage test name: --check-cluster', async
 
 
 
-test('Smoke Test criterial --cluster-coverage test name: --check-disc', async () => {
+test('Smoke Test criterial --cluster-coverage test name: --check-disk', async () => {
   // Declarative
   let criterial = '--cluster-coverage';
-  let consoleValue = '--check-disc';
+  let consoleValue = '--check-disk';
   let reportCommand = 'kubectl describe nodes | head -32 | tail -4 | grep "DiskPressure"';
   let testCommand = 'kubectl describe nodes | head -32 | tail -4 | grep "DiskPressure" | grep -v "False"';
   let assertValue = '';

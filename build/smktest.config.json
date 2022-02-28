@@ -125,7 +125,7 @@
   {
     "SMKTEST_ENV": "",
     "criterial": "--cluster-coverage",
-    "consoleValue": "--check-disc",
+    "consoleValue": "--check-disk",
     "jestTestPath": "",
     "defaultValue": null,
     "testType": {

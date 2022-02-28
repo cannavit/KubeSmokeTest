@@ -29,6 +29,12 @@ const swaggerDocs = swaggerJsdoc(swaggerOptions);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 app.use("/cluster-coverage", require("./routes/cluster-coverage"));
+app.use("/service-coverage", require("./routes/service-coverage"));
+app.use("/ingress-coverage", require("./routes/ingress-coverage"));
+app.use("/resource-up", require("./routes/resource-up"));
+app.use("/endpoint-coverage", require("./routes/endpoint-coverage"));
+
+
 
 app.listen(5002, () => {
   console.log("Server is running on port 5002");

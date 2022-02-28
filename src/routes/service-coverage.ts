@@ -12,11 +12,11 @@ const {
 
 /**
  * @swagger
- *  /cluster-coverage/all:
+ *  /service-coverage/all:
  *    get:
  *      tags:
- *      - "cluster-coverage"
- *      summary: "Apply the smoke-test using all test with the criteria cluster-coverage"
+ *      - "service-coverage"
+ *      summary: "Apply the smoke-test using all test with the criteria service-coverage"
  *      parameters:
  *      - in: query
  *        name: "namespace"
@@ -60,7 +60,7 @@ router.get(
     let args = [
       "",
       "",
-      "--cluster-coverage",
+      "--service-coverage",
       "--namespace=" + request.query.namespace
     ];
 
@@ -100,11 +100,11 @@ router.get(
 
 /**
  * @swagger
- *  /cluster-coverage/check-memory:
+ *  /service-coverage/check-pods-running:
  *    get:
  *      tags:
- *      - "cluster-coverage"
- *      summary: "Apply the smoke-test using all test with the criteria cluster-coverage"
+ *      - "service-coverage"
+ *      summary: "Apply the smoke-test using all test with the criteria service-coverage"
  *      parameters:
  *      - in: query
  *        name: "namespace"
@@ -122,7 +122,7 @@ router.get(
  */
 
  router.get(
-  "/check-memory",
+  "/check-pods-running",
   async function (
     request: { query: { namespace: string; runTests: string } },
     response: {
@@ -148,7 +148,7 @@ router.get(
     let args = [
       "",
       "",
-      "--check-memory",
+      "--check-pods-running",
       "--namespace=" + request.query.namespace
     ];
 
@@ -188,11 +188,11 @@ router.get(
 
 /**
  * @swagger
- *  /cluster-coverage/check-disk:
+ *  /service-coverage/check-pods-logs:
  *    get:
  *      tags:
- *      - "cluster-coverage"
- *      summary: "Apply the smoke-test using all test with the criteria cluster-coverage"
+ *      - "service-coverage"
+ *      summary: "Apply the smoke-test using all test with the criteria service-coverage"
  *      parameters:
  *      - in: query
  *        name: "namespace"
@@ -210,7 +210,7 @@ router.get(
  */
 
  router.get(
-  "/check-disk",
+  "/check-pods-logs",
   async function (
     request: { query: { namespace: string; runTests: string } },
     response: {
@@ -236,7 +236,7 @@ router.get(
     let args = [
       "",
       "",
-      "--check-disk",
+      "--check-pods-logs",
       "--namespace=" + request.query.namespace
     ];
 
@@ -276,11 +276,11 @@ router.get(
 
 /**
  * @swagger
- *  /cluster-coverage/check-nodes:
+ *  /service-coverage/execution-unit-coverage:
  *    get:
  *      tags:
- *      - "cluster-coverage"
- *      summary: "Apply the smoke-test using all test with the criteria cluster-coverage"
+ *      - "service-coverage"
+ *      summary: "Apply the smoke-test using all test with the criteria service-coverage"
  *      parameters:
  *      - in: query
  *        name: "namespace"
@@ -298,7 +298,7 @@ router.get(
  */
 
  router.get(
-  "/check-nodes",
+  "/execution-unit-coverage",
   async function (
     request: { query: { namespace: string; runTests: string } },
     response: {
@@ -324,7 +324,7 @@ router.get(
     let args = [
       "",
       "",
-      "--check-nodes",
+      "--execution-unit-coverage",
       "--namespace=" + request.query.namespace
     ];
 
