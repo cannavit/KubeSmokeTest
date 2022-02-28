@@ -1,19 +1,14 @@
-// import arg from 'arg';
-// import inquirer from 'inquirer';
 import smktestUtils from './utils/smktestUtils';
 import criteria from './serviceV2/suiteGenerator/criteria';
 import suiteGenerator from './serviceV2/suiteGenerator/suiteGenerator';
-// import runJestTest from './runJestTest'
+// import uuid from 'uuid';
+var uuid = require('uuid');
 
 const Listr = require('listr');
-
-// import Listr from 'listr';
-
 const execa = require('execa');
 const fs = require('fs');
 
 async function printHelp(args: any) {
-
 
   let continueCli = true;
   for (const arg of args) {
@@ -161,7 +156,9 @@ async function printHelp(args: any) {
 //? Read the standards Variables
 export async function cli(args: any) {
 
+
   let options;
+
   let continueCli = await printHelp(args);
 
   if (continueCli) {
@@ -189,23 +186,33 @@ export async function cli(args: any) {
 
     // @ts-ignore
     let result = await tasksInit.run().catch((err) => {
+      console.log('@1Marker-No:_-2145510919 ERROR');
       console.error(err);
       return err.message;
     });
 
+    
 
     options = await smktestUtils.parseArgumentsIntoOptions(args);
 
     options['projectDir'] = __dirname; // SmokeTest route
     options['smktestFolder'] = 'smktest'; // SmokeTet base directory
-    options['testId'] = '00120102301230123'; //TODO PENDING TO ADD IF IS NECESSARY
+
+    // Create one Random Unic ID 
+    
+
+    options['testId'] = uuid.v4(); //TODO PENDING TO ADD IF IS NECESSARY
 
     options = await criteria.promptForContext(options);
 
-    process.env.SMKTEST_OPTIONS = JSON.stringify(options);
+    console.log('@1Marker-No:_-627997509');
 
+    process.env.SMKTEST_OPTIONS = JSON.stringify(options);
+    console.log('@1Marker-No:_882994201');
     // import dependencies.
     await suiteGenerator.suiteGenerator(options);
+
+    console.log('@1Marker-No:_144759750');
 
     options['cli'] = {
       tasksInit: result,
@@ -217,3 +224,4 @@ export async function cli(args: any) {
 }
 
 export default cli;
+module.exports.smoketestClient = cli;

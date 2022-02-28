@@ -13,14 +13,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.cli = void 0;
-// import arg from 'arg';
-// import inquirer from 'inquirer';
 const smktestUtils_1 = __importDefault(require("./utils/smktestUtils"));
 const criteria_1 = __importDefault(require("./serviceV2/suiteGenerator/criteria"));
 const suiteGenerator_1 = __importDefault(require("./serviceV2/suiteGenerator/suiteGenerator"));
-// import runJestTest from './runJestTest'
 const Listr = require('listr');
-// import Listr from 'listr';
 const execa = require('execa');
 const fs = require('fs');
 function printHelp(args) {
@@ -97,6 +93,13 @@ function printHelp(args) {
 //? Read the standards Variables
 function cli(args) {
     return __awaiter(this, void 0, void 0, function* () {
+        console.log(">>>>>-1827570719>>>>>");
+        console.log(args);
+        console.log("<<<<<<<<<<<<<<<<<<<");
+        args = [
+            '--cluster-coverage',
+            '--namespace=test'
+        ];
         let options;
         let continueCli = yield printHelp(args);
         if (continueCli) {
