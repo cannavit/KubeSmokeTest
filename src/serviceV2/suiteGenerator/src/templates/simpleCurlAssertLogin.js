@@ -32,7 +32,7 @@ test('Smoke Test $$criterial/$$consoleValue [$$assert]/$$URL', async () => {
   }
 
   expect(passTest).toBe(true);
-});
+}, 20010);
 
 // >>>>> Next Test >>>>>>>
 

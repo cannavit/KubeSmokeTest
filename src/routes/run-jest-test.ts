@@ -15,8 +15,15 @@ export async function executeJestTest() {
       // roots: ['smokeTest_suites'],
       silent: true,
     }; 
-  
-    let testResult = await jest.runCLI(optionsJest, optionsJest.projects);
+    
+    let testResult
+
+    try {
+       testResult = await jest.runCLI(optionsJest, optionsJest.projects);
+      
+    } catch (error) {
+      console.log(error)
+    }
   
     let testResultsElements: { fullName: any; status: any; title: any; failureMessages: string; duration: any; }[] = []
     testResult.results.testResults.forEach((element: { testResults: any[]; }) => {

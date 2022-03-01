@@ -18,7 +18,7 @@ test('SmokeTest $$criterial $$consoleValue [$$assert] $$URL_SWAGGER"', async () 
     }
   
     expect(passTest).toBe(true);
-  });
+  }, 20010);
   
   // NEXT TEXT >>>>>>>>>>>>>>>>>>>>>>>>
   

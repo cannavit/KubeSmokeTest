@@ -18,7 +18,7 @@ test('Smoke Test criterial $$criterial test name: $$consoleValue', async () => {
 
   expect(passTest).toBe(true);
   
-}, 5000);
+}, 20010);
 
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> NEXT TEST
 
