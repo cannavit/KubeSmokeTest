@@ -390,9 +390,9 @@ async function addTestCase(options: any) {
 
       //! Check Swagger Urls
       if (testType == "swaggerDocs") {
-        // Check if exist the curlSwaggerLogin
+
         let swaggerAll = "";
-        //? If not exist login swagger curl
+
         if (!swaggerLoginCurl) {
           let { responseOfRequest } = await swaggerSmktest.smokeTest(
             smktest.defaultValue
@@ -484,11 +484,19 @@ async function addTestCase(options: any) {
               }
             }
 
+            // testContentElement = await replaceAll(
+            //   testContentElement,
+            //   "$$curlLogin",
+            //   swaggerLoginCurl.defaultValue
+            // );
+
+
             testContentElement = await replaceAll(
               testContentElement,
               "$$curlLogin",
-              swaggerLoginCurl.defaultValue
+              "false" //TODO only for test
             );
+
 
             testContentElement = await replaceAll(
               testContentElement,

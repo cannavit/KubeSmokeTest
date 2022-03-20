@@ -217,4 +217,4 @@ export async function cli(args: any) {
 }
 
 export default cli;
-module.exports.smoketestClient = cli;
+module.exports.smoketest_client = cli;

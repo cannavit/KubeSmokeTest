@@ -1,14 +1,10 @@
 // express
 const router = require("express").Router();
-const smoketestClient = require("../cli");
+const smoketest_client = require("../cli");
 const runJest = require("../runJest.ts");
-const fs = require('fs');
-const path = require('path');
-const {
-  executeJestTest
-} = require("./run-jest-test.ts");
-
-
+const fs = require("fs");
+const path = require("path");
+const { executeJestTest } = require("./run-jest-test.ts");
 
 /**
  * @swagger
@@ -64,7 +60,7 @@ router.get(
       "--namespace=" + request.query.namespace
     ];
 
-    let respTest = await smoketestClient.cli(args);
+    let respTest = await smoketest_client.cli(args);
 
     if (request.query.runTests == "false") {
       return response.status(200).send({
@@ -72,16 +68,14 @@ router.get(
         testId: respTest.testId,
         criteriaDictionary: respTest.criteriaDictionary
       });
-
     } else {
-
       let dataResultTest = await executeJestTest();
       let testResultsElements = dataResultTest.testResultsElements;
       let testResult = dataResultTest.testResult;
-      
-      let statusCode=200
-      if (!testResult.results.success){
-        statusCode=600
+
+      let statusCode = 200;
+      if (!testResult.results.success) {
+        statusCode = 600;
       }
 
       return response.status(statusCode).send({
@@ -96,7 +90,6 @@ router.get(
     }
   }
 );
-
 
 /**
  * @swagger
@@ -121,7 +114,7 @@ router.get(
  *          description: "successful operation"
  */
 
- router.get(
+router.get(
   "/check-memory",
   async function (
     request: { query: { namespace: string; runTests: string } },
@@ -152,24 +145,22 @@ router.get(
       "--namespace=" + request.query.namespace
     ];
 
-    let respTest = await smoketestClient.cli(args);
+    let respTest = await smoketest_client.cli(args);
 
     if (request.query.runTests == "false") {
       return response.status(200).send({
         message: "Welcome to KubeSomkeTest API",
         testId: respTest.testId,
-        criteriaDictionary: respTest.criteriaDictionary,
+        criteriaDictionary: respTest.criteriaDictionary
       });
-
     } else {
-
       let dataResultTest = await executeJestTest();
       let testResultsElements = dataResultTest.testResultsElements;
       let testResult = dataResultTest.testResult;
-      
-      let statusCode=200
-      if (!testResult.results.success){
-        statusCode=600
+
+      let statusCode = 200;
+      if (!testResult.results.success) {
+        statusCode = 600;
       }
 
       return response.status(statusCode).send({
@@ -184,7 +175,6 @@ router.get(
     }
   }
 );
-
 
 /**
  * @swagger
@@ -209,7 +199,7 @@ router.get(
  *          description: "successful operation"
  */
 
- router.get(
+router.get(
   "/check-disk",
   async function (
     request: { query: { namespace: string; runTests: string } },
@@ -240,24 +230,22 @@ router.get(
       "--namespace=" + request.query.namespace
     ];
 
-    let respTest = await smoketestClient.cli(args);
+    let respTest = await smoketest_client.cli(args);
 
     if (request.query.runTests == "false") {
       return response.status(200).send({
         message: "Welcome to KubeSomkeTest API",
         testId: respTest.testId,
-        criteriaDictionary: respTest.criteriaDictionary,
+        criteriaDictionary: respTest.criteriaDictionary
       });
-
     } else {
-
       let dataResultTest = await executeJestTest();
       let testResultsElements = dataResultTest.testResultsElements;
       let testResult = dataResultTest.testResult;
-      
-      let statusCode=200
-      if (!testResult.results.success){
-        statusCode=600
+
+      let statusCode = 200;
+      if (!testResult.results.success) {
+        statusCode = 600;
       }
 
       return response.status(statusCode).send({
@@ -272,7 +260,6 @@ router.get(
     }
   }
 );
-
 
 /**
  * @swagger
@@ -297,7 +284,7 @@ router.get(
  *          description: "successful operation"
  */
 
- router.get(
+router.get(
   "/check-nodes",
   async function (
     request: { query: { namespace: string; runTests: string } },
@@ -328,24 +315,22 @@ router.get(
       "--namespace=" + request.query.namespace
     ];
 
-    let respTest = await smoketestClient.cli(args);
+    let respTest = await smoketest_client.cli(args);
 
     if (request.query.runTests == "false") {
       return response.status(200).send({
         message: "Welcome to KubeSomkeTest API",
         testId: respTest.testId,
-        criteriaDictionary: respTest.criteriaDictionary,
+        criteriaDictionary: respTest.criteriaDictionary
       });
-
     } else {
-
       let dataResultTest = await executeJestTest();
       let testResultsElements = dataResultTest.testResultsElements;
       let testResult = dataResultTest.testResult;
-      
-      let statusCode=200
-      if (!testResult.results.success){
-        statusCode=600
+
+      let statusCode = 200;
+      if (!testResult.results.success) {
+        statusCode = 600;
       }
 
       return response.status(statusCode).send({
@@ -361,10 +346,4 @@ router.get(
   }
 );
 
-
-
-
-
 module.exports = router;
-
-

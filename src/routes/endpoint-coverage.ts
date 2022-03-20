@@ -1,13 +1,10 @@
 // express
 const router = require("express").Router();
-const smoketestClient = require("../cli");
+const smoketest_client = require("../cli");
 const runJest = require("../runJest.ts");
-const fs = require('fs');
-const path = require('path');
-const {
-  executeJestTest
-} = require("./run-jest-test.ts");
-
+const fs = require("fs");
+const path = require("path");
+const { executeJestTest } = require("./run-jest-test.ts");
 
 //TODO pending add inputs here
 
@@ -65,7 +62,7 @@ router.get(
       "--namespace=" + request.query.namespace
     ];
 
-    let respTest = await smoketestClient.cli(args);
+    let respTest = await smoketest_client.cli(args);
 
     if (request.query.runTests == "false") {
       return response.status(200).send({
@@ -73,16 +70,14 @@ router.get(
         testId: respTest.testId,
         criteriaDictionary: respTest.criteriaDictionary
       });
-
     } else {
-
       let dataResultTest = await executeJestTest();
       let testResultsElements = dataResultTest.testResultsElements;
       let testResult = dataResultTest.testResult;
-      
-      let statusCode=200
-      if (!testResult.results.success){
-        statusCode=600
+
+      let statusCode = 200;
+      if (!testResult.results.success) {
+        statusCode = 600;
       }
 
       return response.status(statusCode).send({
@@ -97,7 +92,6 @@ router.get(
     }
   }
 );
-
 
 /**
  * @swagger
@@ -122,7 +116,7 @@ router.get(
  *          description: "successful operation"
  */
 
- router.get(
+router.get(
   "/curl-url",
   async function (
     request: { query: { namespace: string; runTests: string } },
@@ -146,31 +140,24 @@ router.get(
     },
     next: any
   ) {
-    let args = [
-      "",
-      "",
-      "--curl-url",
-      "--namespace=" + request.query.namespace
-    ];
+    let args = ["", "", "--curl-url", "--namespace=" + request.query.namespace];
 
-    let respTest = await smoketestClient.cli(args); //TODO add inputs
+    let respTest = await smoketest_client.cli(args); //TODO add inputs
 
     if (request.query.runTests == "false") {
       return response.status(200).send({
         message: "Welcome to KubeSomkeTest API",
         testId: respTest.testId,
-        criteriaDictionary: respTest.criteriaDictionary,
+        criteriaDictionary: respTest.criteriaDictionary
       });
-
     } else {
-
       let dataResultTest = await executeJestTest();
       let testResultsElements = dataResultTest.testResultsElements;
       let testResult = dataResultTest.testResult;
-      
-      let statusCode=200
-      if (!testResult.results.success){
-        statusCode=600
+
+      let statusCode = 200;
+      if (!testResult.results.success) {
+        statusCode = 600;
       }
 
       return response.status(statusCode).send({
@@ -185,7 +172,6 @@ router.get(
     }
   }
 );
-
 
 /**
  * @swagger
@@ -210,7 +196,7 @@ router.get(
  *          description: "successful operation"
  */
 
- router.get(
+router.get(
   "/curl-assert",
   async function (
     request: { query: { namespace: string; runTests: string } },
@@ -241,24 +227,22 @@ router.get(
       "--namespace=" + request.query.namespace
     ];
 
-    let respTest = await smoketestClient.cli(args);
+    let respTest = await smoketest_client.cli(args);
 
     if (request.query.runTests == "false") {
       return response.status(200).send({
         message: "Welcome to KubeSomkeTest API",
         testId: respTest.testId,
-        criteriaDictionary: respTest.criteriaDictionary,
+        criteriaDictionary: respTest.criteriaDictionary
       });
-
     } else {
-
       let dataResultTest = await executeJestTest();
       let testResultsElements = dataResultTest.testResultsElements;
       let testResult = dataResultTest.testResult;
-      
-      let statusCode=200
-      if (!testResult.results.success){
-        statusCode=600
+
+      let statusCode = 200;
+      if (!testResult.results.success) {
+        statusCode = 600;
       }
 
       return response.status(statusCode).send({
@@ -273,7 +257,6 @@ router.get(
     }
   }
 );
-
 
 /**
  * @swagger
@@ -291,6 +274,10 @@ router.get(
  *        name: "runTests"
  *        description: "Run the smoke-test generated and get results"
  *        x-example: true
+ *      - in: query
+ *        name: "swaggerDocsUrl"
+ *        description: "Add the swagger (OpenApi) documentation url"
+ *        x-example: true
  *      security:
  *      - bearerAuth: []
  *      responses:
@@ -298,10 +285,12 @@ router.get(
  *          description: "successful operation"
  */
 
- router.get(
+router.get(
   "/swagger-login-curl",
   async function (
-    request: { query: { namespace: string; runTests: string } },
+    request: {
+      query: { namespace: string; runTests: string; swaggerDocsUrl: string };
+    },
     response: {
       status: (arg0: number) => {
         (): any;
@@ -326,27 +315,26 @@ router.get(
       "",
       "",
       "--swagger-login-curl",
-      "--namespace=" + request.query.namespace
+      "--namespace=" + request.query.namespace,
+      "--swagger-docs='" + request.query.swaggerDocsUrl + "'"
     ];
 
-    let respTest = await smoketestClient.cli(args);
+    let respTest = await smoketest_client.cli(args);
 
     if (request.query.runTests == "false") {
       return response.status(200).send({
         message: "Welcome to KubeSomkeTest API",
         testId: respTest.testId,
-        criteriaDictionary: respTest.criteriaDictionary,
+        criteriaDictionary: respTest.criteriaDictionary
       });
-
     } else {
-
       let dataResultTest = await executeJestTest();
       let testResultsElements = dataResultTest.testResultsElements;
       let testResult = dataResultTest.testResult;
-      
-      let statusCode=200
-      if (!testResult.results.success){
-        statusCode=600
+
+      let statusCode = 200;
+      if (!testResult.results.success) {
+        statusCode = 600;
       }
 
       return response.status(statusCode).send({
@@ -362,10 +350,4 @@ router.get(
   }
 );
 
-
-
-
-
 module.exports = router;
-
-
